@@ -32,7 +32,8 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-monokai-ristretto)
+(setq doom-theme 'doom-badger)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -40,14 +41,14 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "/Users/shanzhu.cjm/Desktop/org")
 
 
 ;; Setup proxies for emacs
-(setq url-proxy-services
-   '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
-     ("http" . "127.0.0.1:8001")
-     ("https" . "127.0.0.1:8001")))
+;; (setq url-proxy-services
+;; '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
+;; ("http" . "127.0.0.1:8001")
+;; ("https" . "127.0.0.1:8001")))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -82,19 +83,94 @@
 ;; they are implemented.
 ;;
 
-;; Set clang-format on save
-(defun clang-format-save-hook-for-this-buffer ()
-  "Create a buffer local save hook."
-  (add-hook 'before-save-hook
-            (lambda ()
-              (when (locate-dominating-file "." ".clang-format")
-                (clang-format-buffer))
-              ;; Continue to save.
-              nil)
-            nil
-            ;; Buffer local hook.
-            t))
-;; Run this for each mode you want to use the hook.
-(add-hook 'c-mode-hook (lambda () (clang-format-save-hook-for-this-buffer)))
-(add-hook 'c++-mode-hook (lambda () (clang-format-save-hook-for-this-buffer)))
-(add-hook 'glsl-mode-hook (lambda () (clang-format-save-hook-for-this-buffer)))
+;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
+(setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
+
+;; lsp-mode with clangd default configuration
+(after! lsp-clangd
+  (setq lsp-clients-clangd-args
+        '("--header-insertion=never"))
+  (set-lsp-priority! 'clangd 1))
+
+
+;; hacks from
+;; https://github.com/emacs-lsp/lsp-mode/issues/2709#issuecomment-1475039310
+(defun lsp-tramp-connection-over-ssh-port-forwarding (command)
+  "Like lsp-tcp-connection, but uses SSH portforwarding."
+  (list
+   :connect (lambda (filter sentinel name environment-fn _workspace)
+              (let* ((host "localhost")
+                     (lsp-port (lsp--find-available-port host (cl-incf lsp--tcp-port)))
+                     (command (with-parsed-tramp-file-name buffer-file-name nil
+                                (message "[tcp/ssh hack] running LSP %s on %s / %s" command host localname)
+                                (let* ((unix-socket (format "/tmp/lsp-ssh-portforward-%s.sock" lsp-port))
+                                       (command (list
+                                                 "ssh"
+                                                 ;; "-vvv"
+                                                 "-L" (format "%s:%s" lsp-port unix-socket)
+                                                 host
+                                                 "socat"
+                                                 (format "unix-listen:%s" unix-socket)
+                                                 (format "system:'\"cd %s && %s\"'" (file-name-directory localname) command)
+                                                 )))
+                                  (message "using local command %s" command)
+                                  command)))
+                     (final-command (if (consp command) command (list command)))
+                     (_ (unless (executable-find (cl-first final-command))
+                          (user-error (format "Couldn't find executable %s" (cl-first final-command)))))
+                     (process-environment
+                      (lsp--compute-process-environment environment-fn))
+                     (proc (make-process :name name :connection-type 'pipe :coding 'no-conversion
+                                         :command final-command :sentinel sentinel :stderr (format "*%s::stderr*" name) :noquery t))
+                     (tcp-proc (progn
+                                 (sleep-for 1) ; prevent a connection before SSH has run socat. Ugh.
+                                 (lsp--open-network-stream host lsp-port (concat name "::tcp")))))
+
+                ;; TODO: Same :noquery issue (see above)
+                (set-process-query-on-exit-flag proc nil)
+                (set-process-query-on-exit-flag tcp-proc nil)
+                (set-process-filter tcp-proc filter)
+                (cons tcp-proc proc)))
+   :test? (lambda () t)))
+
+
+(after! tramp
+  (when (require 'lsp-mode nil t)
+
+    (setq lsp-enable-snippet nil
+          lsp-log-io nil
+          ;; To bypass the "lsp--document-highlight fails if
+          ;; textDocument/documentHighlight is not supported" error
+          lsp-enable-symbol-highlighting nil)
+
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection
+      (lsp-tramp-connection-over-ssh-port-forwarding "clangd"
+       ;; (lambda ()
+       ;;   (cons "clangd" ; executable name on remote machine 'ccls'
+       ;;         lsp-clients-clangd-args))
+       )
+      :major-modes '(c-mode c++-mode)
+      :remote? t
+      :server-id 'clangd-remote))))
+
+
+;; for cpplint
+;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
+(after! flycheck
+  (require 'flycheck-google-cpplint)
+  (setq flycheck-c/c++-googlelint-executable "cpplint"
+        flycheck-c/c++-cppcheck-executable "cppcheck"
+        flycheck-python-pylint-executable "pylint"
+        flycheck-r-lintr-executable "R"
+        flycheck-pylintrc "~/.pylintrc"
+        flycheck-cppcheck-standards '("c++11"))
+  (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint)))
+
+(add-hook! 'lsp-after-initialize-hook
+  (run-hooks (intern (format "%s-lsp-hook" major-mode))))
+
+(defun my-c++-linter-setup ()
+  (flycheck-add-next-checker 'lsp 'c/c++-googlelint))
+(add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup)

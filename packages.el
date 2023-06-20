@@ -7,8 +7,12 @@
 
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
-(package! clang-format)
 (package! flycheck-google-cpplint)
+(package! bazel)
+(package! org-download)
+(package! eglot)
+(package! consult-eglot)
+(package! flycheck-eglot)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
