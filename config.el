@@ -17,7 +17,9 @@
 ;;   presentations or streaming.
 ;; - `doom-unicode-font' -- for unicode glyphs
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
+;; (setq doom-font (font-spec :family "Monoca" :size 15))
+
+
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
@@ -33,7 +35,8 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-monokai-ristretto)
-(setq doom-theme 'doom-badger)
+(setq doom-theme 'doom-1337)
+;; (setq doom-themes-enable-italic nil)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -85,12 +88,6 @@
 
 ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
 (setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
-
-;; lsp-mode with clangd default configuration
-(after! lsp-clangd
-  (setq lsp-clients-clangd-args
-        '("--header-insertion=never"))
-  (set-lsp-priority! 'clangd 1))
 
 
 ;; hacks from
@@ -146,11 +143,7 @@
     (lsp-register-client
      (make-lsp-client
       :new-connection
-      (lsp-tramp-connection-over-ssh-port-forwarding "clangd"
-       ;; (lambda ()
-       ;;   (cons "clangd" ; executable name on remote machine 'ccls'
-       ;;         lsp-clients-clangd-args))
-       )
+      (lsp-tramp-connection-over-ssh-port-forwarding "clangd")
       :major-modes '(c-mode c++-mode)
       :remote? t
       :server-id 'clangd-remote))))
@@ -161,16 +154,27 @@
 (after! flycheck
   (require 'flycheck-google-cpplint)
   (setq flycheck-c/c++-googlelint-executable "cpplint"
-        flycheck-c/c++-cppcheck-executable "cppcheck"
-        flycheck-python-pylint-executable "pylint"
-        flycheck-r-lintr-executable "R"
-        flycheck-pylintrc "~/.pylintrc"
         flycheck-cppcheck-standards '("c++11"))
-  (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint)))
+  (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))
+  (add-hook! 'lsp-after-initialize-hook
+    (run-hooks (intern (format "%s-lsp-hook" major-mode))))
+  (defun my-c++-linter-setup ()
+    (flycheck-add-next-checker 'lsp 'c/c++-googlelint))
+  (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
 
-(add-hook! 'lsp-after-initialize-hook
-  (run-hooks (intern (format "%s-lsp-hook" major-mode))))
 
-(defun my-c++-linter-setup ()
-  (flycheck-add-next-checker 'lsp 'c/c++-googlelint))
-(add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup)
+;; for org roam ui
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
