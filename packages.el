@@ -11,9 +11,12 @@
 (package! bazel)
 
 ;Org-Roam-Ui
-(unpin! org-roam)
-(package! websocket)
-(package! org-roam-ui)
+;; (unpin! org-roam)
+;; (package! websocket)
+;; (package! org-roam-ui)
+
+;; Latex
+(package! latex-preview-pane)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

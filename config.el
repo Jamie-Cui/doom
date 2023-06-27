@@ -17,30 +17,28 @@
 ;;   presentations or streaming.
 ;; - `doom-unicode-font' -- for unicode glyphs
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;; (setq doom-font (font-spec :family "Monoca" :size 15))
-
-
+;;
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+;;     doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
+;; (setq doom-font (font-spec :family "Fira Code" :size 14 :slant 'normal :weight 'normal))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-monokai-ristretto)
 (setq doom-theme 'doom-opera)
-;; (setq doom-themes-enable-italic nil)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type nil)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -163,18 +161,27 @@
   (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
 
 
-;; for org roam ui
-(use-package! websocket
-    :after org-roam)
-
-(use-package! org-roam-ui
-    :after org-roam ;; or :after org
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-;;  :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
+(after! lsp-mode
+  (setq lsp-log-io nil
+        lsp-file-watch-threshold 4000
+        lsp-headerline-breadcrumb-enable t
+        lsp-headerline-breadcrumb-icons-enable nil
+        lsp-headerline-breadcrumb-segments '(file symbols)
+        lsp-imenu-index-symbol-kinds '(File Module Namespace Package Class Method Enum Interface
+                                            Function Variable Constant Struct Event Operator TypeParameter)
+        )
+  (dolist (dir '("[/\\\\]\\.cache\\'"
+                 "[/\\\\]bazel-bin\\'"
+                 "[/\\\\]bazel-code\\'"
+                 "[/\\\\]bazel-genfiles\\'"
+                 "[/\\\\]bazel-out\\'"
+                 "[/\\\\]bazel-yacl\\'"
+                 "[/\\\\]bazel-spu\\'"
+                 "[/\\\\]bazel-ppu\\'"
+                 "[/\\\\]bazel-testlogs\\'"
+                 "[/\\\\]third_party\\'"
+                 "[/\\\\]external\\'"
+                 "[/\\\\]build\\'"
+                 ))
+    (push dir lsp-file-watch-ignored-directories))
+  )
