@@ -34,11 +34,11 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-monokai-ristretto)
-(setq doom-theme 'doom-opera)
+(setq doom-theme 'doom-badger)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type nil)
+(setq display-line-numbers-type t)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -141,7 +141,7 @@
     (lsp-register-client
      (make-lsp-client
       :new-connection
-      (lsp-tramp-connection-over-ssh-port-forwarding "clangd")
+      (lsp-tramp-connection-over-ssh-port-forwarding "clangd --header-insertion=never")
       :major-modes '(c-mode c++-mode)
       :remote? t
       :server-id 'clangd-remote))))
