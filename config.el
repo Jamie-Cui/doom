@@ -38,12 +38,17 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "/Users/shanzhu.cjm/Desktop/org")
-
+(setq org-directory "/Users/shanzhu.cjm/Library/Mobile Documents/com~apple~CloudDocs/org")
+(setq +org-capture-journal-file "journal.org.gpg") ;; encrypt with gpg
+(setq +org-capture-notes-file "notes.org.gpg") ;; encrypt with gpg
+(setq +org-capture-todo-file "notes.org.gpg") ;; encrypt with gpg
+(after! epa-file
+  (epa-file-enable)
+)
 
 ;; Setup proxies for emacs
 ;; (setq url-proxy-services
