@@ -43,6 +43,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "/Users/shanzhu.cjm/Library/Mobile Documents/com~apple~CloudDocs/org")
+(setq org-return-follows-link 't)
 (setq +org-capture-journal-file "journal.org.gpg") ;; encrypt with gpg
 (setq +org-capture-notes-file "notes.org.gpg") ;; encrypt with gpg
 (setq +org-capture-todo-file "notes.org.gpg") ;; encrypt with gpg
