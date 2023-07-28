@@ -36,13 +36,18 @@
 ;; (setq doom-theme 'doom-monokai-ristretto)
 (setq doom-theme 'doom-peacock)
 
+;; maximized screen on doom start
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "/Users/shanzhu.cjm/Library/Mobile Documents/com~apple~CloudDocs/org")
+(setq org-directory "/Users/shanzhu.cjm/Desktop/org")
+
+(remove-hook 'org-mode-hook #'auto-fill-mode) ;; disable auto-fill in org mode
 (setq org-return-follows-link 't)
 (setq +org-capture-journal-file "journal.org.gpg") ;; encrypt with gpg
 (setq +org-capture-notes-file "notes.org.gpg") ;; encrypt with gpg
@@ -50,6 +55,12 @@
 (after! epa-file
   (epa-file-enable)
 )
+
+
+;; config undo with +tree
+(after! undo-tree
+  (setq undo-tree-auto-save-history nil))
+
 
 ;; Setup proxies for emacs
 ;; (setq url-proxy-services
