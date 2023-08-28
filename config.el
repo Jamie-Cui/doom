@@ -51,14 +51,18 @@
 (setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org")
 (setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/roam")
 
+;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
-  ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
   (add-to-list 'org-latex-packages-alist '("n,advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.9))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.9)))
 
-  )
-  ;; Disable auto-fill in org mode
-  (remove-hook 'org-mode-hook #'auto-fill-mode)
+;; Disable auto-fill in org mode
+;; (remove-hook 'org-mode-hook #'auto-fill-mode)
+
+;; Only complete when I ask!
+;; https://www.reddit.com/r/DoomEmacs/comments/wdxah3/how_to_stop_word_autocomplete/
+(after! company
+  (setq company-idle-delay nil))
 
 
 ;; Return in org now follows link (globally)
@@ -141,5 +145,3 @@
   (defun my-c++-linter-setup ()
     (flycheck-add-next-checker 'lsp 'c/c++-googlelint))
   (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
-
-
