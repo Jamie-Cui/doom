@@ -50,6 +50,7 @@
 ;; (concat doom-user-dir "define.el")
 (setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org")
 (setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/roam")
+(add-to-list 'org-cite-global-bibliography '("~/Library/Mobile Documents/com~apple~CloudDocs/bib/all.bib"))
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
