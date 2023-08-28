@@ -3,6 +3,8 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+;; load some definition functions from my own elisp file
+(load (concat doom-user-dir "define.el"))
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
@@ -34,33 +36,40 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-monokai-ristretto)
-(setq doom-theme 'doom-peacock)
+(setq doom-theme 'leuven)
 
-;; maximized screen on doom start
+;; Maximized screen on doom start
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
+;; (setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "/Users/shanzhu.cjm/Desktop/org")
+(setq org-directory "/Users/shanzhu.cjm/Library/Mobile Documents/com~apple~CloudDocs/org")
+(setq org-roam-directory "/Users/shanzhu.cjm/Library/Mobile Documents/com~apple~CloudDocs/roam")
 
-(remove-hook 'org-mode-hook #'auto-fill-mode) ;; disable auto-fill in org mode
+(after! org
+  ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
+  (add-to-list 'org-latex-packages-alist '("n,advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.9))
+
+  )
+  ;; Disable auto-fill in org mode
+  (remove-hook 'org-mode-hook #'auto-fill-mode)
+
+
+;; Return in org now follows link (globally)
 (setq org-return-follows-link 't)
-(setq +org-capture-journal-file "journal.org.gpg") ;; encrypt with gpg
-(setq +org-capture-notes-file "notes.org.gpg") ;; encrypt with gpg
-(setq +org-capture-todo-file "notes.org.gpg") ;; encrypt with gpg
-(after! epa-file
-  (epa-file-enable)
-)
 
+;; Make Evil behave more like vim
+(with-eval-after-load 'evil
+  (defalias #'forward-evil-word #'forward-evil-symbol))
 
-;; config undo with +tree
+;; Config undo with +tree
 (after! undo-tree
   (setq undo-tree-auto-save-history nil))
-
 
 ;; Setup proxies for emacs
 ;; (setq url-proxy-services
@@ -104,57 +113,12 @@
 ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
 (setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
 
-
-;; hacks from
-;; https://github.com/emacs-lsp/lsp-mode/issues/2709#issuecomment-1475039310
-(defun lsp-tramp-connection-over-ssh-port-forwarding (command)
-  "Like lsp-tcp-connection, but uses SSH portforwarding."
-  (list
-   :connect (lambda (filter sentinel name environment-fn _workspace)
-              (let* ((host "localhost")
-                     (lsp-port (lsp--find-available-port host (cl-incf lsp--tcp-port)))
-                     (command (with-parsed-tramp-file-name buffer-file-name nil
-                                (message "[tcp/ssh hack] running LSP %s on %s / %s" command host localname)
-                                (let* ((unix-socket (format "/tmp/lsp-ssh-portforward-%s.sock" lsp-port))
-                                       (command (list
-                                                 "ssh"
-                                                 ;; "-vvv"
-                                                 "-L" (format "%s:%s" lsp-port unix-socket)
-                                                 host
-                                                 "socat"
-                                                 (format "unix-listen:%s" unix-socket)
-                                                 (format "system:'\"cd %s && %s\"'" (file-name-directory localname) command)
-                                                 )))
-                                  (message "using local command %s" command)
-                                  command)))
-                     (final-command (if (consp command) command (list command)))
-                     (_ (unless (executable-find (cl-first final-command))
-                          (user-error (format "Couldn't find executable %s" (cl-first final-command)))))
-                     (process-environment
-                      (lsp--compute-process-environment environment-fn))
-                     (proc (make-process :name name :connection-type 'pipe :coding 'no-conversion
-                                         :command final-command :sentinel sentinel :stderr (format "*%s::stderr*" name) :noquery t))
-                     (tcp-proc (progn
-                                 (sleep-for 1) ; prevent a connection before SSH has run socat. Ugh.
-                                 (lsp--open-network-stream host lsp-port (concat name "::tcp")))))
-
-                ;; TODO: Same :noquery issue (see above)
-                (set-process-query-on-exit-flag proc nil)
-                (set-process-query-on-exit-flag tcp-proc nil)
-                (set-process-filter tcp-proc filter)
-                (cons tcp-proc proc)))
-   :test? (lambda () t)))
-
-
+;; Config Tramp
 (after! tramp
   (when (require 'lsp-mode nil t)
-
     (setq lsp-enable-snippet nil
           lsp-log-io nil
-          ;; To bypass the "lsp--document-highlight fails if
-          ;; textDocument/documentHighlight is not supported" error
           lsp-enable-symbol-highlighting nil)
-
     (lsp-register-client
      (make-lsp-client
       :new-connection
@@ -164,7 +128,7 @@
       :server-id 'clangd-remote))))
 
 
-;; for cpplint
+;; For cpplint
 ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
 (after! flycheck
   (require 'flycheck-google-cpplint)
@@ -178,27 +142,3 @@
   (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
 
 
-(after! lsp-mode
-  (setq lsp-log-io nil
-        lsp-file-watch-threshold 4000
-        lsp-headerline-breadcrumb-enable t
-        lsp-headerline-breadcrumb-icons-enable nil
-        lsp-headerline-breadcrumb-segments '(file symbols)
-        lsp-imenu-index-symbol-kinds '(File Module Namespace Package Class Method Enum Interface
-                                            Function Variable Constant Struct Event Operator TypeParameter)
-        )
-  (dolist (dir '("[/\\\\]\\.cache\\'"
-                 "[/\\\\]bazel-bin\\'"
-                 "[/\\\\]bazel-code\\'"
-                 "[/\\\\]bazel-genfiles\\'"
-                 "[/\\\\]bazel-out\\'"
-                 "[/\\\\]bazel-yacl\\'"
-                 "[/\\\\]bazel-spu\\'"
-                 "[/\\\\]bazel-ppu\\'"
-                 "[/\\\\]bazel-testlogs\\'"
-                 "[/\\\\]third_party\\'"
-                 "[/\\\\]external\\'"
-                 "[/\\\\]build\\'"
-                 ))
-    (push dir lsp-file-watch-ignored-directories))
-  )
