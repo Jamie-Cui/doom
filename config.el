@@ -47,8 +47,9 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "/Users/shanzhu.cjm/Library/Mobile Documents/com~apple~CloudDocs/org")
-(setq org-roam-directory "/Users/shanzhu.cjm/Library/Mobile Documents/com~apple~CloudDocs/roam")
+;; (concat doom-user-dir "define.el")
+(setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org")
+(setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/roam")
 
 (after! org
   ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
