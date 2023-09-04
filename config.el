@@ -36,10 +36,10 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-monokai-ristretto)
-(setq doom-theme 'leuven)
+(setq doom-theme 'doom-dark+)
 
 ;; Maximized screen on doom start
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -49,13 +49,17 @@
 ;; change `org-directory'. It must be set before org loads!
 ;; (concat doom-user-dir "define.el")
 (setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org")
-(setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/roam")
-(add-to-list 'org-cite-global-bibliography '("~/Library/Mobile Documents/com~apple~CloudDocs/bib/all.bib"))
+(setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org/roam")
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
   (add-to-list 'org-latex-packages-alist '("n,advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
+  (let ((org-bib-user-dir (concat (getenv "HOME") "/Library/Mobile Documents/com~apple~CloudDocs/Exported Items.bib")))
+    (add-to-list 'org-cite-global-bibliography org-bib-user-dir))
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.9)))
+
+;; fix chinese wrap
+(setq word-wrap-by-category t)
 
 ;; Disable auto-fill in org mode
 ;; (remove-hook 'org-mode-hook #'auto-fill-mode)
@@ -116,11 +120,10 @@
 ;; they are implemented.
 ;;
 
-;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
-(setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
-
 ;; Config Tramp
 (after! tramp
+  ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
+  (setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
   (when (require 'lsp-mode nil t)
     (setq lsp-enable-snippet nil
           lsp-log-io nil
@@ -133,6 +136,9 @@
       :remote? t
       :server-id 'clangd-remote))))
 
+;; Use zsh over vterm tramp
+(after! vterm
+  (setq vterm-tramp-shells '(("sshx" "/bin/zsh"))))
 
 ;; For cpplint
 ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
