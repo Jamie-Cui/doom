@@ -36,10 +36,10 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-monokai-ristretto)
-(setq doom-theme 'doom-dark+)
+(setq doom-theme 'modus-vivendi)
 
 ;; Maximized screen on doom start
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -49,41 +49,33 @@
 ;; change `org-directory'. It must be set before org loads!
 ;; (concat doom-user-dir "define.el")
 (setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org")
-(setq org-roam-directory (concat org-directory "/roam"))
-
-;; fix chinese wrap in org mode
-(setq word-wrap-by-category t)
-
-;; Make Evil behave more like vim
-(with-eval-after-load 'evil
-  (defalias #'forward-evil-word #'forward-evil-symbol))
-
-;; Download image when I paste in org mode
-;; The images are downloaded
-(after! org-download
-  (setq org-download-method 'directory)
-  (setq org-download-image-dir (concat org-directory "/img"))
-  (setq org-download-image-org-width 600)
-  (setq org-download-link-format "[[file:%s]]\n" org-download-abbreviate-filename-function #'file-relative-name)
-  (setq org-download-link-format-function #'org-download-link-format-function-default))
+(setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org/roam")
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
-  ;; setup org latex
   (add-to-list 'org-latex-packages-alist '("n,advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
   (let ((org-bib-user-dir (concat (getenv "HOME") "/Library/Mobile Documents/com~apple~CloudDocs/Exported Items.bib")))
     (add-to-list 'org-cite-global-bibliography org-bib-user-dir))
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.9))
-  ;; Return in org now follows link (globally)
-  (setq org-return-follows-link 't)
-  ;; Org startup options (with latex-preview, with inline images)
-  (setq org-startup-with-latex-preview 't)
-  (setq org-startup-with-inline-images 't))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.9)))
+
+;; fix chinese wrap
+(setq word-wrap-by-category 't)
+
+;; Disable auto-fill in org mode
+;; (remove-hook 'org-mode-hook #'auto-fill-mode)
 
 ;; Only complete when I ask!
 ;; https://www.reddit.com/r/DoomEmacs/comments/wdxah3/how_to_stop_word_autocomplete/
 (after! company
   (setq company-idle-delay nil))
+
+
+;; Return in org now follows link (globally)
+(setq org-return-follows-link 't)
+
+;; Make Evil behave more like vim
+(with-eval-after-load 'evil
+  (defalias #'forward-evil-word #'forward-evil-symbol))
 
 ;; Config undo with +tree
 (after! undo-tree
@@ -128,19 +120,8 @@
 ;; they are implemented.
 ;;
 
-
-;; Config Bazel formatter
-(setq bazel-buildifier-command (concat (getenv "HOME") "/Desktop/JDT/bin/buildifier-darwin-amd64"))
-(setq bazel-buildifier-before-save 't)
-
-
 ;; Config Tramp
 (after! tramp
-
-  ;; Setup default shell for tramp
-  (setq tramp-encoding-shell "/bin/zsh")
-  (setq explicit-shell-file-name "/bin/zsh")
-
   ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
   (setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
 
