@@ -120,6 +120,10 @@
 ;; they are implemented.
 ;;
 
+
+;; it's wired that vertico uses this to list all files
+(setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
+
 ;; Config Tramp
 (after! tramp
   ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
