@@ -69,7 +69,6 @@
 (after! company
   (setq company-idle-delay nil))
 
-
 ;; Return in org now follows link (globally)
 (setq org-return-follows-link 't)
 
@@ -120,6 +119,8 @@
 ;; they are implemented.
 ;;
 
+;; always format using the local formatter (especially when using lsp over tramp)
+(setq apheleia-remote-algorithm 'local)
 
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
