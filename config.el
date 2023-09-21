@@ -120,7 +120,11 @@
 ;;
 
 ;; always format using the local formatter (especially when using lsp over tramp)
+;; jamie: f**k, apheleia does not officially support tramp for now.
 (setq apheleia-remote-algorithm 'local)
+(after! apheleia
+  (setf (alist-get 'clang-format apheleia-formatters)
+        '("clang-format" "--style=google" "-"))) ;; be sure to use goole style
 
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
@@ -159,3 +163,9 @@
   (defun my-c++-linter-setup ()
     (flycheck-add-next-checker 'lsp 'c/c++-googlelint))
   (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
+
+;; Show current workspace in modeline.
+(setq doom-modeline-persp-name 't)
+
+;; Don't ask, just quit
+(setq confirm-kill-emacs t)
