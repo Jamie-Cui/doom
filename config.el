@@ -48,15 +48,17 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 ;; (concat doom-user-dir "define.el")
-(setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org")
-(setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org/roam")
+(setq org-directory "~/Desktop/org")
+(setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/roam")
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
   (add-to-list 'org-latex-packages-alist '("n,advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
   (let ((org-bib-user-dir (concat (getenv "HOME") "/Library/Mobile Documents/com~apple~CloudDocs/Exported Items.bib")))
     (add-to-list 'org-cite-global-bibliography org-bib-user-dir))
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.9)))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.9))
+  (setq org-startup-with-latex-preview 't)
+  (setq org-startup-with-inline-images 't))
 
 ;; fix chinese wrap
 (setq word-wrap-by-category 't)
@@ -124,7 +126,7 @@
 (setq apheleia-remote-algorithm 'local)
 (after! apheleia
   (setf (alist-get 'clang-format apheleia-formatters)
-        '("clang-format" "--style=google" "-"))) ;; be sure to use goole style
+        '("clang-format" "--style=google" "-"))) ;; make sure to use google style
 
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
