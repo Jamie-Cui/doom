@@ -123,10 +123,10 @@
 
 ;; always format using the local formatter (especially when using lsp over tramp)
 ;; jamie: f**k, apheleia does not officially support tramp for now.
+(setq +format-with-lsp nil) ;; do not format with lsp
 (setq apheleia-remote-algorithm 'local)
-(after! apheleia
-  (setf (alist-get 'clang-format apheleia-formatters)
-        '("clang-format" "--style=google" "-"))) ;; make sure to use google style
+(setf (alist-get 'clang-format apheleia-formatters)
+      '("clang-format" "--style=google" "-"))  ;; make sure to use google style
 
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
@@ -170,4 +170,4 @@
 (setq doom-modeline-persp-name 't)
 
 ;; Don't ask, just quit
-(setq confirm-kill-emacs t)
+;; (setq confirm-kill-emacs 't)
