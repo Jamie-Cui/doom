@@ -125,11 +125,13 @@
 ;; jamie: f**k, apheleia does not officially support tramp for now.
 (setq +format-with-lsp nil) ;; do not format with lsp
 (setq apheleia-remote-algorithm 'local)
+;; ok, i'm still confused why the following code works
 (setf (alist-get 'clang-format apheleia-formatters)
       '("clang-format" "--style=google" "-"))  ;; make sure to use google style
 
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
+(setq projectile-fd-executable "fdfind") ;; ubuntu's command is fdfind
 
 ;; Config Tramp
 (after! tramp
@@ -170,4 +172,4 @@
 (setq doom-modeline-persp-name 't)
 
 ;; Don't ask, just quit
-;; (setq confirm-kill-emacs 't)
+(setq confirm-kill-emacs nil)
