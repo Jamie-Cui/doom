@@ -15,18 +15,27 @@
 ;; -----------------------------------------
 ;; Configuration: org mode / genearl typeing
 ;; -----------------------------------------
-(setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org")
-(setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/roam")
+(setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/org")
+(setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/org/roam")
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
   (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
-  (let ((org-bib-user-dir (concat (getenv "HOME") "/Library/Mobile Documents/com~apple~CloudDocs/Exported Items.bib")))
+  (let ((org-bib-user-dir (concat (getenv "HOME") "/Library/Mobile Documents/com~apple~CloudDocs/Sync/Exported Items.bib")))
     (add-to-list 'org-cite-global-bibliography org-bib-user-dir))
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
   (setq org-startup-with-latex-preview t)
   (setq org-startup-folded "content")
   (setq org-startup-with-inline-images t))
+
+;; Setup org-download directory
+(after! org-download
+  (setq org-download-method 'directory)
+  (setq org-download-image-dir "img")
+  (setq org-download-image-org-width 500)
+  (setq org-download-link-format "[[file:%s]]\n"
+        org-download-abbreviate-filename-function #'file-relative-name)
+  (setq org-download-link-format-function #'org-download-link-format-function-default))
 
 ;; fix chinese wrap
 (setq word-wrap-by-category t)
