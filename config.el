@@ -15,29 +15,26 @@
 ;; -----------------------------------------
 ;; Configuration: org mode / genearl typeing
 ;; -----------------------------------------
-(setq org-directory "~/Desktop/org")
+(setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/org")
 (setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/roam")
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
-  (add-to-list 'org-latex-packages-alist '("n,advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
+  (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
   (let ((org-bib-user-dir (concat (getenv "HOME") "/Library/Mobile Documents/com~apple~CloudDocs/Exported Items.bib")))
     (add-to-list 'org-cite-global-bibliography org-bib-user-dir))
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
   (setq org-startup-with-latex-preview t)
-  (setq org-startup-folded"content")
+  (setq org-startup-folded "content")
   (setq org-startup-with-inline-images t))
 
 ;; fix chinese wrap
 (setq word-wrap-by-category t)
 
-;; Disable auto-fill in org mode
-;; (remove-hook 'org-mode-hook #'auto-fill-mode)
-
 ;; Return in org now follows link (globally)
 (setq org-return-follows-link t)
 
-;; Make Evil behave more like vim
+;; Make Evil behaves more like vim
 (with-eval-after-load 'evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
@@ -132,8 +129,6 @@
 ;; ---------------------------
 ;; Configuration: doom: others
 ;; ---------------------------
-;; Show current workspace in modeline.
-(setq doom-modeline-persp-name t)
 
 ;; Don't ask, just quit
-(setq confirm-kill-emacs nil)
+;; (setq confirm-kill-emacs nil)
