@@ -21,7 +21,7 @@
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
   (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
-  (let ((org-bib-user-dir (concat (getenv "HOME") "/Library/Mobile Documents/com~apple~CloudDocs/Sync/Exported Items.bib")))
+  (let ((org-bib-user-dir (concat (getenv "HOME") "/Library/Mobile Documents/com~apple~CloudDocs/Sync/zotero_all.bib")))
     (add-to-list 'org-cite-global-bibliography org-bib-user-dir))
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
   (setq org-startup-with-latex-preview t)
