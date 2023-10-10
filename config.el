@@ -6,7 +6,7 @@
 (setq user-full-name "Jamie Cui"
       user-mail-address "jamie.cui@outlook.com")
 
-(setq doom-theme 'leuven-dark)
+(setq doom-theme 'modus-vivendi)
 
 ;; Maximized screen on doom start
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
