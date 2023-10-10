@@ -68,11 +68,10 @@
 ;; --------------------
 ;; Configuration: proxy
 ;; --------------------
-;; Setup proxies for emacs
-;; (setq url-proxy-services
-;; '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
-;; ("http" . "127.0.0.1:8001")
-;; ("https" . "127.0.0.1:8001")))
+(setq url-proxy-services
+      '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
+        ("http" . "127.0.0.1:8001")
+        ("https" . "127.0.0.1:8001")))
 
 ;; ----------------------------------
 ;; Configuration: code format on save
