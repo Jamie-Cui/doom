@@ -9,14 +9,15 @@
 (setq doom-theme 'modus-vivendi)
 
 ;; Maximized screen on doom start
-;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;;
 ;; -----------------------------------------
 ;; Configuration: org mode / genearl typeing
 ;; -----------------------------------------
 (setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/org")
 (setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/org/roam")
+
+(setq deft-directory "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/org/deft")
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
@@ -28,6 +29,7 @@
 
 ;; for cite in org
 (after! citar
+  (add-to-list 'citar-notes-paths "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/papers")
   (add-to-list 'citar-bibliography "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/zotero_all.bib"))
 
 ;; Setup org-download directory
