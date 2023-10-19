@@ -78,12 +78,10 @@
 ;; Configuration: code format on save
 ;; ----------------------------------
 ;; always format using the local formatter (especially when using lsp over tramp)
-;; jamie: f**k, apheleia does not officially support tramp for now.
 (setq +format-with-lsp nil) ;; do not format with lsp
 (setq apheleia-remote-algorithm 'local)
-;; ok, i'm still confused why the following code works
 (setf (alist-get 'clang-format apheleia-formatters)
-      '("clang-format" "--style=file:~/Desktop/jdt/config/clang-format-sty" "-"))  ;; make sure to use google style
+      '("clang-format" "--style=file:/Users/shanzhu.cjm/Desktop/jdt/config/clang-format-sty" "-"))  ;; absolute path
 
 ;; -------------------------------------
 ;; Configuration: tramp: lsp, projectile
