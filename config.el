@@ -96,24 +96,13 @@
   (setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
 
   ;; Setup lsp over tramp
-  (when (require 'lsp-mode nil t)
-    (setq lsp-enable-snippet nil
-          lsp-log-io nil
-          lsp-enable-symbol-highlighting nil)
-    (lsp-register-client
-     (make-lsp-client
-      :new-connection
-      (lsp-tramp-connection-over-ssh-port-forwarding "clangd --header-insertion=never")
-      :major-modes '(c-mode c++-mode)
-      :remote? t
-      :server-id 'clangd-remote))))
-
-;; (after! lsp-mode
-;;   (lsp-register-client
-;;    (make-lsp-client :new-connection (lsp-tramp-connection "clangd --header-insertion=never")
-;;                     :major-modes '(c-mode c++-mode)
-;;                     :remote? t
-;;                     :server-id 'clangd-remote)))
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection
+    (lsp-tramp-connection-over-ssh-port-forwarding "clangd --header-insertion=never")
+    :major-modes '(c-mode c++-mode)
+    :remote? t
+    :server-id 'clangd-remote)))
 
 ;; Use zsh over vterm tramp
 (after! vterm
