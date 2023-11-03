@@ -9,7 +9,7 @@
 (setq doom-theme 'modus-vivendi)
 
 ;; Maximized screen on doom start
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; -----------------------------------------
 ;; Configuration: org mode / genearl typeing
@@ -78,23 +78,28 @@
 ;; Configuration: code format on save
 ;; ----------------------------------
 ;; always format using the local formatter (especially when using lsp over tramp)
-(setq +format-with-lsp nil) ;; do not format with lsp
-(setq apheleia-remote-algorithm 'local)
-(setf (alist-get 'clang-format apheleia-formatters)
-      '("clang-format" "--style=file:/Users/shanzhu.cjm/Desktop/jdt/config/clang-format-sty" "-"))  ;; absolute path
+;; (setq +format-with-lsp nil) ;; do not format with lsp
+;; (setq apheleia-remote-algorithm 'local)
+;; (setf (alist-get 'clang-format apheleia-formatters)
+;;       '("clang-format" "--style=file:/Users/shanzhu.cjm/Desktop/jdt/config/clang-format-sty" "-"))  ;; absolute path
+
+
 
 ;; -------------------------------------
 ;; Configuration: tramp: lsp, projectile
 ;; -------------------------------------
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
-(setq projectile-fd-executable "fdfind") ;; ubuntu's command is fdfind
+;; (setq projectile-fd-executable (cl-find-if #'executable-find (list "fdfind" "fd")))
+(setq projectile-fd-executable "fdfind")
 
 ;; Config Tramp
 (after! tramp
   ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
   (setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
+  )
 
+(after! (:and lsp-mode tramp)
   ;; Setup lsp over tramp
   (lsp-register-client
    (make-lsp-client
