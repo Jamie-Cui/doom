@@ -76,11 +76,10 @@
 ;; --------------------
 ;; Configuration: proxy
 ;; --------------------
-;; Setup proxies for emacs
 ;; (setq url-proxy-services
-;; '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
-;; ("http" . "127.0.0.1:8001")
-;; ("https" . "127.0.0.1:8001")))
+;;       '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
+;;         ("http" . "127.0.0.1:8001")
+;;         ("https" . "127.0.0.1:8001")))
 
 ;; ----------------------------------
 ;; Configuration: code format on save
@@ -92,7 +91,6 @@
 (add-hook 'c++-mode-hook
           (lambda()
             (add-hook 'before-save-hook #'+format/buffer nil t)))
-
 
 ;; -------------------------------------
 ;; Configuration: tramp: lsp, projectile
@@ -145,9 +143,9 @@
 ;; ---------------------------------
 
 ;; Open elfeed
-(map! :leader
-      :desc "Open elfeed"
-      "o e" #'elfeed)
+;; (map! :leader
+;;       :desc "Open elfeed"
+;;       "o e" #'elfeed)
 
 ;; Toggle time in modeline
 (setq display-time-format "%Y-%m-%d-%a %H:%M")

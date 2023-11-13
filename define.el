@@ -10,19 +10,19 @@
               (let* ((host "localhost")
                      (lsp-port (lsp--find-available-port host (cl-incf lsp--tcp-port)))
                      (command (with-parsed-tramp-file-name buffer-file-name nil
-                                (message "[tcp/ssh hack] running LSP %s on %s / %s" command host localname)
-                                (let* ((unix-socket (format "/tmp/lsp-ssh-portforward-%s.sock" lsp-port))
-                                       (command (list
-                                                 "ssh"
-                                                 ;; "-vvv"
-                                                 "-L" (format "%s:%s" lsp-port unix-socket)
-                                                 host
-                                                 "socat"
-                                                 (format "unix-listen:%s" unix-socket)
-                                                 (format "system:'\"cd %s && %s\"'" (file-name-directory localname) command)
-                                                 )))
-                                  (message "using local command %s" command)
-                                  command)))
+                                                           (message "[tcp/ssh hack] running LSP %s on %s / %s" command host localname)
+                                                           (let* ((unix-socket (format "/tmp/lsp-ssh-portforward-%s.sock" lsp-port))
+                                                                  (command (list
+                                                                            "ssh"
+                                                                            ;; "-vvv"
+                                                                            "-L" (format "%s:%s" lsp-port unix-socket)
+                                                                            host
+                                                                            "socat"
+                                                                            (format "unix-listen:%s" unix-socket)
+                                                                            (format "system:'\"cd %s && %s\"'" (file-name-directory localname) command)
+                                                                            )))
+                                                             (message "using local command %s" command)
+                                                             command)))
                      (final-command (if (consp command) command (list command)))
                      (_ (unless (executable-find (cl-first final-command))
                           (user-error (format "Couldn't find executable %s" (cl-first final-command)))))
