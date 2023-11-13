@@ -6,17 +6,17 @@
 (setq user-full-name "Jamie Cui"
       user-mail-address "jamie.cui@outlook.com")
 
-(setq doom-theme 'modus-vivendi)
+(setq doom-theme 'doom-dark+)
 
-;; Maximized screen on doom start
-;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; Manipulate windows
+(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
+(add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 
-;; -----------------------------------------
-;; Configuration: org mode / genearl typeing
-;; -----------------------------------------
+;; -----------------------
+;; Configuration: org mode
+;; -----------------------
 (setq org-directory "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/org")
 (setq org-roam-directory "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/org/roam")
-
 (setq deft-directory "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/org/deft")
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
@@ -25,7 +25,10 @@
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
   (setq org-startup-with-latex-preview t)
   (setq org-startup-folded 'content)
-  (setq org-startup-with-inline-images t))
+  (setq org-startup-with-inline-images t)
+  ;; Return in org now follows link (globally)
+  (setq org-return-follows-link t))
+
 
 ;; for cite in org
 (after! citar
@@ -41,11 +44,16 @@
         org-download-abbreviate-filename-function #'file-relative-name)
   (setq org-download-link-format-function #'org-download-link-format-function-default))
 
-;; fix chinese wrap
-(setq word-wrap-by-category t)
 
-;; Return in org now follows link (globally)
-(setq org-return-follows-link t)
+;; ------------------------------
+;; Configuration: genearl typeing
+;; ------------------------------
+
+;; Paste and kill selected origin: https://emacs.stackexchange.com/a/15054
+(fset 'evil-visual-update-x-selection 'ignore)
+
+;; Fix chinese wrap
+(setq word-wrap-by-category t)
 
 ;; Make Evil behaves more like vim
 (with-eval-after-load 'evil
@@ -77,12 +85,13 @@
 ;; ----------------------------------
 ;; Configuration: code format on save
 ;; ----------------------------------
-;; always format using the local formatter (especially when using lsp over tramp)
-;; (setq +format-with-lsp nil) ;; do not format with lsp
-;; (setq apheleia-remote-algorithm 'local)
-;; (setf (alist-get 'clang-format apheleia-formatters)
-;;       '("clang-format" "--style=file:/Users/shanzhu.cjm/Desktop/jdt/config/clang-format-sty" "-"))  ;; absolute path
-
+;; a work-around from: https://github.com/doomemacs/doomemacs/issues/7490
+(setq-hook! 'c++-mode-hook
+  apheleia-inhibit t
+  +format-with nil)
+(add-hook 'c++-mode-hook
+          (lambda()
+            (add-hook 'before-save-hook #'+format/buffer nil t)))
 
 
 ;; -------------------------------------
@@ -91,14 +100,14 @@
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
 ;; (setq projectile-fd-executable (cl-find-if #'executable-find (list "fdfind" "fd")))
-(setq projectile-fd-executable "fdfind")
+(setq projectile-fd-executable "fdfind") ;; since I'm using ubuntu machines
 
 ;; Config Tramp
 (after! tramp
   ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
-  (setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
-  )
+  (setq tramp-default-method "sshx")) ;; use sshx (since it supports zsh) instead of default scp
 
+;; Cionfigure lsp over tramp
 (after! (:and lsp-mode tramp)
   ;; Setup lsp over tramp
   (lsp-register-client
@@ -131,9 +140,20 @@
   (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
 
 
-;; ---------------------------
-;; Configuration: doom: others
-;; ---------------------------
+;; ---------------------------------
+;; Configuration: tweak key bindings
+;; ---------------------------------
+
+;; Open elfeed
+(map! :leader
+      :desc "Open elfeed"
+      "o e" #'elfeed)
+
+;; Toggle time in modeline
+(setq display-time-format "%Y-%m-%d-%a %H:%M")
+(map! :leader
+      :desc "Toggle time in modeline "
+      "t t" #'display-time-mode)
 
 ;; Don't ask, just quit
 ;; (setq confirm-kill-emacs nil)
