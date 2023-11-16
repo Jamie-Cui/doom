@@ -6,7 +6,7 @@
 (setq user-full-name "Jamie Cui"
       user-mail-address "jamie.cui@outlook.com")
 
-(setq doom-theme 'doom-dark+)
+(setq doom-theme 'modus-operandi)
 
 ;; Manipulate windows
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
@@ -133,8 +133,8 @@
 ;; My Package [zotero]
 ;; -------------------
 ;; load zotero packages
-(require 'zotero)
-(require 'zotero-browser)
+;; (require 'zotero)
+;; (require 'zotero-browser)
 
 
 ;; ------------------
