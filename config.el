@@ -147,9 +147,9 @@
           (lambda()
             (add-hook 'before-save-hook #'bazel-buildifier nil t)))
 
-;; ---------------------------------------
-;; ;; My Package [flycheck-google-cpplint]
-;; ---------------------------------------
+;; ------------------------------------
+;; My Package [flycheck-google-cpplint]
+;; ------------------------------------
 (require 'flycheck-google-cpplint) ;; try to load this package
 
 ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
