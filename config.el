@@ -12,6 +12,9 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
 (add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 
+;; Don't ask, just quit
+;; (setq confirm-kill-emacs nil)
+
 ;; -----------------------
 ;; Configuration: org mode
 ;; -----------------------
@@ -29,12 +32,6 @@
   ;; Return in org now follows link (globally)
   (setq org-return-follows-link t))
 
-
-;; for cite in org
-(after! citar
-  (add-to-list 'citar-notes-paths "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/papers")
-  (add-to-list 'citar-bibliography "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/zotero_all.bib"))
-
 ;; Setup org-download directory
 (after! org-download
   (setq org-download-method 'directory)
@@ -43,6 +40,13 @@
   (setq org-download-link-format "[[file:%s]]\n"
         org-download-abbreviate-filename-function #'file-relative-name)
   (setq org-download-link-format-function #'org-download-link-format-function-default))
+
+;; -----------------------
+;; Configuration: Citation
+;; -----------------------
+(after! citar
+  (add-to-list 'citar-notes-paths "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/papers")
+  (add-to-list 'citar-bibliography "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/zotero_all.bib"))
 
 
 ;; ------------------------------
@@ -81,9 +85,9 @@
 ;;         ("http" . "127.0.0.1:8001")
 ;;         ("https" . "127.0.0.1:8001")))
 
-;; ----------------------------------
-;; Configuration: code format on save
-;; ----------------------------------
+;; -------------------------------------
+;; Configuration: lsp c++ format on save
+;; -------------------------------------
 ;; a work-around from: https://github.com/doomemacs/doomemacs/issues/7490
 (setq-hook! 'c++-mode-hook
   apheleia-inhibit t
@@ -93,7 +97,7 @@
             (add-hook 'before-save-hook #'+format/buffer nil t)))
 
 ;; -------------------------------------
-;; Configuration: tramp: lsp, projectile
+;; Configuration: tramp, lsp, projectile
 ;; -------------------------------------
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
@@ -120,16 +124,38 @@
 (after! vterm
   (setq vterm-tramp-shells '(("sshx" "/bin/zsh"))))
 
+;; -------------------------------
+;; My Package [latex-preview-pane]
+;; -------------------------------
+(require 'latex-preview-pane)
 
-;; -------------------------------------
-;; Configuration: flycheck: cpplint
-;; -------------------------------------
-;; For cpplint
+;; -------------------
+;; My Package [zotero]
+;; -------------------
+;; load zotero packages
+(require 'zotero)
+(require 'zotero-browser)
+
+
+;; ------------------
+;; My Package [bazel]
+;; ------------------
+(require 'bazel) ;; load bazel package
+
+;; format on save
+(add-hook 'bazel-mode-hook
+          (lambda()
+            (add-hook 'before-save-hook #'bazel-buildifier nil t)))
+
+;; ---------------------------------------
+;; ;; My Package [flycheck-google-cpplint]
+;; ---------------------------------------
+(require 'flycheck-google-cpplint) ;; try to load this package
+
 ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
 (after! flycheck
-  (require 'flycheck-google-cpplint)
   (setq flycheck-c/c++-googlelint-executable "cpplint"
-        flycheck-cppcheck-standards '("c++11"))
+        flycheck-cppcheck-standards '("c++17"))
   (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))
   (add-hook! 'lsp-after-initialize-hook
     (run-hooks (intern (format "%s-lsp-hook" major-mode))))
@@ -137,10 +163,9 @@
     (flycheck-add-next-checker 'lsp 'c/c++-googlelint))
   (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
 
-
-;; ---------------------------------
-;; Configuration: tweak key bindings
-;; ---------------------------------
+;; ------------------
+;; Tweak key bindings
+;; ------------------
 
 ;; Open elfeed
 ;; (map! :leader
@@ -152,6 +177,3 @@
 (map! :leader
       :desc "Toggle time in modeline "
       "t t" #'display-time-mode)
-
-;; Don't ask, just quit
-;; (setq confirm-kill-emacs nil)
