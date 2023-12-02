@@ -22,7 +22,8 @@
 ;; load some definition functions from my own elisp file
 (load (concat doom-user-dir "define.el"))
 
-;; (reuiqre 'ht)
+;; HACK: load ht package
+(add-to-list 'load-path (concat doom-local-dir "straight/repos/ht.el"))
 
 ;; -----------------------
 ;; Configuration: org mode
@@ -34,36 +35,36 @@
 ;; make org faster
 ;; see: https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83/3
 (after! org
-        (setq org-fontify-quote-and-verse-blocks nil
-              org-fontify-whole-heading-line nil
-              org-hide-leading-stars nil
-              org-startup-indented nil))
+  (setq org-fontify-quote-and-verse-blocks nil
+        org-fontify-whole-heading-line nil
+        org-hide-leading-stars nil
+        org-startup-indented nil))
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
-        (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
-        (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
-        (setq org-startup-with-latex-preview t)
-        (setq org-startup-folded 'content)
-        (setq org-startup-with-inline-images t)
-        ;; Return in org now follows link (globally)
-        (setq org-return-follows-link t))
+  (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
+  (setq org-startup-with-latex-preview t)
+  (setq org-startup-folded 'content)
+  (setq org-startup-with-inline-images t)
+  ;; Return in org now follows link (globally)
+  (setq org-return-follows-link t))
 
 ;; Setup org-download directory
 (after! org-download
-        (setq org-download-method 'directory)
-        (setq org-download-image-dir "img")
-        (setq org-download-image-org-width 500)
-        (setq org-download-link-format "[[file:%s]]\n"
-              org-download-abbreviate-filename-function #'file-relative-name)
-        (setq org-download-link-format-function #'org-download-link-format-function-default))
+  (setq org-download-method 'directory)
+  (setq org-download-image-dir "img")
+  (setq org-download-image-org-width 500)
+  (setq org-download-link-format "[[file:%s]]\n"
+        org-download-abbreviate-filename-function #'file-relative-name)
+  (setq org-download-link-format-function #'org-download-link-format-function-default))
 
 ;; -----------------------
 ;; Configuration: Citation
 ;; -----------------------
 (after! citar
-        (add-to-list 'citar-notes-paths "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/papers")
-        (add-to-list 'citar-bibliography "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/zotero_all.bib"))
+  (add-to-list 'citar-notes-paths "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/papers")
+  (add-to-list 'citar-bibliography "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/zotero_all.bib"))
 
 
 ;; ------------------------------
@@ -86,13 +87,13 @@
 ;; Only complete when I ask!
 ;; https://www.reddit.com/r/DoomEmacs/comments/wdxah3/how_to_stop_word_autocomplete/
 (after! company
-        (setq company-idle-delay nil))
+  (setq company-idle-delay nil))
 
 ;; -------------------------
 ;; Configuration: undo
 ;; -------------------------
 (after! undo-tree
-        (setq undo-tree-auto-save-history nil))
+  (setq undo-tree-auto-save-history nil))
 
 ;; --------------------
 ;; Configuration: proxy
@@ -107,8 +108,8 @@
 ;; -------------------------------------
 ;; a work-around from: https://github.com/doomemacs/doomemacs/issues/7490
 (setq-hook! 'c++-mode-hook
-            apheleia-inhibit t
-            +format-wit nil)
+  apheleia-inhibit t
+  +format-wit nil)
 (add-hook 'c++-mode-hook
           (lambda()
             (add-hook 'before-save-hook #'+format/buffer nil t)))
@@ -123,23 +124,23 @@
 
 ;; Config Tramp
 (after! tramp
-        ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
-        (setq tramp-default-method "sshx")) ;; use sshx (since it supports zsh) instead of default scp
+  ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
+  (setq tramp-default-method "sshx")) ;; use sshx (since it supports zsh) instead of default scp
 
 ;; Cionfigure lsp over tramp
 (after! (:and lsp-mode tramp)
-        ;; Setup lsp over tramp
-        (lsp-register-client
-         (make-lsp-client
-          :new-connection
-          (lsp-tramp-connection-over-ssh-port-forwarding "clangd --header-insertion=never")
-          :major-modes '(c-mode c++-mode)
-          :remote? t
-          :server-id 'clangd-remote)))
+  ;; Setup lsp over tramp
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection
+    (lsp-tramp-connection-over-ssh-port-forwarding "clangd --header-insertion=never")
+    :major-modes '(c-mode c++-mode)
+    :remote? t
+    :server-id 'clangd-remote)))
 
 ;; Use zsh over vterm tramp
 (after! vterm
-        (setq vterm-tramp-shells '(("sshx" "/bin/zsh"))))
+  (setq vterm-tramp-shells '(("sshx" "/bin/zsh"))))
 
 ;; -------------------------------
 ;; My Package [latex-preview-pane]
@@ -163,27 +164,27 @@
 
 ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
 (after! flycheck
-        (setq flycheck-c/c++-googlelint-executable "cpplint"
-              flycheck-cppcheck-standards '("c++17"))
-        (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))
-        (add-hook! 'lsp-after-initialize-hook
-                   (run-hooks (intern (format "%s-lsp-hook" major-mode))))
-        (defun my-c++-linter-setup ()
-          (flycheck-add-next-checker 'lsp 'c/c++-googlelint))
-        (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
+  (setq flycheck-c/c++-googlelint-executable "cpplint"
+        flycheck-cppcheck-standards '("c++17"))
+  (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))
+  (add-hook! 'lsp-after-initialize-hook
+    (run-hooks (intern (format "%s-lsp-hook" major-mode))))
+  (defun my-c++-linter-setup ()
+    (flycheck-add-next-checker 'lsp 'c/c++-googlelint))
+  (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
 
 ;; ------------
 ;; Elfeed
 ;; ------------
 (after! elfeed
-        (setq elfeed-feeds
-              '("https://eprint.iacr.org/rss/rss.xml"
-                "https://export.arxiv.org/rss/cs.CR"
-                "https://blog.cryptographyengineering.com/feed"
-                "https://decoded.avast.io/feed"
-                "https://aws.amazon.com/blogs/security/feed"
-                "https://newsletter.blockthreat.io/feed"
-                "https://www.kb.cert.org/vulfeed/")))
+  (setq elfeed-feeds
+        '("https://eprint.iacr.org/rss/rss.xml"
+          "https://export.arxiv.org/rss/cs.CR"
+          "https://blog.cryptographyengineering.com/feed"
+          "https://decoded.avast.io/feed"
+          "https://aws.amazon.com/blogs/security/feed"
+          "https://newsletter.blockthreat.io/feed"
+          "https://www.kb.cert.org/vulfeed/")))
 
 ;; elfeed local key bindings
 (map! :after elfeed
