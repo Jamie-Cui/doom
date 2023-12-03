@@ -16,7 +16,7 @@
 
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
-       (chinese +childfram)
+       ;; (chinese +childframe)
        ;;japanese
        ;;layout            ; auie,ctsrnm is the superior home row
 
