@@ -11,6 +11,9 @@
 (package! latex-preview-pane) ;; latex
 (package! org-download) ;; moving images from point A to point B.
 
+(package! simple-httpd) ;; deps for org-roam-ui, in emacs-web-server
+(package! org-roam-ui) ;; use org-roam-ui
+
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/radian-software/straight.el#the-recipe-format
@@ -51,3 +54,5 @@
 ;; ...Or *all* packages (NOT RECOMMENDED
 ;; will likely break things)
 ;; (unpin! t)
+
+(unpin! org-roam) ;; org-roam-ui tries to keep up with the latest features of org-roam
