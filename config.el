@@ -13,8 +13,9 @@
 (defconst my-beorg-root "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/")
 
 ;; Manipulate windows
-(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
+(add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
 (add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
+
 
 ;; Don't ask, just quit
 ;; (setq confirm-kill-emacs nil)
@@ -34,21 +35,22 @@
 
 ;; make org faster
 ;; see: https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83/3
-(after! org
-  (setq org-fontify-quote-and-verse-blocks nil
-        org-fontify-whole-heading-line nil
-        org-hide-leading-stars nil
-        org-startup-indented nil))
+;; (after! org
+;;   (setq org-fontify-quote-and-verse-blocks nil
+;;         org-fontify-whole-heading-line nil
+;;         org-hide-leading-stars nil
+;;         org-startup-indented nil))
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
   (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
-  (setq org-startup-with-latex-preview t)
+  (setq org-startup-with-latex-preview t) ;; startup with latex review
   (setq org-startup-folded 'content)
   (setq org-startup-with-inline-images t)
-  ;; Return in org now follows link (globally)
-  (setq org-return-follows-link t))
+  (setq org-return-follows-link t) ;; return in org now follows link (globally)
+  (require 'org-download) ;; drag-and-drop for images
+  )
 
 ;; Setup org-download directory
 (after! org-download
@@ -59,6 +61,13 @@
         org-download-abbreviate-filename-function #'file-relative-name)
   (setq org-download-link-format-function #'org-download-link-format-function-default))
 
+;; setup org-agenda key binding
+(after! org-agenda
+  (define-key org-agenda-mode-map "j" 'evil-next-line)
+  (define-key org-agenda-mode-map "k" 'evil-previous-line)
+  (keymap-set org-agenda-mode-map "RET" 'org-agenda-show-and-scroll-up)
+  (keymap-set org-agenda-mode-map "SPC" nil))
+
 ;; -----------------------
 ;; Configuration: Citation
 ;; -----------------------
@@ -66,11 +75,9 @@
   (add-to-list 'citar-notes-paths "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/papers")
   (add-to-list 'citar-bibliography "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/zotero_all.bib"))
 
-
 ;; ------------------------------
 ;; Configuration: genearl typeing
 ;; ------------------------------
-
 ;; Paste and kill selected origin: https://emacs.stackexchange.com/a/15054
 (fset 'evil-visual-update-x-selection 'ignore)
 
