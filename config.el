@@ -1,11 +1,12 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; -----------------------
+;; -------------------------------------------------------
 ;; For new devices, you only needs to modify the following
-;; -----------------------
+;; -------------------------------------------------------
 (setq user-full-name "Jamie Cui"
       user-mail-address "jamie.cui@outlook.com")
 
+;; setup theme
 (setq doom-theme 'modus-vivendi)
 
 ;; setup my own paths
@@ -16,15 +17,14 @@
 (add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
 (add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 
-
-;; Don't ask, just quit
-;; (setq confirm-kill-emacs nil)
-
 ;; load some definition functions from my own elisp file
 (load (concat doom-user-dir "define.el"))
 
 ;; HACK: load ht package
 (add-to-list 'load-path (concat doom-local-dir "straight/repos/ht.el"))
+
+;; Don't ask, just quit
+;; (setq confirm-kill-emacs nil)
 
 ;; -----------------------
 ;; Configuration: org mode
@@ -32,14 +32,6 @@
 (setq org-directory (concat my-beorg-root "org"))
 (setq org-roam-directory (concat my-sync-root "roam"))
 (setq deft-directory (concat my-sync-root "deft"))
-
-;; make org faster
-;; see: https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83/3
-;; (after! org
-;;   (setq org-fontify-quote-and-verse-blocks nil
-;;         org-fontify-whole-heading-line nil
-;;         org-hide-leading-stars nil
-;;         org-startup-indented nil))
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
@@ -67,6 +59,15 @@
   (define-key org-agenda-mode-map "k" 'evil-previous-line)
   (keymap-set org-agenda-mode-map "RET" 'org-agenda-show-and-scroll-up)
   (keymap-set org-agenda-mode-map "SPC" nil))
+
+;; configure org-roam-uo
+(after! org-roam
+  (add-to-list 'load-path (concat doom-local-dir "straight/repos/org-roam-ui")) ;; manually load package
+  (add-to-list 'load-path (concat doom-local-dir "straight/repos/emacs-web-server")) ;; manually load package
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 
 ;; -----------------------
 ;; Configuration: Citation
@@ -181,7 +182,7 @@
   (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
 
 ;; ------------
-;; Elfeed
+;; Elfeed Setup
 ;; ------------
 (after! elfeed
   (setq elfeed-feeds
