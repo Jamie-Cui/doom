@@ -47,7 +47,7 @@
 ;; Setup org-download directory
 (after! org-download
   (setq org-download-method 'directory)
-  (setq org-download-image-dir "img")
+  (setq-default org-download-image-dir "img") ;; see: https://www.emacswiki.org/emacs/BufferLocalVariable
   (setq org-download-image-org-width 500)
   (setq org-download-link-format "[[file:%s]]\n"
         org-download-abbreviate-filename-function #'file-relative-name)
