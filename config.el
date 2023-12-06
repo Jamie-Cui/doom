@@ -114,13 +114,20 @@
 ;; -------------------------------------
 ;; Configuration: lsp c++ format on save
 ;; -------------------------------------
+;; see: https://github.com/radian-software/apheleia/discussions/120
+;; (add-to-list 'apheleia-formatters '(apheleia-lsp . apheleia-lsp-formatter))
+;; (setf (alist-get 'elixir-mode apheleia-mode-alist)
+;;       '(apheleia-lsp))
+;; (setf (alist-get 'python-mode apheleia-mode-alist)
+;;       '(apheleia-lsp))
+
 ;; a work-around from: https://github.com/doomemacs/doomemacs/issues/7490
 (setq-hook! 'c++-mode-hook
   apheleia-inhibit t
-  +format-wit nil)
+  +format-with nil) ;; do not format with apheleia
 (add-hook 'c++-mode-hook
           (lambda()
-            (add-hook 'before-save-hook #'+format/buffer nil t)))
+            (add-hook 'before-save-hook #'eglot-format-buffer)))
 
 ;; -------------------------------------
 ;; Configuration: tramp, lsp, projectile
@@ -136,15 +143,15 @@
   (setq tramp-default-method "sshx")) ;; use sshx (since it supports zsh) instead of default scp
 
 ;; Cionfigure lsp over tramp
-(after! (:and lsp-mode tramp)
-  ;; Setup lsp over tramp
-  (lsp-register-client
-   (make-lsp-client
-    :new-connection
-    (lsp-tramp-connection-over-ssh-port-forwarding "clangd --header-insertion=never")
-    :major-modes '(c-mode c++-mode)
-    :remote? t
-    :server-id 'clangd-remote)))
+;; (after! (:and lsp-mode tramp)
+;;   ;; Setup lsp over tramp
+;;   (lsp-register-client
+;;    (make-lsp-client
+;;     :new-connection
+;;     (lsp-tramp-connection-over-ssh-port-forwarding "clangd --header-insertion=never")
+;;     :major-modes '(c-mode c++-mode)
+;;     :remote? t
+;;     :server-id 'clangd-remote)))
 
 ;; Use zsh over vterm tramp
 (after! vterm
