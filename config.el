@@ -7,7 +7,7 @@
       user-mail-address "jamie.cui@outlook.com")
 
 ;; setup theme
-(setq doom-theme 'modus-vivendi)
+(setq doom-theme 'leuven)
 
 ;; setup my own paths
 (defconst my-sync-root "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/")
@@ -134,15 +134,16 @@
 ;; -------------------------------------
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
-;; (setq projectile-fd-executable (cl-find-if #'executable-find (list "fdfind" "fd")))
 (setq projectile-fd-executable "fd") ;; on ubuntu, "ln -s /bin/fdfind /bin/fd"
 
 ;; Config Tramp
 (after! tramp
   ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
-  (setq tramp-default-method "sshx")) ;; use sshx (since it supports zsh) instead of default scp
-
-;; Cionfigure lsp over tramp
+  (setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
+  (customize-set-variable 'tramp-encoding-shell "/bin/zsh")
+  (customize-set-variable 'tramp-default-remote-shell "/bin/zsh")
+  )
+;; Configure lsp over tramp
 ;; (after! (:and lsp-mode tramp)
 ;;   ;; Setup lsp over tramp
 ;;   (lsp-register-client
@@ -215,3 +216,39 @@
 (map! :leader
       :desc "Open elfeed" ;; Open elfeed
       "o e" #'elfeed)
+
+(map! :leader
+      :desc "Bazel run" ;; Bazel run target
+      "c b" #'bazel-run)
+
+
+(define-minor-mode my-override-mode
+  "Overrides all major and minor mode keys" t)
+
+(defvar my-override-map (make-sparse-keymap "my-override-map")
+  "Override all major and minor mode keys")
+
+(add-to-list 'emulation-mode-map-alists
+             `((my-override-mode . ,my-override-map)))
+
+(define-key my-override-map (kbd "<left>")
+            (lambda ()
+              (interactive)
+              (message "Use Vim keys: h for Left")))
+
+(define-key my-override-map (kbd "<right>")
+            (lambda ()
+              (interactive)
+              (message "Use Vim keys: l for Right")))
+
+(define-key my-override-map (kbd "<up>")
+            (lambda ()
+              (interactive)
+              (message "Use Vim keys: k for Up")))
+
+(define-key my-override-map (kbd "<down>")
+            (lambda ()
+              (interactive)
+              (message "Use Vim keys: j for Down")))
+
+(evil-make-intercept-map my-override-map)
