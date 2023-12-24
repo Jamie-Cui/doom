@@ -1,13 +1,18 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; -------------------------------------------------------
-;; For new devices, you only needs to modify the following
-;; -------------------------------------------------------
+;; ----------------------------------------------------------------------------
+;; Generic Setup
+;; ----------------------------------------------------------------------------
 (setq user-full-name "Jamie Cui"
       user-mail-address "jamie.cui@outlook.com")
 
+;; setup to use emacs-china mirros
+;; see: https://elpamirror.emacs-china.org/
+;; (setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
+;;                          ("melpa" . "http://1.15.88.122/melpa/")))
+
 ;; setup theme
-(setq doom-theme 'leuven)
+(setq doom-theme 'wombat)
 
 ;; setup my own paths
 (defconst my-sync-root "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/")
@@ -23,15 +28,33 @@
 ;; HACK: load ht package
 (add-to-list 'load-path (concat doom-local-dir "straight/repos/ht.el"))
 
+;; Paste and kill selected origin: https://emacs.stackexchange.com/a/15054
+(fset 'evil-visual-update-x-selection 'ignore)
+
+;; Fix chinese wrap
+(setq word-wrap-by-category t)
+
+;; Make Evil behaves more like vim
+(with-eval-after-load 'evil
+  (defalias #'forward-evil-word #'forward-evil-symbol))
+
+;; setup interier shell (built-in with emacs) type
+;; REVIEW not sure if this variable is used by tramp or not
+(setq shell-file-name "/bin/zsh") ; emacs-c-code variable
+
 ;; Don't ask, just quit
 ;; (setq confirm-kill-emacs nil)
 
-;; -----------------------
-;; Configuration: org mode
-;; -----------------------
+;; ----------------------------------------------------------------------------
+;; Configuration: org mode and citations
+;; ----------------------------------------------------------------------------
 (setq org-directory (concat my-beorg-root "org"))
 (setq org-roam-directory (concat my-sync-root "roam"))
 (setq deft-directory (concat my-sync-root "deft"))
+
+(after! citar
+  (add-to-list 'citar-notes-paths (concat my-sync-root "papers"))
+  (add-to-list 'citar-bibliography (concat my-sync-root "zotero_all.bib")))
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
@@ -69,103 +92,83 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
-;; -----------------------
-;; Configuration: Citation
-;; -----------------------
-(after! citar
-  (add-to-list 'citar-notes-paths "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/papers")
-  (add-to-list 'citar-bibliography "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/zotero_all.bib"))
-
-;; ------------------------------
-;; Configuration: genearl typeing
-;; ------------------------------
-;; Paste and kill selected origin: https://emacs.stackexchange.com/a/15054
-(fset 'evil-visual-update-x-selection 'ignore)
-
-;; Fix chinese wrap
-(setq word-wrap-by-category t)
-
-;; Make Evil behaves more like vim
-(with-eval-after-load 'evil
-  (defalias #'forward-evil-word #'forward-evil-symbol))
-
-;; -------------------------
+;; ----------------------------------------------------------------------------
 ;; Configuration: completion
-;; -------------------------
+;; ----------------------------------------------------------------------------
 ;; Only complete when I ask!
 ;; https://www.reddit.com/r/DoomEmacs/comments/wdxah3/how_to_stop_word_autocomplete/
 (after! company
   (setq company-idle-delay nil))
 
-;; -------------------------
+;; ----------------------------------------------------------------------------
 ;; Configuration: undo
-;; -------------------------
+;; ----------------------------------------------------------------------------
 (after! undo-tree
   (setq undo-tree-auto-save-history nil))
 
-;; --------------------
+;; ----------------------------------------------------------------------------
 ;; Configuration: proxy
-;; --------------------
+;; ----------------------------------------------------------------------------
 ;; (setq url-proxy-services
 ;;       '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
 ;;         ("http" . "127.0.0.1:8001")
 ;;         ("https" . "127.0.0.1:8001")))
 
-;; -------------------------------------
+;; ----------------------------------------------------------------------------
 ;; Configuration: lsp c++ format on save
-;; -------------------------------------
-;; see: https://github.com/radian-software/apheleia/discussions/120
-;; (add-to-list 'apheleia-formatters '(apheleia-lsp . apheleia-lsp-formatter))
-;; (setf (alist-get 'elixir-mode apheleia-mode-alist)
-;;       '(apheleia-lsp))
-;; (setf (alist-get 'python-mode apheleia-mode-alist)
-;;       '(apheleia-lsp))
+;; ----------------------------------------------------------------------------
+;; there are many workarounds:
+;; 1. https://github.com/radian-software/apheleia/discussions/120
+;; 2. https://github.com/doomemacs/doomemacs/issues/7490
+;; but we want a workaround that works both on local projects and tramp projects
+;; so the best way is to force c++/c mode to use eglot-format-buffer other than apheleia
 
-;; a work-around from: https://github.com/doomemacs/doomemacs/issues/7490
+;; setup local varaiables on c++-mode-hook
 (setq-hook! 'c++-mode-hook
   apheleia-inhibit t
   +format-with nil) ;; do not format with apheleia
+
+;; setup local varaiables on c-mode-hook
+(setq-hook! 'c-mode-hook
+  apheleia-inhibit t
+  +format-with nil) ;; do not format with apheleia
+
 (add-hook 'c++-mode-hook
           (lambda()
             (add-hook 'before-save-hook #'eglot-format-buffer)))
 
-;; -------------------------------------
-;; Configuration: tramp, lsp, projectile
-;; -------------------------------------
+(add-hook 'c-mode-hook
+          (lambda()
+            (add-hook 'before-save-hook #'eglot-format-buffer)))
+
+;; ----------------------------------------------------------------------------
+;; Configuration: tramp, lsp, projectile, vterm
+;; ----------------------------------------------------------------------------
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
-(setq projectile-fd-executable "fd") ;; on ubuntu, "ln -s /bin/fdfind /bin/fd"
+;; on ubuntu, you need to "ln -s /bin/fdfind /bin/fd"
+(setq projectile-fd-executable "fd")
 
 ;; Config Tramp
 (after! tramp
   ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
   (setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
+  (setq tramp-default-remote-shell "/bin/zsh")
   (customize-set-variable 'tramp-encoding-shell "/bin/zsh")
-  (customize-set-variable 'tramp-default-remote-shell "/bin/zsh")
   )
-;; Configure lsp over tramp
-;; (after! (:and lsp-mode tramp)
-;;   ;; Setup lsp over tramp
-;;   (lsp-register-client
-;;    (make-lsp-client
-;;     :new-connection
-;;     (lsp-tramp-connection-over-ssh-port-forwarding "clangd --header-insertion=never")
-;;     :major-modes '(c-mode c++-mode)
-;;     :remote? t
-;;     :server-id 'clangd-remote)))
 
 ;; Use zsh over vterm tramp
 (after! vterm
   (setq vterm-tramp-shells '(("sshx" "/bin/zsh"))))
 
-;; -------------------------------
+;; ----------------------------------------------------------------------------
 ;; My Package [latex-preview-pane]
-;; -------------------------------
+;; ----------------------------------------------------------------------------
 (require 'latex-preview-pane)
 
-;; ------------------
+;; ----------------------------------------------------------------------------
 ;; My Package [bazel]
-;; ------------------
+;; ----------------------------------------------------------------------------
 (require 'bazel) ;; load bazel package
 
 ;; format on save
@@ -173,25 +176,20 @@
           (lambda()
             (add-hook 'before-save-hook #'bazel-buildifier nil t)))
 
-;; ------------------------------------
+;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
-;; ------------------------------------
-(require 'flycheck-google-cpplint) ;; try to load this package
+;; ----------------------------------------------------------------------------
 
 ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
 (after! flycheck
-  (setq flycheck-c/c++-googlelint-executable "cpplint"
-        flycheck-cppcheck-standards '("c++17"))
-  (flycheck-add-next-checker 'c/c++-cppcheck '(warning . c/c++-googlelint))
-  (add-hook! 'lsp-after-initialize-hook
-    (run-hooks (intern (format "%s-lsp-hook" major-mode))))
-  (defun my-c++-linter-setup ()
-    (flycheck-add-next-checker 'lsp 'c/c++-googlelint))
-  (add-hook 'c++-mode-lsp-hook #'my-c++-linter-setup))
+  (require 'flycheck-google-cpplint) ;; try to load this package
 
-;; ------------
+  (setq flycheck-c/c++-googlelint-executable "cpplint"
+        flycheck-cppcheck-standards '("c++17")))
+
+;; ----------------------------------------------------------------------------
 ;; Elfeed Setup
-;; ------------
+;; ----------------------------------------------------------------------------
 (after! elfeed
   (setq elfeed-feeds
         '("https://eprint.iacr.org/rss/rss.xml"
@@ -210,45 +208,13 @@
       :desc "Update feeds"
       "m" #'elfeed-update)
 
-;; -------------------------
+;; ----------------------------------------------------------------------------
 ;; Tweak Global key bindings
-;; -------------------------
+;; ----------------------------------------------------------------------------
 (map! :leader
       :desc "Open elfeed" ;; Open elfeed
       "o e" #'elfeed)
 
 (map! :leader
-      :desc "Bazel run" ;; Bazel run target
+      :desc "Bazel actions" ;; Bazel run target
       "c b" #'bazel-run)
-
-
-(define-minor-mode my-override-mode
-  "Overrides all major and minor mode keys" t)
-
-(defvar my-override-map (make-sparse-keymap "my-override-map")
-  "Override all major and minor mode keys")
-
-(add-to-list 'emulation-mode-map-alists
-             `((my-override-mode . ,my-override-map)))
-
-(define-key my-override-map (kbd "<left>")
-            (lambda ()
-              (interactive)
-              (message "Use Vim keys: h for Left")))
-
-(define-key my-override-map (kbd "<right>")
-            (lambda ()
-              (interactive)
-              (message "Use Vim keys: l for Right")))
-
-(define-key my-override-map (kbd "<up>")
-            (lambda ()
-              (interactive)
-              (message "Use Vim keys: k for Up")))
-
-(define-key my-override-map (kbd "<down>")
-            (lambda ()
-              (interactive)
-              (message "Use Vim keys: j for Down")))
-
-(evil-make-intercept-map my-override-map)
