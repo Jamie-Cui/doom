@@ -14,19 +14,26 @@
 ;; setup theme
 (setq doom-theme 'wombat)
 
+;; theme disable line-highlight foreground face
+(set-face-foreground 'highlight nil)
+
 ;; setup my own paths
 (defconst my-sync-root "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/")
 (defconst my-beorg-root "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/")
-
-;; Manipulate windows
-(add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
-(add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 
 ;; load some definition functions from my own elisp file
 (load (concat doom-user-dir "define.el"))
 
 ;; HACK: load ht package
 (add-to-list 'load-path (concat doom-local-dir "straight/repos/ht.el"))
+
+;; setup interier shell (built-in with emacs) type
+;; REVIEW not sure if this variable is used by tramp or not
+(setq shell-file-name (executable-find "zsh")) ; emacs-c-code variable
+
+;; Manipulate windows
+(add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
+(add-to-list 'initial-frame-alist '(undecorated . t)) ;; no title bar
 
 ;; Paste and kill selected origin: https://emacs.stackexchange.com/a/15054
 (fset 'evil-visual-update-x-selection 'ignore)
@@ -38,12 +45,12 @@
 (with-eval-after-load 'evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
-;; setup interier shell (built-in with emacs) type
-;; REVIEW not sure if this variable is used by tramp or not
-(setq shell-file-name "/bin/zsh") ; emacs-c-code variable
+;; Enable word count
+(setq doom-modeline-enable-word-count t)
 
 ;; Don't ask, just quit
-;; (setq confirm-kill-emacs nil)
+(setq confirm-kill-emacs nil)
+
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: org mode and citations
@@ -152,14 +159,15 @@
 ;; Config Tramp
 (after! tramp
   ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
-  (setq tramp-default-method "sshx") ;; use sshx (since it supports zsh) instead of default scp
-  (setq tramp-default-remote-shell "/bin/zsh")
-  (customize-set-variable 'tramp-encoding-shell "/bin/zsh")
+  (setq tramp-default-method "sshx") ; use sshx (since it supports zsh and fish) instead of default scp
+  (setq tramp-default-remote-shell "/bin/zsh") ; do-not-use executable-find
+  (customize-set-variable 'tramp-encoding-shell "/bin/zsh") ; do-not-use executable-find
   )
 
 ;; Use zsh over vterm tramp
 (after! vterm
-  (setq vterm-tramp-shells '(("sshx" "/bin/zsh"))))
+  (setq vterm-shell (executable-find "zsh"))
+  (setq vterm-tramp-shells '("sshx" "/bin/zsh")))
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [latex-preview-pane]
