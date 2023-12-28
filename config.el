@@ -10,7 +10,7 @@
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; setup theme
-(setq doom-theme 'wombat)
+(setq doom-theme 'modus-vivendi)
 
 ;; theme disable line-highlight foreground face
 (set-face-attribute 'highlight nil :foreground 'nil)
