@@ -1,5 +1,3 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
 ;; ----------------------------------------------------------------------------
 ;; Generic Setup
 ;; ----------------------------------------------------------------------------
@@ -15,7 +13,7 @@
 (setq doom-theme 'wombat)
 
 ;; theme disable line-highlight foreground face
-(set-face-foreground 'highlight nil)
+(set-face-attribute 'highlight nil :foreground 'nil)
 
 ;; setup my own paths
 (defconst my-sync-root "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/")
@@ -29,7 +27,7 @@
 
 ;; setup interier shell (built-in with emacs) type
 ;; REVIEW not sure if this variable is used by tramp or not
-(setq shell-file-name (executable-find "zsh")) ; emacs-c-code variable
+(setq explicit-shell-file-name (executable-find "zsh")) ; emacs-c-code variable
 
 ;; Manipulate windows
 (add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
@@ -162,10 +160,15 @@
   (setq tramp-default-method "sshx") ; use sshx (since it supports zsh and fish) instead of default scp
   (setq tramp-default-remote-shell "/bin/zsh") ; do-not-use executable-find
   (customize-set-variable 'tramp-encoding-shell "/bin/zsh") ; do-not-use executable-find
+  (connection-local-update-profile-variables 'tramp-connection-local-default-shell-profile
+                                             '((shell-file-name . "/bin/zsh")
+                                               (shell-command-switch . "-c")))
   )
 
+
+
 ;; Use zsh over vterm tramp
-(after! vterm
+(after! (:and vterm tramp)
   (setq vterm-shell (executable-find "zsh"))
   (setq vterm-tramp-shells '("sshx" "/bin/zsh")))
 
@@ -210,19 +213,26 @@
 
 ;; elfeed local key bindings
 (map! :after elfeed
-      :map elfeed-search-mode-map
       :localleader
-
+      :map elfeed-search-mode-map
       :desc "Update feeds"
       "m" #'elfeed-update)
 
 ;; ----------------------------------------------------------------------------
 ;; Tweak Global key bindings
 ;; ----------------------------------------------------------------------------
+
 (map! :leader
       :desc "Open elfeed" ;; Open elfeed
       "o e" #'elfeed)
 
-(map! :leader
-      :desc "Bazel actions" ;; Bazel run target
-      "c b" #'bazel-run)
+(map! :localleader
+      :map (c++-mode-map c-mode-map bazel-mode-map)
+      :desc "Bazel build" ;; Bazel run target
+      "m" #'bazel-build)
+
+(map! :localleader
+      :map (c++-mode-map c-mode-map bazel-mode-map)
+      :desc "Bazel run" ;; Bazel run target
+      "r" #'bazel-run)
+
