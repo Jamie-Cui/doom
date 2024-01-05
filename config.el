@@ -9,11 +9,17 @@
 ;; (setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
+(setq scroll-step            1
+      scroll-conservatively  10000
+      next-screen-context-lines 5
+      ;; move by logical lines rather than visual lines (better for macros)
+      line-move-visual nil)
+
 ;; setup theme
 (setq doom-theme 'modus-vivendi)
 
 ;; theme disable line-highlight foreground face
-(set-face-attribute 'highlight nil :foreground 'nil)
+;; (set-face-attribute 'highlight nil :foreground 'nil)
 
 ;; setup my own paths
 (defconst my-sync-root "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/")
@@ -32,6 +38,10 @@
 ;; Manipulate windows
 (add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
 (add-to-list 'initial-frame-alist '(undecorated . t)) ;; no title bar
+(add-to-list 'initial-frame-alist '(tool-bar-lines . 0))
+(add-to-list 'initial-frame-alist '(menu-bar-lines . 0))
+(add-to-list 'initial-frame-alist '(vertical-scroll-bars . nil))
+(add-to-list 'initial-frame-alist '(horizontal-scroll-bars . nil))
 
 ;; Paste and kill selected origin: https://emacs.stackexchange.com/a/15054
 (fset 'evil-visual-update-x-selection 'ignore)
@@ -227,12 +237,16 @@
       "o e" #'elfeed)
 
 (map! :localleader
-      :map (c++-mode-map c-mode-map bazel-mode-map)
+      :map (c++-mode-map c-mode-map bazel-mode-map java-mode-map)
       :desc "Bazel build" ;; Bazel run target
       "m" #'bazel-build)
 
 (map! :localleader
-      :map (c++-mode-map c-mode-map bazel-mode-map)
+      :map (c++-mode-map c-mode-map bazel-mode-map java-mode-map)
       :desc "Bazel run" ;; Bazel run target
       "r" #'bazel-run)
 
+(map! :localleader
+      :map (c++-mode-map c-mode-map bazel-mode-map java-mode-map)
+      :desc "Bazel test" ;; Bazel test target
+      "t" #'bazel-test)
