@@ -1,252 +1,194 @@
-;; ----------------------------------------------------------------------------
-;; Generic Setup
-;; ----------------------------------------------------------------------------
-(setq user-full-name "Jamie Cui"
-      user-mail-address "jamie.cui@outlook.com")
+;;; init.el -*- lexical-binding: t; -*-
 
-;; setup to use emacs-china mirros
-;; see: https://elpamirror.emacs-china.org/
-;; (setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
-;;                          ("melpa" . "http://1.15.88.122/melpa/")))
+;; This file controls what Doom modules are enabled and what order they load
+;; in. Remember to run 'doom sync' after modifying it!
 
-(setq scroll-step            1
-      scroll-conservatively  10000
-      next-screen-context-lines 5
-      ;; move by logical lines rather than visual lines (better for macros)
-      line-move-visual nil)
+;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
+;;      documentation. There you'll find a link to Doom's Module Index where all
+;;      of our modules are listed, including what flags they support.
 
-;; setup theme
-(setq doom-theme 'modus-vivendi)
+;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
+;;      'C-c c k' for non-vim users) to view its documentation. This works on
+;;      flags as well (those symbols that start with a plus).
+;;
+;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
+;;      directory (for easy access to its source code).
 
-;; theme disable line-highlight foreground face
-;; (set-face-attribute 'highlight nil :foreground 'nil)
+(doom! :input
+       ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
+       ;; (chinese +childframe)
+       ;;japanese
+       ;;layout            ; auie,ctsrnm is the superior home row
 
-;; setup my own paths
-(defconst my-sync-root "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/")
-(defconst my-beorg-root "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/")
+       :completion
+       (company +childframe)           ; the ultimate code completion backend
+       ;;helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
+       ;;ivy      doom-dark+         ; a search engine for love and life
+       (vertico +childframe +icons)           ; the search engine of the future
 
-;; load some definition functions from my own elisp file
-(load (concat doom-user-dir "define.el"))
+       :ui
+       deft              ; notational velocity for Emacs
+       doom              ; what makes DOOM look the way it does
+       doom-dashboard    ; a nifty splash screen for Emacs
+       doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ;; (emoji +unicode)  ; 🙂
+       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       ;;hydra
+       ;; indent-guides     ; highlighted indent columns
+       ;;ligatures         ; ligatures and symbols to make your code pretty again
+       ;; minimap           ; show a map of the code on the side
+       (modeline +light)          ; snazzy, Atom-inspired modeline, plus API
+       nav-flash         ; blink cursor line after big motions
+       ;; neotree           ; a project drawer, like NERDTree for vim
+       ophints           ; highlight the region an operation acts on
+       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       ;;tabs              ; a tab bar for Emacs
+       treemacs          ; a project drawer, like neotree but cooler
+       unicode           ; extended unicode support for various languages
+       ;; (vc-gutter +pretty) ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       ;; window-select     ; visually switch windows
+       workspaces        ; tab emulation, persistence & separate workspaces
+       ;;zen               ; distraction-free coding or writing
 
-;; HACK: load ht package
-(add-to-list 'load-path (concat doom-local-dir "straight/repos/ht.el"))
+       :editor
+       evil             ; come to the dark side, we have cookies
+       file-templates    ; auto-snippets for empty files
+       fold              ; (nigh) universal code folding
+       (format +onsave)              ; automated prettiness
+       ;;god               ; run Emacs commands without modifier keys
+       ;;lispy             ; vim for lisp, for people who don't like vim
+       ;;multiple-cursors  ; editing in many places at once
+       ;;objed             ; text object editing for the innocent
+       ;;parinfer          ; turn lisp into python, sort of
+       ;;rotate-text       ; cycle region at point between text candidates
+       snippets          ; my elves. They type so I don't have to
+       ;; word-wrap         ; soft wrapping with language-aware indent
 
-;; setup interier shell (built-in with emacs) type
-;; REVIEW not sure if this variable is used by tramp or not
-(setq explicit-shell-file-name (executable-find "zsh")) ; emacs-c-code variable
+       :emacs
+       (dired +icons +ranger)             ; making dired pretty [functional]
+       electric          ; smarter, keyword-based electric-indent
+       (ibuffer +icons)         ; interactive buffer management
+       (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
+       vc                ; version-control and Emacs, sitting in a tree
 
-;; Manipulate windows
-(add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
-(add-to-list 'initial-frame-alist '(undecorated . t)) ;; no title bar
-(add-to-list 'initial-frame-alist '(tool-bar-lines . 0))
-(add-to-list 'initial-frame-alist '(menu-bar-lines . 0))
-(add-to-list 'initial-frame-alist '(vertical-scroll-bars . nil))
-(add-to-list 'initial-frame-alist '(horizontal-scroll-bars . nil))
+       :term
+       ;;eshell            ; the elisp shell that works everywhere
+       ;;shell             ; simple shell REPL for Emacs
+       ;;term              ; basic terminal emulator for Emacs
+       vterm             ; the best terminal emulation in Emacs
 
-;; Paste and kill selected origin: https://emacs.stackexchange.com/a/15054
-(fset 'evil-visual-update-x-selection 'ignore)
+       :checkers
+       (syntax +childframe)              ; tasing you for every semicolon you forget
+       ;;(spell +flyspell) ; tasing you for misspelling mispelling
+       ;;grammar           ; tasing grammar mistake every you make
 
-;; Fix chinese wrap
-(setq word-wrap-by-category t)
+       :tools
+       ;;ansible
+       biblio            ; Writes a PhD for you (citation needed)
+       debugger          ; FIXME stepping through code, to help you add bugs
+       ;;direnv
+       ;; docker
+       ;;editorconfig      ; let someone else argue about tabs vs spaces
+       ;;ein               ; tame Jupyter notebooks with emacs
+       (eval +overlay)     ; run code, run (also, repls)s
+       ;;gist              ; interacting with github gists
+       lookup              ; navigate your code and its documentation
+       (lsp +eglot)               ; M-x vscode
+       magit             ; a git porcelain for Emacs
+       make              ; run make tasks from Emacs
+       ;;pass              ; password manager for nerds
+       pdf               ; pdf enhancements
+       ;;prodigy           ; FIXME managing external services & code builders
+       rgb               ; creating color strings
+       ;;taskrunner        ; taskrunner for all your projects
+       ;;terraform         ; infrastructure as code
+       ;;tmux              ; an API for interacting with tmux
+       tree-sitter       ; syntax and parsing, sitting in a tree...
+       ;;upload            ; map local to remote projects via ssh/ftp
 
-;; Make Evil behaves more like vim
-(with-eval-after-load 'evil
-  (defalias #'forward-evil-word #'forward-evil-symbol))
+       :os
+       (:if IS-MAC macos)  ; improve compatibility with macOS
+       ;;tty               ; improve the terminal Emacs experience
 
-;; Enable word count
-(setq doom-modeline-enable-word-count t)
+       :lang
+       ;;agda              ; types of types of types of types...
+       ;;beancount         ; mind the GAAP
+       (cc +lsp +tree-sitter)         ; C > C++ == 1
+       ;;clojure           ; java with a lisp
+       common-lisp       ; if you've seen one lisp, you've seen them all
+       ;;coq               ; proofs-as-programs
+       ;;crystal           ; ruby at the speed of c
+       ;;csharp            ; unity, .NET, and mono shenanigans
+       ;;data              ; config/data formats
+       ;;(dart +flutter)   ; paint ui and not much else
+       ;;dhall
+       ;;elixir            ; erlang done right
+       ;;elm               ; care for a cup of TEA?
+       emacs-lisp        ; drown in parentheses
+       ;;erlang            ; an elegant language for a more civilized age
+       ;;ess               ; emacs speaks statistics
+       ;;factor
+       ;;faust             ; dsp, but you get to keep your soul
+       ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
+       ;;fsharp            ; ML stands for Microsoft's Language
+       ;;fstar             ; (dependent) types and (monadic) effects and Z3
+       ;;gdscript          ; the language you waited for
+       ;;(go +lsp)         ; the hipster dialect
+       ;;(graphql +lsp)    ; Give queries a REST
+       ;;(haskell +lsp)    ; a language that's lazier than I am
+       ;;hy                ; readability of scheme w/ speed of python
+       ;;idris             ; a language you can depend on
+       json              ; At least it ain't XML
+       (java +lsp +tree-sitter)       ; the poster child for carpal tunnel syndrome
+       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;julia             ; a better, faster MATLAB
+       ;;kotlin            ; a better, slicker Java(Script)
+       (latex +lsp)             ; writing papers in Emacs has never been so fun
+       ;;lean              ; for folks with too much to prove
+       ;;ledger            ; be audit you can be
+       ;;lua               ; one-based indices? one-based indices
+       markdown          ; writing docs for people to ignore
+       ;;nim               ; python + lisp at the speed of c
+       ;;nix               ; I hereby declare "nix geht mehr!"
+       ;;ocaml             ; an objective camel
+       (org +pretty +journal +roam2)               ; organize your plain life in plain text
+       ;;php               ; perl's insecure younger brother
+       ;;plantuml          ; diagrams for confusing people more
+       ;;purescript        ; javascript, but functional
+       python            ; beautiful is better than ugly
+       ;;qt                ; the 'cutest' gui framework ever
+       ;;racket            ; a DSL for DSLs
+       ;;raku              ; the artist formerly known as perl6
+       ;;rest              ; Emacs as a REST client
+       ;;rst               ; ReST in peace
+       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       ;; (rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;scala             ; java, but good
+       ;;(scheme +guile)   ; a fully conniving family of lisps
+       sh                ; she sells {ba,z,fi}sh shells on the C xor
+       ;;sml
+       ;;solidity          ; do you need a blockchain? No.
+       ;;swift             ; who asked for emoji variables?
+       ;;terra             ; Earth and Moon in alignment for performance.
+       ;;web               ; the tubes
+       yaml              ; JSON, but readable
+       ;;zig               ; C, but simpler
 
-;; Don't ask, just quit
-(setq confirm-kill-emacs nil)
+       :email
+       ;;(mu4e +org +gmail)
+       ;;notmuch
+       ;;(wanderlust +gmail)
 
+       :app
+       ;; calendar
+       ;;emms
+       ;; everywhere        ; *leave* Emacs!? You must be joking
+       ;;irc               ; how neckbeards socialize
+       rss        ; emacs as an RSS reader
+       ;;twitter           ; twitter client https://twitter.com/vnought
 
-;; ----------------------------------------------------------------------------
-;; Configuration: org mode and citations
-;; ----------------------------------------------------------------------------
-(setq org-directory (concat my-beorg-root "org"))
-(setq org-roam-directory (concat my-sync-root "roam"))
-(setq deft-directory (concat my-sync-root "deft"))
-
-(after! citar
-  (add-to-list 'citar-notes-paths (concat my-sync-root "papers"))
-  (add-to-list 'citar-bibliography (concat my-sync-root "zotero_all.bib")))
-
-;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
-(after! org
-  (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
-  (setq org-startup-with-latex-preview t) ;; startup with latex review
-  (setq org-startup-folded 'content)
-  (setq org-startup-with-inline-images t)
-  (setq org-return-follows-link t) ;; return in org now follows link (globally)
-  (require 'org-download) ;; drag-and-drop for images
-  )
-
-;; Setup org-download directory
-(after! org-download
-  (setq org-download-method 'directory)
-  (setq-default org-download-image-dir "img") ;; see: https://www.emacswiki.org/emacs/BufferLocalVariable
-  (setq org-download-image-org-width 500)
-  (setq org-download-link-format "[[file:%s]]\n"
-        org-download-abbreviate-filename-function #'file-relative-name)
-  (setq org-download-link-format-function #'org-download-link-format-function-default))
-
-;; setup org-agenda key binding
-(after! org-agenda
-  (define-key org-agenda-mode-map "j" 'evil-next-line)
-  (define-key org-agenda-mode-map "k" 'evil-previous-line)
-  (keymap-set org-agenda-mode-map "RET" 'org-agenda-show-and-scroll-up)
-  (keymap-set org-agenda-mode-map "SPC" nil))
-
-;; configure org-roam-uo
-(after! org-roam
-  (add-to-list 'load-path (concat doom-local-dir "straight/repos/org-roam-ui")) ;; manually load package
-  (add-to-list 'load-path (concat doom-local-dir "straight/repos/emacs-web-server")) ;; manually load package
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
-
-;; ----------------------------------------------------------------------------
-;; Configuration: completion
-;; ----------------------------------------------------------------------------
-;; Only complete when I ask!
-;; https://www.reddit.com/r/DoomEmacs/comments/wdxah3/how_to_stop_word_autocomplete/
-(after! company
-  (setq company-idle-delay nil))
-
-;; ----------------------------------------------------------------------------
-;; Configuration: undo
-;; ----------------------------------------------------------------------------
-(after! undo-tree
-  (setq undo-tree-auto-save-history nil))
-
-;; ----------------------------------------------------------------------------
-;; Configuration: proxy
-;; ----------------------------------------------------------------------------
-;; (setq url-proxy-services
-;;       '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
-;;         ("http" . "127.0.0.1:8001")
-;;         ("https" . "127.0.0.1:8001")))
-
-;; ----------------------------------------------------------------------------
-;; Configuration: lsp c++ format on save
-;; ----------------------------------------------------------------------------
-;; there are many workarounds:
-;; 1. https://github.com/radian-software/apheleia/discussions/120
-;; 2. https://github.com/doomemacs/doomemacs/issues/7490
-;; but we want a workaround that works both on local projects and tramp projects
-;; so the best way is to force c++/c mode to use eglot-format-buffer other than apheleia
-
-;; setup local varaiables on c++-mode-hook
-(setq-hook! 'c++-mode-hook
-  apheleia-inhibit t
-  +format-with nil) ;; do not format with apheleia
-
-;; setup local varaiables on c-mode-hook
-(setq-hook! 'c-mode-hook
-  apheleia-inhibit t
-  +format-with nil) ;; do not format with apheleia
-
-(add-hook 'c++-mode-hook
-          (lambda()
-            (add-hook 'before-save-hook #'eglot-format-buffer)))
-
-(add-hook 'c-mode-hook
-          (lambda()
-            (add-hook 'before-save-hook #'eglot-format-buffer)))
-
-;; ----------------------------------------------------------------------------
-;; Configuration: tramp, lsp, projectile, vterm
-;; ----------------------------------------------------------------------------
-;; it's wired that vertico uses this to list all files
-(setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
-;; on ubuntu, you need to "ln -s /bin/fdfind /bin/fd"
-(setq projectile-fd-executable "fd")
-
-;; Config Tramp
-(after! tramp
-  ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
-  (setq tramp-default-method "sshx") ; use sshx (since it supports zsh and fish) instead of default scp
-  (setq tramp-default-remote-shell "/bin/zsh") ; do-not-use executable-find
-  (customize-set-variable 'tramp-encoding-shell "/bin/zsh") ; do-not-use executable-find
-  (connection-local-update-profile-variables 'tramp-connection-local-default-shell-profile
-                                             '((shell-file-name . "/bin/zsh")
-                                               (shell-command-switch . "-c")))
-  )
-
-
-
-;; Use zsh over vterm tramp
-(after! (:and vterm tramp)
-  (setq vterm-shell (executable-find "zsh"))
-  (setq vterm-tramp-shells '("sshx" "/bin/zsh")))
-
-;; ----------------------------------------------------------------------------
-;; My Package [latex-preview-pane]
-;; ----------------------------------------------------------------------------
-(require 'latex-preview-pane)
-
-;; ----------------------------------------------------------------------------
-;; My Package [bazel]
-;; ----------------------------------------------------------------------------
-(require 'bazel) ;; load bazel package
-
-;; format on save
-(add-hook 'bazel-mode-hook
-          (lambda()
-            (add-hook 'before-save-hook #'bazel-buildifier nil t)))
-
-;; ----------------------------------------------------------------------------
-;; My Package [flycheck-google-cpplint]
-;; ----------------------------------------------------------------------------
-
-;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
-(after! flycheck
-  (require 'flycheck-google-cpplint) ;; try to load this package
-
-  (setq flycheck-c/c++-googlelint-executable "cpplint"
-        flycheck-cppcheck-standards '("c++17")))
-
-;; ----------------------------------------------------------------------------
-;; Elfeed Setup
-;; ----------------------------------------------------------------------------
-(after! elfeed
-  (setq elfeed-feeds
-        '("https://eprint.iacr.org/rss/rss.xml"
-          "https://export.arxiv.org/rss/cs.CR"
-          "https://blog.cryptographyengineering.com/feed"
-          "https://decoded.avast.io/feed"
-          "https://aws.amazon.com/blogs/security/feed"
-          "https://newsletter.blockthreat.io/feed"
-          "https://www.kb.cert.org/vulfeed/")))
-
-;; elfeed local key bindings
-(map! :after elfeed
-      :localleader
-      :map elfeed-search-mode-map
-      :desc "Update feeds"
-      "m" #'elfeed-update)
-
-;; ----------------------------------------------------------------------------
-;; Tweak Global key bindings
-;; ----------------------------------------------------------------------------
-
-(map! :leader
-      :desc "Open elfeed" ;; Open elfeed
-      "o e" #'elfeed)
-
-(map! :localleader
-      :map (c++-mode-map c-mode-map bazel-mode-map java-mode-map)
-      :desc "Bazel build" ;; Bazel run target
-      "m" #'bazel-build)
-
-(map! :localleader
-      :map (c++-mode-map c-mode-map bazel-mode-map java-mode-map)
-      :desc "Bazel run" ;; Bazel run target
-      "r" #'bazel-run)
-
-(map! :localleader
-      :map (c++-mode-map c-mode-map bazel-mode-map java-mode-map)
-      :desc "Bazel test" ;; Bazel test target
-      "t" #'bazel-test)
+       :config
+       ;;literate
+       (default +bindings +smartparens))
