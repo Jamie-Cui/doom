@@ -1,3 +1,5 @@
+;;; config.el -*- lexical-binding: t; -*-
+
 ;; ----------------------------------------------------------------------------
 ;; Generic Setup
 ;; ----------------------------------------------------------------------------
@@ -16,17 +18,25 @@
       line-move-visual nil)
 
 ;; setup theme
-(setq doom-theme 'modus-vivendi)
+;; (setq doom-theme 'modus-vivendi)
+(setq doom-theme 'wombat)
 
 ;; theme disable line-highlight foreground face
 ;; (set-face-attribute 'highlight nil :foreground 'nil)
 
+;; do-not truncate lines by default
+(set-default 'truncate-lines nil)
+
 ;; setup my own paths
 (defconst my-sync-root "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/")
 (defconst my-beorg-root "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/")
+(defconst my-home-root "~/")
 
 ;; load some definition functions from my own elisp file
 (load (concat doom-user-dir "define.el"))
+
+;; configure to use external apps to open pdf, see https://emacs.stackexchange.com/questions/3105/how-to-use-an-external-program-as-the-default-way-to-open-pdfs-from-emacs
+;; (load (concat doom-user-dir "openwith.el")) ;; I'm not using this
 
 ;; HACK: load ht package
 (add-to-list 'load-path (concat doom-local-dir "straight/repos/ht.el"))
@@ -43,6 +53,13 @@
 (add-to-list 'initial-frame-alist '(vertical-scroll-bars . nil))
 (add-to-list 'initial-frame-alist '(horizontal-scroll-bars . nil))
 
+;; Don't ask, just quit
+(setq confirm-kill-emacs nil)
+
+;; ----------------------------------------------------------------------------
+;; Editor Setup
+;; ----------------------------------------------------------------------------
+
 ;; Paste and kill selected origin: https://emacs.stackexchange.com/a/15054
 (fset 'evil-visual-update-x-selection 'ignore)
 
@@ -53,19 +70,51 @@
 (with-eval-after-load 'evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
-;; Enable word count
-(setq doom-modeline-enable-word-count t)
+;; ----------------------------------------------------------------------------
+;; Font Setup
+;; ----------------------------------------------------------------------------
 
-;; Don't ask, just quit
-(setq confirm-kill-emacs nil)
+;; Plan A: 中文苹方, 英文Roboto Mono
+(setq doom-font (font-spec :family "Monaco" :size 14)
+      doom-serif-font doom-font
+      doom-symbol-font (font-spec :family "Hei")
+      doom-variable-pitch-font (font-spec :family "Hei" :weight 'extra-bold))
+
+;; 如果不把这玩意设置为 nil, 会默认去用 fontset-default 来展示, 配置无效
+(setq use-default-font-for-symbols nil)
+
+;; Doom 的字体加载顺序问题, 如果不设定这个 hook, 配置会被覆盖失效
+(add-hook! 'after-setting-font-hook
+  (set-fontset-font t 'latin (font-spec :family "Monaco"))
+  (set-fontset-font t 'symbol (font-spec :family "Monaco"))
+  (set-fontset-font t 'mathematical (font-spec :family "Monaco"))
+  (set-fontset-font t 'emoji (font-spec :family "Monaco")))
 
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
-(setq org-directory (concat my-beorg-root "org"))
 (setq org-roam-directory (concat my-sync-root "roam"))
-(setq deft-directory (concat my-sync-root "deft"))
+(setq org-directory (concat my-beorg-root "org")) ; remote, beorg app
+(setq deft-directory (concat my-sync-root "deft")) ; remote, icloud
+
+;; Re-configure deft-mode keybindings
+(after! deft
+  ;; start with evil normal mode
+  (after! evil (set-evil-initial-state! 'deft-mode 'normal))
+  (map! :map deft-mode-map
+        :localleader
+        "RET" #'deft-new-file-named
+        "a"   #'deft-archive-file
+        "c"   #'deft-filter-clear
+        "d"   #'deft-delete-file
+        "f"   #'deft-find-file
+        "g"   #'deft-refresh
+        "l"   #'deft-filter
+        "n"   #'deft-new-file
+        "r"   #'deft-rename-file
+        "s"   #'deft-toggle-sort-method
+        "t"   #'deft-toggle-incremental-search))
 
 (after! citar
   (add-to-list 'citar-notes-paths (concat my-sync-root "papers"))
@@ -138,6 +187,9 @@
 ;; but we want a workaround that works both on local projects and tramp projects
 ;; so the best way is to force c++/c mode to use eglot-format-buffer other than apheleia
 
+;; use local mode on most cases
+(setq apheleia-remote-algorithm 'remote)
+
 ;; setup local varaiables on c++-mode-hook
 (setq-hook! 'c++-mode-hook
   apheleia-inhibit t
@@ -155,6 +207,9 @@
 (add-hook 'c-mode-hook
           (lambda()
             (add-hook 'before-save-hook #'eglot-format-buffer)))
+
+;; disable eglot inlay 
+(setq-default eglot-inlay-hints-mode nil)
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: tramp, lsp, projectile, vterm
@@ -174,8 +229,6 @@
                                              '((shell-file-name . "/bin/zsh")
                                                (shell-command-switch . "-c")))
   )
-
-
 
 ;; Use zsh over vterm tramp
 (after! (:and vterm tramp)
@@ -237,9 +290,15 @@
       "o e" #'elfeed)
 
 (map! :localleader
+      :map (c++-mode-map c-mode-map)
+      :desc "Switch *.cpp/*.h" ;; find the header or source file corresponding to this file
+      "m" #'ff-find-other-file)
+
+
+(map! :localleader
       :map (c++-mode-map c-mode-map bazel-mode-map java-mode-map)
-      :desc "Bazel build" ;; Bazel run target
-      "m" #'bazel-build)
+      :desc "Bazel build" ;; Bazel build target
+      "b" #'bazel-build)
 
 (map! :localleader
       :map (c++-mode-map c-mode-map bazel-mode-map java-mode-map)
