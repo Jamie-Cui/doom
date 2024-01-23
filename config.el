@@ -11,12 +11,6 @@
 ;; (setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
-(setq scroll-step            1
-      scroll-conservatively  10000
-      next-screen-context-lines 5
-      ;; move by logical lines rather than visual lines (better for macros)
-      line-move-visual nil)
-
 ;; setup theme
 (setq doom-theme 'modus-vivendi)
 ;; (setq doom-theme 'wombat)
@@ -33,7 +27,7 @@
 (defconst my-home-root "~/")
 
 ;; load some definition functions from my own elisp file
-(load (concat doom-user-dir "define.el"))
+(load (concat doom-user-dir "tweaks/define.el"))
 
 ;; configure to use external apps to open pdf, see https://emacs.stackexchange.com/questions/3105/how-to-use-an-external-program-as-the-default-way-to-open-pdfs-from-emacs
 ;; (load (concat doom-user-dir "openwith.el")) ;; I'm not using this
@@ -46,6 +40,11 @@
 (setq explicit-shell-file-name (executable-find "zsh")) ; emacs-c-code variable
 
 ;; Manipulate windows
+(setq scroll-step            1
+      scroll-conservatively  10000
+      next-screen-context-lines 5
+      ;; move by logical lines rather than visual lines (better for macros)
+      line-move-visual nil)
 (add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
 (add-to-list 'initial-frame-alist '(undecorated . t)) ;; no title bar
 (add-to-list 'initial-frame-alist '(tool-bar-lines . 0))
@@ -244,6 +243,9 @@
 ;; My Package [bazel]
 ;; ----------------------------------------------------------------------------
 (require 'bazel) ;; load bazel package
+
+;; bind *.BUILD file extension with bazel-mode
+(add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
 
 ;; format on save
 (add-hook 'bazel-mode-hook
