@@ -14,7 +14,7 @@
 (package! simple-httpd) ;; deps for org-roam-ui, in emacs-web-server
 (package! org-roam-ui) ;; use org-roam-ui
 
-(package! kanagawa-theme) ;; theme: https://github.com/meritamen/emacs-kanagawa-theme
+;; (package! kanagawa-theme) ;; theme: https://github.com/meritamen/emacs-kanagawa-theme
 
 ;; :recipe (:host github :repo "username/repo"))
 
