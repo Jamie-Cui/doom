@@ -18,8 +18,8 @@
       line-move-visual nil)
 
 ;; setup theme
-;; (setq doom-theme 'modus-vivendi)
-(setq doom-theme 'wombat)
+(setq doom-theme 'modus-vivendi)
+;; (setq doom-theme 'wombat)
 
 ;; theme disable line-highlight foreground face
 ;; (set-face-attribute 'highlight nil :foreground 'nil)
@@ -95,16 +95,16 @@
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
 (setq org-roam-directory (concat my-sync-root "roam"))
-(setq org-directory (concat my-beorg-root "org")) ; remote, beorg app
-(setq deft-directory (concat my-sync-root "deft")) ; remote, icloud
+(setq org-directory (concat my-home-root "org")) ; local
+(setq deft-directory (concat my-home-root "deft")) ; local
 
 ;; Re-configure deft-mode keybindings
 (after! deft
   ;; start with evil normal mode
-  (after! evil (set-evil-initial-state! 'deft-mode 'normal))
+  (set-evil-initial-state! 'deft-mode 'normal)
   (map! :map deft-mode-map
         :localleader
-        "RET" #'deft-new-file-named
+        "RET" #'deft-new-file
         "a"   #'deft-archive-file
         "c"   #'deft-filter-clear
         "d"   #'deft-delete-file
@@ -208,8 +208,8 @@
           (lambda()
             (add-hook 'before-save-hook #'eglot-format-buffer)))
 
-;; disable eglot inlay 
-(setq-default eglot-inlay-hints-mode nil)
+;; disable eglot inlay
+(setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: tramp, lsp, projectile, vterm
@@ -255,11 +255,22 @@
 ;; ----------------------------------------------------------------------------
 
 ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
-(after! flycheck
-  (require 'flycheck-google-cpplint) ;; try to load this package
+(after! flycheck-eglot
+  ;; We need to tweak a little bit to make cpplint and eglot to work together.
+  ;; see: https://melpa.org/#/flycheck-eglot
+  ;; 
+  ;; By default, the Flycheck-Eglot considers the Eglot to be the only provider
+  ;; of syntax checks.  Other Flycheck checkers are ignored.
+  ;; There is a variable `flycheck-eglot-exclusive' that controls this.
+  ;; You can override it system wide or for some major modes.
+  (require 'flycheck-google-cpplint) ; try to load this package
+  (setq! flycheck-eglot-exclusive nil)
+  (flycheck-add-next-checker 'eglot-check
+                             '(warning . c/c++-googlelint))
+  (setq! flycheck-c/c++-googlelint-executable "cpplint" 
+         flycheck-cppcheck-standards '("c++17"))
+  )
 
-  (setq flycheck-c/c++-googlelint-executable "cpplint"
-        flycheck-cppcheck-standards '("c++17")))
 
 ;; ----------------------------------------------------------------------------
 ;; Elfeed Setup
