@@ -3,6 +3,12 @@
 ;; HACK: load ht package
 (add-to-list 'load-path (concat doom-local-dir "straight/repos/ht.el"))
 
+;; You may want to install the following open-source apps:
+;; * terminal:          https://sw.kovidgoyal.net/kitty/
+;; * pdf:               https://skim-app.sourceforge.io/
+;; * bib:               https://www.zotero.org/
+;; * ohz:               ~sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"~
+
 ;; ----------------------------------------------------------------------------
 ;; Generic Setup
 ;; ----------------------------------------------------------------------------
@@ -22,6 +28,10 @@
 (defconst my-sync-root "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/")
 (defconst my-beorg-root "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/")
 (defconst my-home-root "~/")
+
+(setq org-roam-directory (concat my-sync-root "roam"))
+(setq org-directory (concat my-home-root "org")) ; local
+(setq deft-directory (concat my-home-root "deft")) ; local
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
@@ -57,10 +67,14 @@
 ;; ----------------------------------------------------------------------------
 ;; Tweak Global key bindings
 ;; ----------------------------------------------------------------------------
+
 (map! :leader
       :desc "Open elfeed" ;; Open elfeed
       "o e" #'elfeed)
 
+;; ----------------------------------------------------------------------------
+;; Load my own tweaks
+;; ----------------------------------------------------------------------------
 (load (concat doom-user-dir "tweaks/define.el"))
 (load (concat doom-user-dir "tweaks/window.el"))
 (load (concat doom-user-dir "tweaks/editor.el"))
