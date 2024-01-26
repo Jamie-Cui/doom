@@ -4,7 +4,7 @@
 (add-to-list 'load-path (concat doom-local-dir "straight/repos/ht.el"))
 
 ;; You may want to install the following open-source apps:
-;; * terminal:          https://sw.kovidgoyal.net/kitty/
+;; * terminal:          https://alacritty.org/                  $HOME/.alacritty.toml, see configs in https://alacritty.org/config-alacritty.html
 ;; * pdf:               https://skim-app.sourceforge.io/
 ;; * bib:               https://www.zotero.org/
 ;; * ohz:               ~sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"~
@@ -22,7 +22,6 @@
 
 ;; setup theme
 (setq doom-theme 'modus-vivendi)
-;; (setq doom-theme 'wombat)
 
 ;; setup my own paths
 (defconst my-sync-root "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/")
