@@ -3,9 +3,6 @@
 ;; ---------------------------------------------------------------------------- 
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
-(setq org-roam-directory (concat my-sync-root "roam"))
-(setq org-directory (concat my-home-root "org")) ; local
-(setq deft-directory (concat my-home-root "deft")) ; local
 
 ;; Re-configure deft-mode keybindings
 (after! deft
@@ -69,4 +66,4 @@
 ;; My Package [latex-preview-pane]
 ;; ----------------------------------------------------------------------------
 (require 'latex-preview-pane)
- 
+
