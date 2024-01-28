@@ -4,27 +4,27 @@
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
 
+(if use-sync-path
+    (progn
+      (setq org-roam-directory (concat org-remote-path "roam"))
+      (setq org-directory (concat org-remote-path "org"))
+      (setq deft-directory (concat org-remote-path "deft"))
+      )
+  (progn
+    (setq org-roam-directory (concat org-local-path "roam"))
+    (setq org-directory (concat org-local-path "org"))
+    (setq deft-directory (concat org-local-path "deft"))
+    )
+  )
+
 ;; Re-configure deft-mode keybindings
 (after! deft
   ;; start with evil normal mode
-  (set-evil-initial-state! 'deft-mode 'normal)
-  (map! :map deft-mode-map
-        :localleader
-        "RET" #'deft-new-file
-        "a"   #'deft-archive-file
-        "c"   #'deft-filter-clear
-        "d"   #'deft-delete-file
-        "f"   #'deft-find-file
-        "g"   #'deft-refresh
-        "l"   #'deft-filter
-        "n"   #'deft-new-file
-        "r"   #'deft-rename-file
-        "s"   #'deft-toggle-sort-method
-        "t"   #'deft-toggle-incremental-search))
+  (set-evil-initial-state! 'deft-mode 'normal))
 
 (after! citar
-  (add-to-list 'citar-notes-paths (concat my-sync-root "papers"))
-  (add-to-list 'citar-bibliography (concat my-sync-root "zotero_all.bib")))
+  (add-to-list 'citar-notes-paths (concat org-remote-path "papers"))
+  (add-to-list 'citar-bibliography (concat org-remote-path "zotero_all.bib")))
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org

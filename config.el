@@ -23,14 +23,11 @@
 ;; setup theme
 (setq doom-theme 'modus-vivendi)
 
-;; setup my own paths
-(defconst my-sync-root "~/Library/Mobile Documents/com~apple~CloudDocs/Sync/")
-(defconst my-beorg-root "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/")
-(defconst my-home-root "~/")
 
-(setq org-roam-directory (concat my-sync-root "roam"))
-(setq org-directory (concat my-home-root "org")) ; local
-(setq deft-directory (concat my-home-root "deft")) ; local
+;; setup my own paths
+(defconst org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
+(defconst org-local-path "~/org-local/")
+(setq use-sync-path t) ; non-nil to use remote path
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
