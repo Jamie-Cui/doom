@@ -71,7 +71,6 @@
 ;; ----------------------------------------------------------------------------
 ;; Load my own tweaks
 ;; ----------------------------------------------------------------------------
-(load (concat doom-user-dir "tweaks/define.el"))
 (load (concat doom-user-dir "tweaks/window.el"))
 (load (concat doom-user-dir "tweaks/editor.el"))
 (load (concat doom-user-dir "tweaks/org.el"))

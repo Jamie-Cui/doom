@@ -1,0 +1,6 @@
+[submodule "thirdparty/devtools"]
+	path = thirdparty/devtools
+	url = https://github.com/secretflow/devtools
+[submodule "thirdparty/wondershaper"]
+	path = thirdparty/wondershaper
+	url = https://github.com/magnific0/wondershaper
