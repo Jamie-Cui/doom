@@ -14,8 +14,6 @@
 (package! simple-httpd) ;; deps for org-roam-ui, in emacs-web-server
 (package! org-roam-ui) ;; use org-roam-ui
 
-;; (package! kanagawa-theme) ;; theme: https://github.com/meritamen/emacs-kanagawa-theme
-
 ;; :recipe (:host github :repo "username/repo"))
 
 ;; If the package you are trying to install does not contain a PACKAGENAME.el
@@ -43,6 +41,9 @@
 ;; Use `:pin' to specify a particular commit to install.
 ;; (package! builtin-package :pin "1a2b3c4d5e")
 
+;; HACK see: https://github.com/doomemacs/doomemacs/issues/7606#issuecomment-1880787706
+(package! doom-modeline :pin "cfc7bcf1494cb0634a1464dc40a4a1a1e337cb37")
+(package! eglot :pin "d14fa2e5c537d48a25ce844")
 
 ;; Doom's packages are pinned to a specific commit and updated from release to
 ;; release. The `unpin!' macro allows you to unpin single packages...
