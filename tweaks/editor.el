@@ -22,6 +22,16 @@
 ;; Font Setup
 ;; ----------------------------------------------------------------------------
 
+;; see: https://www.reddit.com/r/DoomEmacs/comments/vr5mtn/comment/ieuu0wi/?utm_source=share&utm_medium=web2x&context=3
+;; The doom process for changing default font size, I stayed up late last night to learn this nugget:
+;; 1. In Doom eMacs, press: SPC h F
+;; 2. type "default" then Enter
+;; 3. Press tab once to select "Customize this face" then Enter
+;; 4. type "/pt" then Enter,
+;; 5. Press Tab then Enter and enter "200" for for a 20 font size
+;; 6. You can use the mouse finally and click "Apply and Save"
+
+;; (setq doom-font (font-spec :size 14))
 ;; Plan A: 中文苹方, 英文Roboto Mono
 ;; (setq doom-font (font-spec :family "Monaco" :size 14)
 ;;       doom-serif-font doom-font
