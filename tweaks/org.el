@@ -23,8 +23,8 @@
   (set-evil-initial-state! 'deft-mode 'normal))
 
 (after! citar
-  (add-to-list 'citar-notes-paths (concat org-remote-path "papers"))
-  (add-to-list 'citar-bibliography (concat org-remote-path "zotero_all.bib")))
+  (add-to-list 'citar-notes-paths (concat org-remote-path "papers")) ; always use remote path
+  (add-to-list 'citar-bibliography (concat org-remote-path "zotero_all.bib"))) ; always use remote path
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
