@@ -27,7 +27,7 @@
 ;; setup my own paths
 (defconst org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
 (defconst org-local-path "~/org-local/")
-(setq use-sync-path t) ; non-nil to use remote path
+(setq use-sync-path nil) ; non-nil to use remote path
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
