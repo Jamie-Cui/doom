@@ -21,9 +21,7 @@
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; setup theme
-(setq doom-theme 'modus-vivendi)
-
-
+(setq doom-theme 'doom-zenburn)
 ;; setup my own paths
 (defconst org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
 (defconst org-local-path "~/org-local/")
@@ -51,7 +49,7 @@
           "https://decoded.avast.io/feed"
           "https://aws.amazon.com/blogs/security/feed"
           "https://newsletter.blockthreat.io/feed"
-          "https://www.kb.cert.org/vulfeed/")))
+          "https://www.kb.aert.org/vulfeed/")))
 
 ;; elfeed local key bindings
 (map! :after elfeed
@@ -60,9 +58,7 @@
       :desc "Update feeds"
       "m" #'elfeed-update)
 
-;; ----------------------------------------------------------------------------
-;; Tweak Global key bindings
-;; ----------------------------------------------------------------------------
+(set-evil-initial-state! 'elfeed-search-mode 'normal))
 
 (map! :leader
       :desc "Open elfeed" ;; Open elfeed
