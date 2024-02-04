@@ -49,7 +49,9 @@
           "https://decoded.avast.io/feed"
           "https://aws.amazon.com/blogs/security/feed"
           "https://newsletter.blockthreat.io/feed"
-          "https://www.kb.aert.org/vulfeed/")))
+          "https://www.kb.aert.org/vulfeed/"))
+  (set-evil-initial-state! 'elfeed-search-mode 'normal)
+)
 
 ;; elfeed local key bindings
 (map! :after elfeed
@@ -58,7 +60,6 @@
       :desc "Update feeds"
       "m" #'elfeed-update)
 
-(set-evil-initial-state! 'elfeed-search-mode 'normal))
 
 (map! :leader
       :desc "Open elfeed" ;; Open elfeed
