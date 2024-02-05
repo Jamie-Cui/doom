@@ -54,7 +54,6 @@
 (after! undo-tree
   (setq undo-tree-auto-save-history nil))
 
-
 ;; theme disable line-highlight foreground face
 ;; (set-face-attribute 'highlight nil :foreground 'nil)
 

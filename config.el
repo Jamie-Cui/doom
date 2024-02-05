@@ -22,10 +22,11 @@
 
 ;; setup theme
 (setq doom-theme 'doom-zenburn)
+
 ;; setup my own paths
 (defconst org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
 (defconst org-local-path "~/org-local/")
-(setq use-sync-path nil) ; non-nil to use remote path
+(setq use-remote-path t) ; non-nil to use remote path
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
@@ -50,8 +51,7 @@
           "https://aws.amazon.com/blogs/security/feed"
           "https://newsletter.blockthreat.io/feed"
           "https://www.kb.aert.org/vulfeed/"))
-  (set-evil-initial-state! 'elfeed-search-mode 'normal)
-)
+  (set-evil-initial-state! 'elfeed-search-mode 'normal))
 
 ;; elfeed local key bindings
 (map! :after elfeed
@@ -59,7 +59,6 @@
       :map elfeed-search-mode-map
       :desc "Update feeds"
       "m" #'elfeed-update)
-
 
 (map! :leader
       :desc "Open elfeed" ;; Open elfeed

@@ -6,7 +6,6 @@
       next-screen-context-lines 5
       ;; move by logical lines rather than visual lines (better for macros)
       line-move-visual nil)
-;;
 
 ;; see: https://github.com/manateelazycat/holo-layer to get started
 ;; #+begin_src sh
@@ -21,7 +20,7 @@
 ;;         holo-layer-cursor-animation-type "jelly easing"
 ;;         holo-layer-python-command "/usr/bin/python3") ; setup python binary path
 ;;   (holo-layer-enable))
-
+;;
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
 (add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 (add-to-list 'default-frame-alist '(tool-bar-lines . 0))

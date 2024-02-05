@@ -38,6 +38,7 @@
 ;; ----------------------------------------------------------------------------
 ;; it's wired that vertico uses this to list all files
 (setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
+
 ;; on ubuntu, you need to "ln -s /bin/fdfind /bin/fd"
 (setq projectile-fd-executable "fd")
 
@@ -62,35 +63,36 @@
 ;; ----------------------------------------------------------------------------
 (require 'bazel) ;; load bazel package
 
-;; bind *.BUILD file extension with bazel-mode
-(add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
-
-;; format on save
-(add-hook 'bazel-mode-hook
-          (lambda()
-            (add-hook 'before-save-hook #'bazel-buildifier nil t)))
-
-(defun bazel-refresh-compile-commands()
-  "Refresh bazel project's compile_commmands.json"
-  (interactive)
-  (let ((my-command
-         (format "python3 %s"
-                 (concat doom-user-dir "thirdparty/devtools/refresh-compile-commands.py"))))
-    (shell-command my-command)
+(use-package! bazel
+  :config
+  (add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
+  (add-hook 'bazel-mode-hook
+            (lambda()
+              (add-hook 'before-save-hook #'bazel-buildifier nil t)))
+  (defun bazel-refresh-compile-commands()
+    "Refresh bazel project's compile_commmands.json"
+    (interactive)
+    (let ((my-command
+           (format "python3 %s"
+                   (concat doom-user-dir "thirdparty/devtools/refresh-compile-commands.py"))))
+      (shell-command my-command)
+      )
+    ;; (let ((workspace-file-content
+    ;;        "load(\"@bazel_tools//tools/build_defs/repo:git.bzl\", \"git_repository\")\
+    ;;         git_repository(\
+    ;;         name = \"hedron_compile_commands\",\
+    ;;         commit = \"388cc00156cbf53570c416d39875b15f03c0b47f\",\
+    ;;         remote = \"https://github.com/hedronvision/bazel-compile-commands-extractor.git\",\
+    ;;         )\
+    ;;         load(\"@hedron_compile_commands//:workspace_setup.bzl\", \"hedron_compile_commands_setup\")\
+    ;;         hedron_compile_commands_setup()"))
+    ;;   (write-region workspace-file-content nil bazel-find-workspace-file 'append)
+    ;;   )
     )
-  ;; (require 'bazel)
-  ;; (let ((workspace-file-content
-  ;;        "load(\"@bazel_tools//tools/build_defs/repo:git.bzl\", \"git_repository\")\
-  ;;         git_repository(\
-  ;;         name = \"hedron_compile_commands\",\
-  ;;         commit = \"388cc00156cbf53570c416d39875b15f03c0b47f\",\
-  ;;         remote = \"https://github.com/hedronvision/bazel-compile-commands-extractor.git\",\
-  ;;         )\
-  ;;         load(\"@hedron_compile_commands//:workspace_setup.bzl\", \"hedron_compile_commands_setup\")\
-  ;;         hedron_compile_commands_setup()"))
-  ;;   (write-region workspace-file-content nil bazel-find-workspace-file 'append)
-  ;;   )
   )
+
+
+
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
