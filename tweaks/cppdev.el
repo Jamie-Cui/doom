@@ -45,7 +45,7 @@
 ;; Config Tramp
 (after! tramp
   ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
-  (setq tramp-default-method "sshx") ; use sshx (since it supports zsh and fish) instead of default scp
+  (setq tramp-default-method "sshx") ; use sshx (since it supportszsh and fish) instead of default scp
   (setq tramp-default-remote-shell "/bin/zsh") ; do-not-use executable-find
   (customize-set-variable 'tramp-encoding-shell "/bin/zsh") ; do-not-use executable-find
   (connection-local-update-profile-variables 'tramp-connection-local-default-shell-profile
@@ -77,22 +77,7 @@
                    (concat doom-user-dir "thirdparty/devtools/refresh-compile-commands.py"))))
       (shell-command my-command)
       )
-    ;; (let ((workspace-file-content
-    ;;        "load(\"@bazel_tools//tools/build_defs/repo:git.bzl\", \"git_repository\")\
-    ;;         git_repository(\
-    ;;         name = \"hedron_compile_commands\",\
-    ;;         commit = \"388cc00156cbf53570c416d39875b15f03c0b47f\",\
-    ;;         remote = \"https://github.com/hedronvision/bazel-compile-commands-extractor.git\",\
-    ;;         )\
-    ;;         load(\"@hedron_compile_commands//:workspace_setup.bzl\", \"hedron_compile_commands_setup\")\
-    ;;         hedron_compile_commands_setup()"))
-    ;;   (write-region workspace-file-content nil bazel-find-workspace-file 'append)
-    ;;   )
-    )
-  )
-
-
-
+    ))
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
@@ -119,7 +104,6 @@
       :map (c++-mode-map c-mode-map)
       :desc "Switch *.cpp/*.h" ;; find the header or source file corresponding to this file
       "m" #'ff-find-other-file)
-
 
 (map! :localleader
       :map (c++-mode-map c-mode-map bazel-mode-map java-mode-map)
