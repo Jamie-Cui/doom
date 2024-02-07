@@ -35,7 +35,7 @@
 (after! org
   (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
-  (setq org-startup-with-latex-preview nil) ;; do not startup with latex review
+  (setq org-startup-with-latex-preview t) ;; startup with latex review
   (setq org-startup-folded 'content)
   (setq org-startup-with-inline-images t)
   ;; (setq org-return-follows-link t) ;; return in org now follows link (globally)
