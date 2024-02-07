@@ -38,7 +38,7 @@
   (setq org-startup-with-latex-preview nil) ;; do not startup with latex review
   (setq org-startup-folded 'content)
   (setq org-startup-with-inline-images t)
-  (setq org-return-follows-link t) ;; return in org now follows link (globally)
+  ;; (setq org-return-follows-link t) ;; return in org now follows link (globally)
   (require 'org-download) ;; drag-and-drop for images
   )
 
