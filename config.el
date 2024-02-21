@@ -21,12 +21,13 @@
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; setup theme
-(setq doom-theme 'doom-zenburn)
+;; (setq doom-theme 'doom-zenburn) ; code looks better in this theme
+(setq doom-theme 'doom-acario-light) ; org looks better in this theme
 
 ;; setup my own paths
 (defconst org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
 (defconst org-local-path "~/org-local/")
-(setq use-remote-path t) ; non-nil to use remote path
+(setq use-remote-path nil) ; non-nil to use remote path
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
