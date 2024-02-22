@@ -21,8 +21,9 @@
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; setup theme
+(setq doom-theme 'doom-one) ; default is always good
 ;; (setq doom-theme 'doom-zenburn) ; code looks better in this theme
-(setq doom-theme 'doom-acario-light) ; org looks better in this theme
+;; (setq doom-theme 'doom-acario-light) ; org looks better in this theme
 
 ;; setup my own paths
 (defconst org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
