@@ -21,8 +21,10 @@
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; setup theme
-(setq doom-theme 'doom-one) ; default is always good
+;; (setq doom-theme 'doom-one) ; default is always good
+;; (setq doom-theme 'wombat) ; I like wombat for now
 ;; (setq doom-theme 'doom-zenburn) ; code looks better in this theme
+(setq doom-theme 'modus-vivendi) ; code looks better in this theme
 ;; (setq doom-theme 'doom-acario-light) ; org looks better in this theme
 
 ;; setup my own paths
@@ -73,4 +75,4 @@
 (load (concat doom-user-dir "tweaks/editor.el"))
 (load (concat doom-user-dir "tweaks/org.el"))
 (load (concat doom-user-dir "tweaks/cppdev.el"))
-
+(load (concat doom-user-dir "tweaks/latex.el"))
