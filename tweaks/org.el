@@ -3,7 +3,6 @@
 ;; ---------------------------------------------------------------------------- 
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
-
 (if use-remote-path
     (progn
       (setq org-roam-directory (concat org-remote-path "roam"))
