@@ -3,14 +3,15 @@
 ;; ---------------------------------------------------------------------------- 
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
+;; always use the remote path for org-roam
+(setq org-roam-directory (concat org-remote-path "roam"))
+
 (if use-remote-path
     (progn
-      (setq org-roam-directory (concat org-remote-path "roam"))
       (setq org-directory (concat org-remote-path "org"))
       (setq deft-directory (concat org-remote-path "deft"))
       )
   (progn
-    (setq org-roam-directory (concat org-local-path "roam"))
     (setq org-directory (concat org-local-path "org"))
     (setq deft-directory (concat org-local-path "deft"))
     )
@@ -52,8 +53,9 @@
 
 ;; Setup org-download directory
 (after! org-download
+  (setq-default org-download-image-dir "img") ; see: https://www.emacswiki.org/emacs/BufferLocalVariable
+  (setq-default org-download-heading-lvl nil) ; no headings
   (setq org-download-method 'directory)
-  (setq-default org-download-image-dir "img") ;; see: https://www.emacswiki.org/emacs/BufferLocalVariable
   (setq org-download-image-org-width 500)
   (setq org-download-link-format "[[file:%s]]\n"
         org-download-abbreviate-filename-function #'file-relative-name)
