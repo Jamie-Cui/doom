@@ -69,6 +69,11 @@
   (add-hook 'bazel-mode-hook
             (lambda()
               (add-hook 'before-save-hook #'bazel-buildifier nil t)))
+  (setq-hook! 'bazel-mode-hook
+    apheleia-inhibit t
+    +format-with nil            ; do not format with apheleia
+    +format-with-lsp nil)       ; do not format with lsp
+  
   (defun bazel-refresh-compile-commands()
     "Refresh bazel project's compile_commmands.json"
     (interactive)
