@@ -128,20 +128,7 @@ refresh_compile_commands(\n\
 
             ;; run refresh_compile_commands
             (message "Running command (*over tramp*): \"bazel run -s :refresh_compile_commands &\"")
-            (tramp-handle-shell-command "bazel run -s :refresh_compile_commands &") ; '&' as async
-            (message "Refresh done. Start cleaning...")
-
-            ;; copy-back workspace file
-            (with-temp-buffer
-              (tramp-handle-insert-file-contents workspace-file-name-bak) ; read workspace file
-              (tramp-handle-write-region nil nil workspace-file-name) ; write back workspace
-              )
-            (tramp-sh-handle-delete-file workspace-file-name-bak) ; delete backup file
-            (with-temp-buffer
-              (tramp-handle-insert-file-contents build-file-name-bak) ; read workspace file
-              (tramp-handle-write-region nil nil build-file-name) ; write back workspace
-              )
-            (tramp-sh-handle-delete-file build-file-name-bak) ; delete backup file
+            (tramp-handle-shell-command "bazel run -s :refresh_compile_commands; mv WORKSPACE.bak WORKSPACE; mv BUILD.bazel.bak BUILD.bazel &") ; '&' as async
             )
         (progn
           ;; setup workspace file
@@ -164,20 +151,7 @@ refresh_compile_commands(\n\
 
           ;; run refresh_compile_commands
           (message "Running command: \"bazel run -s :refresh_compile_commands\"")
-          (async-shell-command "bazel run -s :refresh_compile_commands")
-          (message "Refresh done. Start cleaning...")
-
-          ;; copy-back workspace file
-          (with-temp-buffer
-            (insert-file-contents workspace-file-name-bak) ; read workspace file
-            (write-region nil nil workspace-file-name) ; write back workspace
-            )
-          (delete-file workspace-file-name-bak) ; delete backup file
-          (with-temp-buffer
-            (insert-file-contents build-file-name-bak) ; read workspace file
-            (write-region nil nil build-file-name) ; write back workspace
-            )
-          (delete-file build-file-name-bak) ; delete backup file
+          (async-shell-command "bazel run -s :refresh_compile_commands; mv WORKSPACE.bak WORKSPACE; mv BUILD.bazel.bak BUILD.bazel")
           )
         )
 
