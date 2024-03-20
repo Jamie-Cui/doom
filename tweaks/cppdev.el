@@ -103,49 +103,86 @@ refresh_compile_commands(\n\
           (build-file-name-bak (concat (bazel--workspace-root buffer-file-name) "BUILD.bazel.bak"))
           (workspace-file-name (concat (bazel--workspace-root buffer-file-name) "WORKSPACE"))
           (workspace-file-name-bak (concat (bazel--workspace-root buffer-file-name) "WORKSPACE.bak"))
-          (default-directory  (bazel--workspace-root buffer-file-name))
+          (default-directory  (bazel--workspace-root buffer-file-name)) ; this will set the default path of shell-command
           )
-      (message "%s" workspace-file-additional-content)
-      (message "%s" workspace-file-name) ; project workspace name
-      (message "%s" workspace-file-name-bak) ; project workspace name
 
-      ;; setup workspace file
-      (with-temp-buffer
-        (tramp-handle-insert-file-contents workspace-file-name) ; read workspace file
-        (tramp-handle-write-region nil nil workspace-file-name-bak) ; write workspace file to backup
-        (goto-char (point-max)) ; go-to the end of current buffer
-        (insert workspace-file-additional-content) ; append contents to current buffer
-        (tramp-handle-write-region nil nil workspace-file-name) ; write modified contents to workspace
-        )
-      
-      (with-temp-buffer
-        (tramp-handle-insert-file-contents build-file-name) ; read build file
-        (tramp-handle-write-region nil nil build-file-name-bak) ; write workspace file to backup
-        (insert build-file-additional-content-1) ; append contents to current buffer
-        (goto-char (point-max)) ; go-to the end of current buffer
-        (insert build-file-additional-content-2) ; append contents to current buffer
-        (tramp-handle-write-region nil nil build-file-name) ; write modified contents to workspace
+      (if (file-remote-p default-directory)
+          (progn
+            ;; setup workspace file
+            (with-temp-buffer
+              (tramp-handle-insert-file-contents workspace-file-name) ; read workspace file
+              (tramp-handle-write-region nil nil workspace-file-name-bak) ; write workspace file to backup
+              (goto-char (point-max)) ; go-to the end of current buffer
+              (insert workspace-file-additional-content) ; append contents to current buffer
+              (tramp-handle-write-region nil nil workspace-file-name) ; write modified contents to workspace
+              )
+
+            (with-temp-buffer
+              (tramp-handle-insert-file-contents build-file-name) ; read build file
+              (tramp-handle-write-region nil nil build-file-name-bak) ; write workspace file to backup
+              (insert build-file-additional-content-1) ; append contents to current buffer
+              (goto-char (point-max)) ; go-to the end of current buffer
+              (insert build-file-additional-content-2) ; append contents to current buffer
+              (tramp-handle-write-region nil nil build-file-name) ; write modified contents to workspace
+              )
+
+            ;; run refresh_compile_commands
+            (message "Running command (*over tramp*): \"bazel run -s :refresh_compile_commands &\"")
+            (tramp-handle-shell-command "bazel run -s :refresh_compile_commands &") ; '&' as async
+            (message "Refresh done. Start cleaning...")
+
+            ;; copy-back workspace file
+            (with-temp-buffer
+              (tramp-handle-insert-file-contents workspace-file-name-bak) ; read workspace file
+              (tramp-handle-write-region nil nil workspace-file-name) ; write back workspace
+              )
+            (tramp-sh-handle-delete-file workspace-file-name-bak) ; delete backup file
+            (with-temp-buffer
+              (tramp-handle-insert-file-contents build-file-name-bak) ; read workspace file
+              (tramp-handle-write-region nil nil build-file-name) ; write back workspace
+              )
+            (tramp-sh-handle-delete-file build-file-name-bak) ; delete backup file
+            )
+        (progn
+          ;; setup workspace file
+          (with-temp-buffer
+            (insert-file-contents workspace-file-name) ; read workspace file
+            (write-region nil nil workspace-file-name-bak) ; write workspace file to backup
+            (goto-char (point-max)) ; go-to the end of current buffer
+            (insert workspace-file-additional-content) ; append contents to current buffer
+            (write-region nil nil workspace-file-name) ; write modified contents to workspace
+            )
+
+          (with-temp-buffer
+            (insert-file-contents build-file-name) ; read build file
+            (write-region nil nil build-file-name-bak) ; write workspace file to backup
+            (insert build-file-additional-content-1) ; append contents to current buffer
+            (goto-char (point-max)) ; go-to the end of current buffer
+            (insert build-file-additional-content-2) ; append contents to current buffer
+            (write-region nil nil build-file-name) ; write modified contents to workspace
+            )
+
+          ;; run refresh_compile_commands
+          (message "Running command: \"bazel run -s :refresh_compile_commands\"")
+          (async-shell-command "bazel run -s :refresh_compile_commands")
+          (message "Refresh done. Start cleaning...")
+
+          ;; copy-back workspace file
+          (with-temp-buffer
+            (insert-file-contents workspace-file-name-bak) ; read workspace file
+            (write-region nil nil workspace-file-name) ; write back workspace
+            )
+          (delete-file workspace-file-name-bak) ; delete backup file
+          (with-temp-buffer
+            (insert-file-contents build-file-name-bak) ; read workspace file
+            (write-region nil nil build-file-name) ; write back workspace
+            )
+          (delete-file build-file-name-bak) ; delete backup file
+          )
         )
 
-      ;; run refresh_compile_commands
-      (message "bazel run -s :refresh_compile_commands")
-      (tramp-handle-shell-command "bazel run -s :refresh_compile_commands")
-      (message "Refresh done. Start cleaning...")
-      
-      ;; copy-back workspace file
-      (with-temp-buffer
-        (tramp-handle-insert-file-contents workspace-file-name-bak) ; read workspace file
-        (tramp-handle-write-region nil nil workspace-file-name) ; write back workspace
-        )
-      (tramp-sh-handle-delete-file workspace-file-name-bak) ; delete backup file
-      (with-temp-buffer
-        (tramp-handle-insert-file-contents build-file-name-bak) ; read workspace file
-        (tramp-handle-write-region nil nil build-file-name) ; write back workspace
-        )
-      (tramp-sh-handle-delete-file build-file-name-bak) ; delete backup file
-      )
-    (message "Finished")
-    ))
+      (message "Finished")
+      )))
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
@@ -155,7 +192,7 @@ refresh_compile_commands(\n\
 (after! flycheck-eglot
   ;; We need to tweak a little bit to make cpplint and eglot to work together.
   ;; see: https://melpa.org/#/flycheck-eglot
-  ;; 
+  ;;
   ;; By default, the Flycheck-Eglot considers the Eglot to be theonly provider
   ;; of syntax checks.  Other Flycheck checkers are ignored.
   ;; There is a variable `flycheck-eglot-exclusive' that controls this.
@@ -164,7 +201,7 @@ refresh_compile_commands(\n\
   (setq! flycheck-eglot-exclusive nil)
   (flycheck-add-next-checker 'eglot-check
                              '(warning . c/c++-googlelint))
-  (setq! flycheck-c/c++-googlelint-executable "cpplint" 
+  (setq! flycheck-c/c++-googlelint-executable "cpplint"
          flycheck-cppcheck-standards '("c++17"))
   )
 
