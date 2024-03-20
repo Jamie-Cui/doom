@@ -77,11 +77,74 @@
   (defun bazel-refresh-compile-commands()
     "Refresh bazel project's compile_commmands.json"
     (interactive)
-    (let ((my-command
-           (format "python3 %s"
-                   (concat doom-user-dir "thirdparty/devtools/refresh-compile-commands.py"))))
-      (shell-command my-command)
+    (let ((workspace-file-additional-content
+           "\
+\n\
+load(\"@bazel_tools//tools/build_defs/repo:git.bzl\", \"git_repository\")\n\
+\n\
+git_repository(\n\
+        name = \"hedron_compile_commands\",\n\
+        commit = \"388cc00156cbf53570c416d39875b15f03c0b47f\",\n\
+        remote = \"https://github.com/hedronvision/bazel-compile-commands-extractor.git\",\n\
+)\n\
+\n\
+load(\"@hedron_compile_commands//:workspace_setup.bzl\", \"hedron_compile_commands_setup\")\n\
+\n\
+hedron_compile_commands_setup()\n"
+           )
+          (build-file-additional-content-1 "load(\"@hedron_compile_commands//:refresh_compile_commands.bzl\", \"refresh_compile_commands\")\n")
+          (build-file-additional-content-2 "\n\
+refresh_compile_commands(\n\
+    name = \"refresh_compile_commands\",\n\
+    exclude_external_sources = True,\n\
+    exclude_headers = \"external\",\n\
+)\n")
+          (build-file-name (concat (bazel--workspace-root buffer-file-name) "BUILD.bazel"))
+          (build-file-name-bak (concat (bazel--workspace-root buffer-file-name) "BUILD.bazel.bak"))
+          (workspace-file-name (concat (bazel--workspace-root buffer-file-name) "WORKSPACE"))
+          (workspace-file-name-bak (concat (bazel--workspace-root buffer-file-name) "WORKSPACE.bak"))
+          (default-directory  (bazel--workspace-root buffer-file-name))
+          )
+      (message "%s" workspace-file-additional-content)
+      (message "%s" workspace-file-name) ; project workspace name
+      (message "%s" workspace-file-name-bak) ; project workspace name
+
+      ;; setup workspace file
+      (with-temp-buffer
+        (tramp-handle-insert-file-contents workspace-file-name) ; read workspace file
+        (tramp-handle-write-region nil nil workspace-file-name-bak) ; write workspace file to backup
+        (goto-char (point-max)) ; go-to the end of current buffer
+        (insert workspace-file-additional-content) ; append contents to current buffer
+        (tramp-handle-write-region nil nil workspace-file-name) ; write modified contents to workspace
+        )
+      
+      (with-temp-buffer
+        (tramp-handle-insert-file-contents build-file-name) ; read build file
+        (tramp-handle-write-region nil nil build-file-name-bak) ; write workspace file to backup
+        (insert build-file-additional-content-1) ; append contents to current buffer
+        (goto-char (point-max)) ; go-to the end of current buffer
+        (insert build-file-additional-content-2) ; append contents to current buffer
+        (tramp-handle-write-region nil nil build-file-name) ; write modified contents to workspace
+        )
+
+      ;; run refresh_compile_commands
+      (message "bazel run -s :refresh_compile_commands")
+      (tramp-handle-shell-command "bazel run -s :refresh_compile_commands")
+      (message "Refresh done. Start cleaning...")
+      
+      ;; copy-back workspace file
+      (with-temp-buffer
+        (tramp-handle-insert-file-contents workspace-file-name-bak) ; read workspace file
+        (tramp-handle-write-region nil nil workspace-file-name) ; write back workspace
+        )
+      (tramp-sh-handle-delete-file workspace-file-name-bak) ; delete backup file
+      (with-temp-buffer
+        (tramp-handle-insert-file-contents build-file-name-bak) ; read workspace file
+        (tramp-handle-write-region nil nil build-file-name) ; write back workspace
+        )
+      (tramp-sh-handle-delete-file build-file-name-bak) ; delete backup file
       )
+    (message "Finished")
     ))
 
 ;; ----------------------------------------------------------------------------
