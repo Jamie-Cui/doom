@@ -106,6 +106,8 @@ refresh_compile_commands(\n\
           (default-directory  (bazel--workspace-root buffer-file-name)) ; this will set the default path of shell-command
           )
 
+      (unless (bazel--workspace-root buffer-file-name) (error "Invalid bazel workspace, please check your current buffer!"))
+
       (if (file-remote-p default-directory)
           (progn
             ;; setup workspace file
