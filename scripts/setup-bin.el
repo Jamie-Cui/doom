@@ -11,3 +11,9 @@
 
 (shell-command "cd ../bin && unzip -o -q clangd.zip && mv clangd_17.0.3/bin/clangd . && rm clangd.zip && rm -rf clangd_17.0.3")
 (shell-command "cd ../bin && chmod +x buildifier")
+
+(with-temp-buffer
+  (insert-file-contents "~/.zshrc") ; read zshrc
+  (insert (concat "export PATH=$PATH:" private-doom-bin-dir)) ; append contents to current buffer
+  (write-region nil nil "~/.zshrc") ; write modified contents back to zshrc
+  )
