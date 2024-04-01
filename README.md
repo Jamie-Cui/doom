@@ -26,7 +26,7 @@ For Emacs itself, these three formulas are the best options, ordered from most t
 It offers good integration with macOS, native emojis and better childframe support.
 ```
 brew tap railwaycat/emacsmacport
-brew install emacs-mac --with-modules --native-comp
+brew install emacs-mac --with-modules --with-native-comp
 ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
 ```
 
