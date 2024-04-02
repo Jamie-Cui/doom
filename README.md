@@ -15,7 +15,9 @@ Recommended MacOS Apps:
 - [alacritty](https://alacritty.org/): cross-platform OpenGL terminal emulator
 - [zotero](https://www.zotero.org/): free and easy-to-use biblography tool
 
-## Download GNU/Emacs
+## Getting Started
+
+### Step 1: Download GNU/Emacs
 
 Of course, you need to download Emacs and doom first. As in [doom's getting started guide](https://github.com/doomemacs/doomemacs/blob/master/docs/getting_started.org#with-homebrew) says,
 
