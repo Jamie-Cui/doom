@@ -26,13 +26,8 @@ Of course, you need to download Emacs and doom first. As in [doom's getting star
 So, do the following steps. First, install presiquites with [Homebrew](https://brew.sh/).
 
 ```
-# required dependencies
-brew install git ripgrep
-# optional dependencies
-brew install coreutils fd
-# Installs clang
 xcode-select --install
-For Emacs itself, these three formulas are the best options, ordered from most to least recommended for Doom (based on compatibility).
+brew install git ripgrep coreutils fd
 ```
 
 Then, install emacs-mac,
