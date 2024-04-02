@@ -14,6 +14,7 @@ Recommended MacOS Apps:
 - [skim](https://skim-app.sourceforge.io/): open-source PDF reader and note-taker for OS X
 - [alacritty](https://alacritty.org/): cross-platform OpenGL terminal emulator
 - [zotero](https://www.zotero.org/): free and easy-to-use biblography tool
+- [MacTex](https://tug.org/mactex/): standard distribution of TeX, LaTeX, and related programs produced by TeX Users Groups across the world
 
 ## Getting Started
 
