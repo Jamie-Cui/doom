@@ -6,8 +6,6 @@ This is Jamie's private [doom emacs](https://github.com/doomemacs/doomemacs) con
 
 **WARNING: This config is only designed for MacOS**.
 
-**WARNING: Please make sure you are using zsh shell!**.
-
 Thirdparty libraries:
 - [wondershaper](https://github.com/magnific0/wondershaper): Command-line utility for limiting an adapter's bandwidth
 - [secretflow/devtools](https://github.com/secretflow/devtools): Secretflow's development tools
