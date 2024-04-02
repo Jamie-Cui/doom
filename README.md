@@ -28,7 +28,10 @@ So, do the following steps. First, install presiquites with [Homebrew](https://b
 
 ```
 xcode-select --install
+# for emacs
 brew install git ripgrep coreutils fd libtool fontconfig ripgrep
+# for cpp development (optional)
+brew install clang-format bazelisk g++ gcc
 ```
 
 Then, install emacs-mac,
@@ -39,11 +42,9 @@ brew install emacs-mac --with-modules --with-native-comp
 ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
 ```
 
-## Step 2: Setup C++ Development Tools
+### Step 2: Setup this config
 
 ```
-brew install clang-format bazelisk g++ gcc
- # download clangd and bazel buildifier
 ./${PROJECT_ROOT}/scripts/setup-bin.el
 ```
 
