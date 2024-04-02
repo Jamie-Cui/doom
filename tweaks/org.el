@@ -21,6 +21,10 @@
 ;; Configuration: note taking
 ;; ----------------------------------------------------------------------------
 
+;; for macos only: add texbin to the system path
+(setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin/"))
+(setq exec-path (append exec-path '("/Library/TeX/texbin/")))
+
 ;; Re-configure deft-mode keybindings
 (after! deft
   ;; start with evil normal mode
