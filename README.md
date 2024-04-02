@@ -26,7 +26,7 @@ Of course, you need to download Emacs and doom first. As in [doom's getting star
 
 So, do the following steps. First, install presiquites with [Homebrew](https://brew.sh/).
 
-```
+```sh
 xcode-select --install
 # for emacs
 brew install git ripgrep coreutils fd libtool fontconfig ripgrep
@@ -36,7 +36,7 @@ brew install clang-format bazelisk g++ gcc
 
 Then, install emacs-mac,
 
-```
+```sh
 brew tap railwaycat/emacsmacport
 brew install emacs-mac --with-modules --with-native-comp
 ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
@@ -44,7 +44,7 @@ ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
 
 ### Step 2: Setup this config
 
-```
+```sh
 ./${PROJECT_ROOT}/scripts/setup-bin.el
 ```
 
