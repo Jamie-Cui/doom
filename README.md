@@ -1,10 +1,8 @@
 # doom.d
 
-This is Jamie's private [doom emacs](https://github.com/doomemacs/doomemacs) config. Please make sure you are using [zsh shell](https://www.zsh.org/) (recommende to use [omz](https://ohmyz.sh/))! 
-
-Pesonally, I use this config to do **daily-cpp-dev**, **paper-writing**, and paper related **note-taking**, so as a summary,
-1. Support remote cpp developing with tramp, with correctly configured *code-format (clang-format)*, *lsp (eglot + clangd)*, *bazel*
-2. Support latex acadamic paper writing, and note taking
+This is Jamie's private [doom emacs](https://github.com/doomemacs/doomemacs) config. Please make sure you are using [zsh shell](https://www.zsh.org/) (recommende to use [omz](https://ohmyz.sh/))! Pesonally, I use this config to do **daily-cpp-dev**, **paper-writing**, and paper related **note-taking**, so as a summary, this config
+1. Supports remote cpp developing with tramp, with correctly configured *code-format (clang-format)*, *lsp (eglot + clangd)*, *bazel*
+2. Supports latex acadamic paper writing, and note taking
 
 **WARNING: This config is only designed for MacOS**.
 
