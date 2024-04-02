@@ -56,3 +56,10 @@ ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
     ├── org.el
     └── window.el
 ```
+## Q & A
+
+**Tex preview not working, emacs can not find 'latex' and 'dvipng' binaries.**
+```
+sudo ln -s /Library/TeX/texbin/latex /usr/local/bin
+sudo ln -s /Library/TeX/texbin/dvipng /usr/local/bin
+```
