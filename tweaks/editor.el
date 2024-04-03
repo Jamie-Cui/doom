@@ -61,4 +61,4 @@
 (set-default 'truncate-lines nil)
 
 ;; use relative line numbering
-(setq display-line-numbers-type 'relative)
+;; (setq display-line-numbers-type 'relative)
