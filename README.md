@@ -29,7 +29,7 @@ So, do the following steps. First, install presiquites with [Homebrew](https://b
 ```sh
 xcode-select --install
 # for emacs
-brew install git ripgrep coreutils fd libtool fontconfig ripgrep
+brew install git ripgrep coreutils fd libtool fontconfig ripgrep pngpaste
 # for cpp development (optional)
 brew install clang-format bazelisk g++ gcc cmake
 ```
