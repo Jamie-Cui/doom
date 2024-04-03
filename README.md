@@ -42,7 +42,14 @@ brew install emacs-mac --with-modules --with-native-comp
 ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
 ```
 
-### Step 2: Setup this config
+### Step 2: Install doom emacs
+
+```sh
+git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
+~/.config/emacs/bin/doom install
+```
+
+### Step 3: Setup this config
 
 ```sh
 ./${PROJECT_ROOT}/scripts/setup-bin.el
