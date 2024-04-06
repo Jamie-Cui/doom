@@ -14,6 +14,8 @@
 (package! simple-httpd) ;; deps for org-roam-ui, in emacs-web-server
 (package! org-roam-ui) ;; use org-roam-ui
 
+(package! evil-tutor-sc) ; learn to use evil (in Chinese!)
+
 ;; :recipe (:host github :repo "username/repo"))
 
 ;; If the package you are trying to install does not contain a PACKAGENAME.el
