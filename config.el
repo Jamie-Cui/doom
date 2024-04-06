@@ -28,7 +28,7 @@
 (setq doom-theme 'modus-vivendi) ; code looks better in this theme
 
 ;; setup default font
-(setq doom-font (font-spec :family "Monaco" :size 14 :weight 'medium))
+;; (setq doom-font (font-spec :family "Monaco" :size 14 :weight 'medium))
 
 ;; setup my own paths
 (defconst org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
