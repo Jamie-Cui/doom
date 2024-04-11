@@ -32,8 +32,7 @@
 
 (after! citar
   (add-to-list 'citar-notes-paths (concat org-remote-path "roam")) ; put paper notes in roam folder
-  (add-to-list 'citar-bibliography (concat org-remote-path "zotero_all.bib")); always use remote path
-  )
+  (add-to-list 'citar-bibliography (concat org-remote-path "zotero_all.bib")))
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
@@ -44,7 +43,9 @@
   (setq org-startup-with-inline-images t)
   ;; (setq org-return-follows-link t) ;; return in org now follows link (globally)
   (require 'org-download) ;; drag-and-drop for images
-  )
+
+  ;; add numering for all titles
+  (add-hook! 'org-mode-hook 'org-num-mode-hook))
 
 ;; configure org-roam-uo
 (after! org-roam
