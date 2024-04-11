@@ -14,6 +14,7 @@
 
 (with-temp-buffer
   (insert-file-contents "~/.zshrc") ; read zshrc
+  (goto-char (point-max)) ; go-to the end of current buffer
   (insert (concat "export PATH=$PATH:" private-doom-bin-dir)) ; append contents to current buffer
   (write-region nil nil "~/.zshrc") ; write modified contents back to zshrc
   )

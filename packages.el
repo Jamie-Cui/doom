@@ -15,6 +15,7 @@
 (package! org-roam-ui) ;; use org-roam-ui
 
 (package! evil-tutor-sc) ; learn to use evil (in Chinese!)
+(package! ctable) ; required by tweaks/leetcode.el
 
 ;; :recipe (:host github :repo "username/repo"))
 

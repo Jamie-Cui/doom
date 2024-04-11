@@ -55,6 +55,27 @@ git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
 ./${PROJECT_ROOT}/scripts/setup-bin.el
 ```
 
+### Optional: Install oh-my-zsh
+
+``` sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+```
+
+### Optional: Install rustlang
+
+
+``` sh
+# rustup
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+### Optional: Install dependencies for leetcode
+
+``` sh
+cargo install leetcode-cli
+sudo ln -s /Library/TeX/texbin/latex /usr/local/bin
+```
 ## Other Questions
 
 **Tex preview not working, emacs can not find 'latex' and 'dvipng' binaries.**
@@ -62,3 +83,4 @@ git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
 sudo ln -s /Library/TeX/texbin/latex /usr/local/bin
 sudo ln -s /Library/TeX/texbin/dvipng /usr/local/bin
 ```
+
