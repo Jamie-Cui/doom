@@ -7,7 +7,6 @@
 ;; * terminal:          https://alacritty.org/                  $HOME/.alacritty.toml, see configs in https://alacritty.org/config-alacritty.html
 ;; * pdf:               https://skim-app.sourceforge.io/
 ;; * bib:               https://www.zotero.org/
-;; * ohz:               ~sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"~
 
 ;; ----------------------------------------------------------------------------
 ;; Generic Setup
