@@ -40,6 +40,8 @@ Then, install emacs-mac,
 brew tap railwaycat/emacsmacport
 brew install emacs-mac --with-modules --with-native-comp
 ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
+# open emacs
+open -a "emacs" # you can also setup this as quick open script in alfred
 ```
 
 ### Step 2: Install doom emacs
