@@ -45,7 +45,8 @@
   (require 'org-download) ;; drag-and-drop for images
 
   ;; add numering for all titles
-  (add-hook! 'org-mode-hook 'org-num-mode))
+  (add-hook! 'org-mode-hook 'org-num-mode)
+  (setq org-num-max-level 2))
 
 ;; configure org-roam-uo
 (after! org-roam
