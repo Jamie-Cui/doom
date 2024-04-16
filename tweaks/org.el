@@ -1,5 +1,7 @@
 ;;; org.el -*- lexical-binding: t; -*-
 
+(require 'org-download) ;; drag-and-drop for images
+
 ;; ---------------------------------------------------------------------------- 
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
@@ -31,7 +33,8 @@
   (set-evil-initial-state! 'deft-mode 'normal))
 
 (after! citar
-  (add-to-list 'citar-notes-paths (concat org-remote-path "roam")) ; put paper notes in roam folder
+  ;; put paper notes in roam folder
+  (add-to-list 'citar-notes-paths (concat org-remote-path "roam"))
   (add-to-list 'citar-bibliography (concat org-remote-path "zotero_all.bib")))
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
@@ -41,8 +44,6 @@
   (setq org-startup-with-latex-preview t) ;; startup with latex review
   (setq org-startup-folded 'content)
   (setq org-startup-with-inline-images t)
-  ;; (setq org-return-follows-link t) ;; return in org now follows link (globally)
-  (require 'org-download) ;; drag-and-drop for images
 
   ;; add numering for all titles
   (add-hook! 'org-mode-hook 'org-num-mode)
@@ -73,17 +74,3 @@
   (define-key org-agenda-mode-map "k" 'evil-previous-line)
   (keymap-set org-agenda-mode-map "RET" 'org-agenda-show-and-scroll-up)
   (keymap-set org-agenda-mode-map "SPC" nil))
-
-
-;; ----------------------------------------------------------------------------
-;; My Package [latex-preview-pane]
-;; ----------------------------------------------------------------------------
-(require 'latex-preview-pane)
-
-;; ----------------------------------------------------------------------------
-;; Config: openwith, see: https://emacs.stackexchange.com/questions/3105/how-to-use-an-external-program-as-the-default-way-to-open-pdfs-from-emacs
-;; ----------------------------------------------------------------------------
-;; (require 'openwith)
-;; (openwith-mode t)
-;; (setq openwith-confirm-invocation t)
-;; (setq openwith-associations '(("\\.pdf\\'" "preview" (file))))

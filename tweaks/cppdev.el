@@ -1,5 +1,8 @@
 ;;; cppdev.el -*- lexical-binding: t; -*-
 
+(require 'bazel) ; load bazel package
+(require 'flycheck-google-cpplint) ; load this package
+
 ;; ----------------------------------------------------------------------------
 ;; Configuration: lsp c++ format on save
 ;; ----------------------------------------------------------------------------
@@ -61,7 +64,6 @@
 ;; ----------------------------------------------------------------------------
 ;; My Package [bazel]
 ;; ----------------------------------------------------------------------------
-(require 'bazel) ;; load bazel package
 
 (use-package! bazel
   :config
@@ -173,7 +175,6 @@ refresh_compile_commands(\n\
   ;; of syntax checks.  Other Flycheck checkers are ignored.
   ;; There is a variable `flycheck-eglot-exclusive' that controls this.
   ;; You can override it system wide or for some major modes.
-  (require 'flycheck-google-cpplint) ; try to load this package
   (setq! flycheck-eglot-exclusive nil)
   (flycheck-add-next-checker 'eglot-check
                              '(warning . c/c++-googlelint))
