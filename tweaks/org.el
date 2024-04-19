@@ -7,14 +7,13 @@
 ;; ----------------------------------------------------------------------------
 ;; always use the remote path for org-roam
 (setq org-roam-directory (concat org-remote-path "roam"))
+(setq org-directory (concat org-remote-path "org"))
 
 (if use-remote-path
     (progn
-      (setq org-directory (concat org-remote-path "org"))
       (setq deft-directory (concat org-remote-path "deft"))
       )
   (progn
-    (setq org-directory (concat org-local-path "org"))
     (setq deft-directory (concat org-local-path "deft"))
     )
   )
