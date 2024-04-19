@@ -1,8 +1,5 @@
 ;;; config.el -*- lexical-binding: t; -*-
 
-;; HACK: load ht package
-(add-to-list 'load-path (concat doom-local-dir "straight/repos/ht.el"))
-
 ;; You may want to install the following open-source apps:
 ;; * terminal:          https://alacritty.org/                  $HOME/.alacritty.toml, see configs in https://alacritty.org/config-alacritty.html
 ;; * pdf:               https://skim-app.sourceforge.io/
@@ -20,11 +17,7 @@
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; setup theme
-;; (setq doom-theme 'doom-one) ; default is always good
-;; (setq doom-theme 'wombat) ; I like wombat for now
-;; (setq doom-theme 'doom-zenburn) ; code looks better in this theme
-;; (setq doom-theme 'doom-acario-light) ; org looks better in this theme
-(setq doom-theme 'modus-vivendi) ; code looks better in this theme
+(setq doom-theme 'doom-gruvbox-light)
 
 ;; setup default font
 ;; (setq doom-font (font-spec :family "Monaco" :size 14 :weight 'medium))
@@ -32,7 +25,7 @@
 ;; setup new const variables, make sure to doom sync after change
 (defconst org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
 (defconst org-local-path "~/org-local/")
-(defconst use-remote-path t) ; non-nil to use remote path
+(defconst use-remote-path nil) ; non-nil to use remote path
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
