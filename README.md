@@ -92,5 +92,7 @@ see: https://apple.stackexchange.com/a/83923
 ```
 defaults write -g InitialKeyRepeat -int 0
 defaults write -g KeyRepeat -int 0
+# or, config those values though GUI
+open ~/Library/Preferences/.GlobalPreferences.plist
 ```
 
