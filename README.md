@@ -88,10 +88,10 @@ sudo ln -s /Library/TeX/texbin/dvipng /usr/local/bin
 
 **How to increase key repeating delay and key repeating rate on MacOS?**
 
-see: https://apple.stackexchange.com/a/83923
+see: https://apple.stackexchange.com/a/83923, remember to restart your system in order for the configs to take effect.
 ```
-defaults write -g InitialKeyRepeat -int 0
-defaults write -g KeyRepeat -int 0
+defaults write -g InitialKeyRepeat -int 10
+defaults write -g KeyRepeat -int 1
 # or, config those values though GUI
 open ~/Library/Preferences/.GlobalPreferences.plist
 ```
