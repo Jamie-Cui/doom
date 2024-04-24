@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: latex_enumerate
+# key: enu
+# --
+
+\begin{enumerate}
+  \item $0
+\end{enumerate}
