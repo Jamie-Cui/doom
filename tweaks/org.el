@@ -29,7 +29,9 @@
 ;; Re-configure deft-mode keybindings
 (after! deft
   ;; start with evil normal mode
-  (set-evil-initial-state! 'deft-mode 'normal))
+  (set-evil-initial-state! 'deft-mode 'normal)
+  (setq! deft-strip-summary-regexp ".*$")
+  )
 
 (after! citar
   ;; put paper notes in roam folder
