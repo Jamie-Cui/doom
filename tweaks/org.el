@@ -31,6 +31,7 @@
   ;; start with evil normal mode
   (set-evil-initial-state! 'deft-mode 'normal)
   (setq! deft-strip-summary-regexp ".*$")
+  (setq! deft-current-sort-method 'title)
   )
 
 (after! citar
