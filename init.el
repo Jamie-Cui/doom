@@ -43,7 +43,7 @@
        ;; neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
-       ;;tabs              ; a tab bar for Emacs
+       tabs              ; a tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
        unicode           ; extended unicode support for various languages
        (vc-gutter +diff-hl +pretty) ; vcs diff in the fringe
@@ -82,7 +82,7 @@
        :checkers
        (syntax)              ; tasing you for every semicolon you forget
        ;;(spell +flyspell) ; tasing you for misspelling mispelling
-       ;; grammar           ; tasing grammar mistake every you make
+       ;;grammar           ; tasing grammar mistake every you make
 
        :tools
        ;;ansible
@@ -95,7 +95,7 @@
        (eval +overlay)     ; run code, run (also, repls)s
        ;;gist              ; interacting with github gists
        lookup              ; navigate your code and its documentation
-       (lsp +eglot)               ; M-x vscode
+       (lsp +eglot +lookup)               ; M-x vscode
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
