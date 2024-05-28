@@ -183,23 +183,12 @@ refresh_compile_commands(\n\
   )
 
 
-(map! :leader
+(map! :localleader
       :map (c++-mode-map c-mode-map bazel-mode-map)
-      :desc "Bazel build" ;; Bazel build target
-      :prefix "c"
-      "b" #'bazel-build)
-
-(map! :leader
-      :map (c++-mode-map c-mode-map bazel-mode-map)
-      :desc "Compile: bazel run" ;; Bazel run target
-      :prefix "c"
-      "r" #'bazel-run)
-
-(map! :leader
-      :map (c++-mode-map c-mode-map bazel-mode-map)
-      :desc "Bazel test" ;; Bazel test target
-      :prefix "c"
-      "t" #'bazel-test)
+      :desc "Bazel build"       "b" #'bazel-build
+      :desc "Bazel run"         "r" #'bazel-run
+      :desc "Bazel test"        "t" #'bazel-test
+      :desc "Bazel comile current file"        "m" #'bazel-compile-current-file)
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: completion
