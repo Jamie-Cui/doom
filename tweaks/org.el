@@ -46,10 +46,8 @@
   (setq org-startup-with-latex-preview t) ;; startup with latex review
   (setq org-startup-folded 'content)
   (setq org-startup-with-inline-images t)
-
-  ;; add numering for all titles
-  (add-hook! 'org-mode-hook 'org-num-mode)
-  (setq org-num-max-level 2))
+  (setq org-startup-numerated t) ; startup with org-num-mode
+  (setq org-num-max-level 2))  ; add numering for all titles
 
 ;; configure org-roam-uo
 (after! org-roam
@@ -76,3 +74,8 @@
   (define-key org-agenda-mode-map "k" 'evil-previous-line)
   (keymap-set org-agenda-mode-map "RET" 'org-agenda-show-and-scroll-up)
   (keymap-set org-agenda-mode-map "SPC" nil))
+
+;; ----------------------------------------------------------------------------
+;; Configuration: org agenda and calendar
+;; ----------------------------------------------------------------------------
+(setq calendar-week-start-day 1) ; start with monday
