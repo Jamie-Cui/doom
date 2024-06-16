@@ -17,7 +17,7 @@
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; setup theme
-(setq doom-theme 'doom-solarized-light)
+(setq doom-theme 'modus-vivendi)
 
 ;; setup default font
 ;; (setq doom-font (font-spec :family "Monaco" :size 14 :weight 'medium))
