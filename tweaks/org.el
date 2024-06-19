@@ -69,11 +69,13 @@
   (setq org-download-link-format-function #'org-download-link-format-function-default))
 
 ;; setup org-agenda key binding
-(after! org-agenda
-  (define-key org-agenda-mode-map "j" 'evil-next-line)
-  (define-key org-agenda-mode-map "k" 'evil-previous-line)
-  (keymap-set org-agenda-mode-map "RET" 'org-agenda-show-and-scroll-up)
-  (keymap-set org-agenda-mode-map "SPC" nil))
+(evil-set-initial-state 'org-agenda-mode 'normal)
+;; (after! org-agenda
+;; (define-key org-agenda-mode-map "j" 'evil-next-line)
+;; (define-key org-agenda-mode-map "k" 'evil-previous-line)
+;; (keymap-set org-agenda-mode-map "RET" 'org-agenda-show-and-scroll-up)
+;; (keymap-set org-agenda-mode-map "SPC" nil)
+;; )
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: org agenda and calendar
