@@ -202,3 +202,6 @@ refresh_compile_commands(\n\
 ;; setup interier shell (built-in with emacs) type
 ;; REVIEW not sure if this variable is used by tramp or not
 (setq explicit-shell-file-name (executable-find "zsh")) ; emacs-c-code variable
+
+;; use vim key bindings in magit-status-mode
+(evil-set-initial-state 'magit-status-mode 'normal)
