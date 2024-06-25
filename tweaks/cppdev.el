@@ -145,7 +145,6 @@ refresh_compile_commands(\n\
 
             ;; run refresh_compile_commands
             (message "Running command (*over tramp*): \"bazel run -s :refresh_compile_commands &\"")
-            (tramp-handle-shell-command "bazel run -s :refresh_compile_commands")
             (if (tramp-handle-file-exists-p build-file-name)
                 (let ((exec-cmd (concat bazel-run-cmd exit-cmd "&")))
                   (tramp-handle-shell-command exec-cmd))
