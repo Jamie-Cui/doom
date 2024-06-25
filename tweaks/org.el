@@ -1,83 +1,233 @@
-;;; org.el -*- lexical-binding: t; -*-
+;;; cppdev.el -*- lexical-binding: t; -*-
 
-(require 'org-download) ;; drag-and-drop for images
+(require 'bazel) ; load bazel package
+(require 'flycheck-google-cpplint) ; load this package
 
-;; ---------------------------------------------------------------------------- 
-;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
-;; always use the remote path for org-roam
-(setq org-roam-directory (concat org-remote-path "roam"))
-(setq org-directory (concat org-remote-path "org"))
+;; Configuration: lsp c++ format on save
+;; ----------------------------------------------------------------------------
+;; there are many workarounds:
+;; 1. https://github.com/radian-software/apheleia/discussions/120
+;; 2. https://github.com/doomemacs/doomemacs/issues/7490
+;; but we want a workaround that works both on local projects and tramp projects
+;; so the best way is to force c++/c mode to use eglot-format-buffer other than apheleia
 
-(if use-remote-path
-    (progn
-      (setq deft-directory (concat org-remote-path "deft"))
-      )
-  (progn
-    (setq deft-directory (concat org-local-path "deft"))
-    )
+;; use local mode on most cases
+(setq apheleia-remote-algorithm 'remote)
+
+;; setup local varaiables on c++-mode-hook
+(setq-hook! 'c++-mode-hook
+  apheleia-inhibit t
+  +format-with nil) ;; do not format with apheleia
+
+;; setup local varaiables on c-mode-hook
+(setq-hook! 'c-mode-hook
+  apheleia-inhibit t
+  +format-with nil) ;; do not format with apheleia
+
+(add-hook 'c++-mode-hook
+          (lambda()
+            (add-hook 'before-save-hook #'eglot-format-buffer)))
+
+(add-hook 'c-mode-hook
+          (lambda()
+            (add-hook 'before-save-hook #'eglot-format-buffer)))
+
+;; disable eglot inlay
+(setq eglot-ignored-server-capabilities '(:inlayHintProvider))
+
+;; ----------------------------------------------------------------------------
+;; Configuration: tramp, lsp, projectile, vterm
+;; ----------------------------------------------------------------------------
+;; it's wired that vertico uses this to list all files
+(setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
+
+;; on ubuntu, you need to "ln -s /bin/fdfind /bin/fd"
+(setq projectile-fd-executable "fd")
+
+;; Config Tramp
+(after! tramp
+  ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
+  (setq tramp-default-method "sshx") ; use sshx (since it supportszsh and fish) instead of default scp
+  (setq tramp-default-remote-shell "/bin/zsh") ; do-not-use executable-find
+  (customize-set-variable 'tramp-encoding-shell "/bin/zsh") ; do-not-use executable-find
+  (connection-local-update-profile-variables 'tramp-connection-local-default-shell-profile
+                                             '((shell-file-name . "/bin/zsh")
+                                               (shell-command-switch . "-c")))
   )
 
+;; Use zsh over vterm tramp
+(after! (:and vterm tramp)
+  (setq vterm-shell (executable-find "zsh"))
+  (setq vterm-tramp-shells '("sshx" "/bin/zsh")))
+
 ;; ----------------------------------------------------------------------------
-;; Configuration: note taking
+;; My Package [bazel]
 ;; ----------------------------------------------------------------------------
 
-;; for macos only: add texbin to the system path
-(setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin/"))
-(setq exec-path (append exec-path '("/Library/TeX/texbin/")))
+(use-package! bazel
+  :config
+  (add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
+  (add-hook 'bazel-mode-hook
+            (lambda()
+              (add-hook 'before-save-hook #'bazel-buildifier nil t)))
+  (setq-hook! 'bazel-mode-hook
+    apheleia-inhibit t
+    +format-with nil            ; do not format with apheleia
+    +format-with-lsp nil)       ; do not format with lsp
+  
+  ;; defining a new function to refresh compile commands
+  (defun bazel-refresh-compile-commands()
+    "Refresh bazel project's compile_commmands.json"
+    (interactive)
+    (let (
+          ;; defining the useful variables
+          (workspace-file-additional-content
+           "\
+\n\
+load(\"@bazel_tools//tools/build_defs/repo:git.bzl\", \"git_repository\")\n\
+\n\
+git_repository(\n\
+        name = \"hedron_compile_commands\",\n\
+        commit = \"388cc00156cbf53570c416d39875b15f03c0b47f\",\n\
+        remote = \"https://github.com/hedronvision/bazel-compile-commands-extractor.git\",\n\
+)\n\
+\n\
+load(\"@hedron_compile_commands//:workspace_setup.bzl\", \"hedron_compile_commands_setup\")\n\
+\n\
+hedron_compile_commands_setup()\n"
+           )
+          (build-file-additional-content-1 "load(\"@hedron_compile_commands//:refresh_compile_commands.bzl\", \"refresh_compile_commands\")\n")
+          (build-file-additional-content-2 "\n\
+refresh_compile_commands(\n\
+    name = \"refresh_compile_commands\",\n\
+    exclude_external_sources = True,\n\
+    exclude_headers = \"external\",\n\
+)\n")
+          (build-file-name (concat (bazel--workspace-root buffer-file-name) "BUILD.bazel"))
+          (build-file-name-bak (concat (bazel--workspace-root buffer-file-name) "BUILD.bazel.bak"))
+          (workspace-file-name (concat (bazel--workspace-root buffer-file-name) "WORKSPACE"))
+          (workspace-file-name-bak (concat (bazel--workspace-root buffer-file-name) "WORKSPACE.bak"))
+          (default-directory  (bazel--workspace-root buffer-file-name))
+          (exit-cmd "mv WORKSPACE.bak WORKSPACE; mv BUILD.bazel.bak BUILD.bazel")
+          (exit-rm-build-cmd "mv WORKSPACE.bak WORKSPACE; mv BUILD.bazel.bak BUILD.bazel")
+          (bazel-run-cmd "bazel run -s :refresh_compile_commands;"))
+      (unless (bazel--workspace-root buffer-file-name) (error "Invalid bazel workspace, please check your current buffer!"))
 
-;; Re-configure deft-mode keybindings
-(after! deft
-  ;; start with evil normal mode
-  (set-evil-initial-state! 'deft-mode 'normal)
-  (setq! deft-strip-summary-regexp ".*$")
-  (setq! deft-current-sort-method 'title)
+      (if (file-remote-p default-directory)
+          (progn
+            ;; setup workspace file
+            (with-temp-buffer
+              (message (concat "Workspace file found at: " workspace-file-name))
+              (tramp-handle-insert-file-contents workspace-file-name) ; read workspace file
+              (tramp-handle-write-region nil nil workspace-file-name-bak) ; write workspace file to backup
+              (goto-char (point-max)) ; go-to the end of current buffer
+              (insert workspace-file-additional-content) ; append contents to current buffer
+              (tramp-handle-write-region nil nil workspace-file-name))
+
+            ;; setup build file
+            (with-temp-buffer
+              (if (tramp-handle-file-exists-p build-file-name)
+                  (progn
+                    (message (concat "Build file found at" build-file-name))
+                    (tramp-handle-insert-file-contents build-file-name) ; read build file
+                    (tramp-handle-write-region nil nil build-file-name-bak) ; write workspace file to backup
+                    (insert build-file-additional-content-1) ; append contents to current buffer
+                    (goto-char (point-max)) ; go-to the end of current buffer
+                    (insert build-file-additional-content-2) ; append contents to current buffer
+                    (tramp-handle-write-region nil nil build-file-name))
+                (progn
+                  (message "Cannot find build file, continue gracefully without build file")
+                  (insert build-file-additional-content-1) ; append contents to current buffer
+                  (goto-char (point-max)) ; go-to the end of current buffer
+                  (insert build-file-additional-content-2) ; append contents to current buffer
+                  (tramp-handle-write-region nil nil build-file-name))))
+
+            ;; run refresh_compile_commands
+            (message "Running command (*over tramp*): \"bazel run -s :refresh_compile_commands &\"")
+            (if (tramp-handle-file-exists-p build-file-name-bak)
+                (let ((exec-cmd (concat bazel-run-cmd exit-cmd "&")))
+                  (tramp-handle-shell-command exec-cmd))
+              (let ((exec-cmd (concat bazel-run-cmd exit-rm-build-cmd "&")))
+                (tramp-handle-shell-command exec-cmd))))
+        (progn
+          ;; setup workspace file
+          (with-temp-buffer
+            (message (concat "Workspace file found at: " workspace-file-name))
+            (insert-file-contents workspace-file-name) ; read workspace file
+            (write-region nil nil workspace-file-name-bak) ; write workspace file to backup
+            (goto-char (point-max)) ; go-to the end of current buffer
+            (insert workspace-file-additional-content) ; append contents to current buffer
+            (write-region nil nil workspace-file-name))
+
+          ;; setup build file
+          (with-temp-buffer
+            (if (file-exists-p build-file-name)
+                (progn
+                  (message (concat "Build file found at" build-file-name))
+                  (insert-file-contents build-file-name) ; read build file
+                  (write-region nil nil build-file-name-bak) ; write workspace file to backup
+                  (insert build-file-additional-content-1) ; append contents to current buffer
+                  (goto-char (point-max)) ; go-to the end of current buffer
+                  (insert build-file-additional-content-2) ; append contents to current buffer
+                  (write-region nil nil build-file-name))
+              (progn
+                (message "Cannot find build file, continue gracefully without build file")
+                (insert build-file-additional-content-1) ; append contents to current buffer
+                (goto-char (point-max)) ; go-to the end of current buffer
+                (insert build-file-additional-content-2) ; append contents to current buffer
+                (write-region nil nil build-file-name))))
+
+          ;; run refresh_compile_commands
+          (message "Running command (*locally*): \"bazel run -s :refresh_compile_commands &\"")
+          (if (file-exists-p build-file-name-bak)
+              (let ((exec-cmd (concat bazel-run-cmd exit-cmd "&")))
+                (shell-command exec-cmd))
+            (let ((exec-cmd (concat bazel-run-cmd exit-rm-build-cmd "&")))
+              (shell-command exec-cmd)))))
+
+      (message "Finished"))))
+
+;; ----------------------------------------------------------------------------
+;; My Package [flycheck-google-cpplint]
+;; ----------------------------------------------------------------------------
+
+;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
+(after! flycheck-eglot
+  ;; We need to tweak a little bit to make cpplint and eglot to work together.
+  ;; see: https://melpa.org/#/flycheck-eglot
+  ;;
+  ;; By default, the Flycheck-Eglot considers the Eglot to be theonly provider
+  ;; of syntax checks.  Other Flycheck checkers are ignored.
+  ;; There is a variable `flycheck-eglot-exclusive' that controls this.
+  ;; You can override it system wide or for some major modes.
+  (setq! flycheck-eglot-exclusive nil)
+  (flycheck-add-next-checker 'eglot-check
+                             '(warning . c/c++-googlelint))
+  (setq! flycheck-c/c++-googlelint-executable "cpplint"
+         flycheck-cppcheck-standards '("c++17"))
   )
 
-(after! citar
-  ;; put paper notes in roam folder
-  (add-to-list 'citar-notes-paths (concat org-remote-path "roam"))
-  (add-to-list 'citar-bibliography (concat org-remote-path "zotero_all.bib")))
 
-;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
-(after! org
-  (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
-  (setq org-startup-with-latex-preview t) ;; startup with latex review
-  (setq org-startup-folded 'content)
-  (setq org-startup-with-inline-images t)
-  (setq org-startup-numerated t) ; startup with org-num-mode
-  (setq org-num-max-level 2))  ; add numering for all titles
-
-;; configure org-roam-uo
-(after! org-roam
-  (add-to-list 'load-path (concat doom-local-dir "straight/repos/org-roam-ui")) ;; manually load package
-  (add-to-list 'load-path (concat doom-local-dir "straight/repos/emacs-web-server")) ;; manually load package
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
-
-;; Setup org-download directory
-(after! org-download
-  (setq-default org-download-image-dir "img") ; see: https://www.emacswiki.org/emacs/BufferLocalVariable
-  (setq-default org-download-heading-lvl nil) ; no headings
-  (setq org-download-method 'directory)
-  (setq org-download-image-org-width 500)
-  (setq org-download-link-format "[[file:%s]]\n"
-        org-download-abbreviate-filename-function #'file-relative-name)
-  (setq org-download-link-format-function #'org-download-link-format-function-default))
-
-;; setup org-agenda key binding
-(evil-set-initial-state 'org-agenda-mode 'normal)
-;; (after! org-agenda
-;; (define-key org-agenda-mode-map "j" 'evil-next-line)
-;; (define-key org-agenda-mode-map "k" 'evil-previous-line)
-;; (keymap-set org-agenda-mode-map "RET" 'org-agenda-show-and-scroll-up)
-;; (keymap-set org-agenda-mode-map "SPC" nil)
-;; )
+(map! :localleader
+      :map (c++-mode-map c-mode-map bazel-mode-map)
+      :desc "Bazel build"       "b" #'bazel-build
+      :desc "Bazel run"         "r" #'bazel-run
+      :desc "Bazel test"        "t" #'bazel-test
+      :desc "Bazel comile current file"        "m" #'bazel-compile-current-file)
 
 ;; ----------------------------------------------------------------------------
-;; Configuration: org agenda and calendar
+;; Configuration: completion
 ;; ----------------------------------------------------------------------------
-(setq calendar-week-start-day 1) ; start with monday
+;; Only complete when I ask!
+;; https://www.reddit.com/r/DoomEmacs/comments/wdxah3/how_to_stop_word_autocomplete/
+;; (after! company
+;;   (setq company-idle-delay nil))
+
+
+;; setup interier shell (built-in with emacs) type
+;; REVIEW not sure if this variable is used by tramp or not
+(setq explicit-shell-file-name (executable-find "zsh")) ; emacs-c-code variable
+
+;; use vim key bindings in magit-status-mode
+(evil-set-initial-state 'magit-status-mode 'normal)
