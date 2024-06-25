@@ -76,10 +76,13 @@
     +format-with nil            ; do not format with apheleia
     +format-with-lsp nil)       ; do not format with lsp
   
+  ;; defining a new function to refresh compile commands
   (defun bazel-refresh-compile-commands()
     "Refresh bazel project's compile_commmands.json"
     (interactive)
-    (let ((workspace-file-additional-content
+    (let (
+          ;; defining the useful variables
+          (workspace-file-additional-content
            "\
 \n\
 load(\"@bazel_tools//tools/build_defs/repo:git.bzl\", \"git_repository\")\n\
@@ -105,62 +108,86 @@ refresh_compile_commands(\n\
           (build-file-name-bak (concat (bazel--workspace-root buffer-file-name) "BUILD.bazel.bak"))
           (workspace-file-name (concat (bazel--workspace-root buffer-file-name) "WORKSPACE"))
           (workspace-file-name-bak (concat (bazel--workspace-root buffer-file-name) "WORKSPACE.bak"))
-          (default-directory  (bazel--workspace-root buffer-file-name)) ; this will set the default path of shell-command
-          )
-
+          (default-directory  (bazel--workspace-root buffer-file-name))
+          (exit-cmd "mv WORKSPACE.bak WORKSPACE; mv BUILD.bazel.bak BUILD.bazel")
+          (exit-rm-build-cmd "mv WORKSPACE.bak WORKSPACE; mv BUILD.bazel.bak BUILD.bazel")
+          (bazel-run-cmd "bazel run -s :refresh_compile_commands;"))
       (unless (bazel--workspace-root buffer-file-name) (error "Invalid bazel workspace, please check your current buffer!"))
 
       (if (file-remote-p default-directory)
           (progn
             ;; setup workspace file
             (with-temp-buffer
+              (message (concat "Workspace file found at: " workspace-file-name))
               (tramp-handle-insert-file-contents workspace-file-name) ; read workspace file
               (tramp-handle-write-region nil nil workspace-file-name-bak) ; write workspace file to backup
               (goto-char (point-max)) ; go-to the end of current buffer
               (insert workspace-file-additional-content) ; append contents to current buffer
-              (tramp-handle-write-region nil nil workspace-file-name) ; write modified contents to workspace
-              )
+              (tramp-handle-write-region nil nil workspace-file-name))
 
+            ;; setup build file
             (with-temp-buffer
-              (tramp-handle-insert-file-contents build-file-name) ; read build file
-              (tramp-handle-write-region nil nil build-file-name-bak) ; write workspace file to backup
-              (insert build-file-additional-content-1) ; append contents to current buffer
-              (goto-char (point-max)) ; go-to the end of current buffer
-              (insert build-file-additional-content-2) ; append contents to current buffer
-              (tramp-handle-write-region nil nil build-file-name) ; write modified contents to workspace
-              )
+              (if (tramp-handle-file-exists-p build-file-name)
+                  (progn
+                    (message (concat "Build file found at" build-file-name))
+                    (tramp-handle-insert-file-contents build-file-name) ; read build file
+                    (tramp-handle-write-region nil nil build-file-name-bak) ; write workspace file to backup
+                    (insert build-file-additional-content-1) ; append contents to current buffer
+                    (goto-char (point-max)) ; go-to the end of current buffer
+                    (insert build-file-additional-content-2) ; append contents to current buffer
+                    (tramp-handle-write-region nil nil build-file-name))
+                (progn
+                  (message "Cannot find build file, continue gracefully without build file")
+                  (insert build-file-additional-content-1) ; append contents to current buffer
+                  (goto-char (point-max)) ; go-to the end of current buffer
+                  (insert build-file-additional-content-2) ; append contents to current buffer
+                  (tramp-handle-write-region nil nil build-file-name))))
 
             ;; run refresh_compile_commands
             (message "Running command (*over tramp*): \"bazel run -s :refresh_compile_commands &\"")
-            (tramp-handle-shell-command "bazel run -s :refresh_compile_commands; mv WORKSPACE.bak WORKSPACE; mv BUILD.bazel.bak BUILD.bazel &") ; '&' as async
-            )
+            (tramp-handle-shell-command "bazel run -s :refresh_compile_commands")
+            (if (tramp-handle-file-exists-p build-file-name)
+                (let ((exec-cmd (concat bazel-run-cmd exit-cmd "&")))
+                  (tramp-handle-shell-command exec-cmd))
+              (let ((exec-cmd (concat bazel-run-cmd exit-rm-build-cmd "&")))
+                (tramp-handle-shell-command exec-cmd))))
         (progn
           ;; setup workspace file
           (with-temp-buffer
+            (message (concat "Workspace file found at: " workspace-file-name))
             (insert-file-contents workspace-file-name) ; read workspace file
             (write-region nil nil workspace-file-name-bak) ; write workspace file to backup
             (goto-char (point-max)) ; go-to the end of current buffer
             (insert workspace-file-additional-content) ; append contents to current buffer
-            (write-region nil nil workspace-file-name) ; write modified contents to workspace
-            )
+            (write-region nil nil workspace-file-name))
 
+          ;; setup build file
           (with-temp-buffer
-            (insert-file-contents build-file-name) ; read build file
-            (write-region nil nil build-file-name-bak) ; write workspace file to backup
-            (insert build-file-additional-content-1) ; append contents to current buffer
-            (goto-char (point-max)) ; go-to the end of current buffer
-            (insert build-file-additional-content-2) ; append contents to current buffer
-            (write-region nil nil build-file-name) ; write modified contents to workspace
-            )
+            (if (file-exists-p build-file-name)
+                (progn
+                  (message (concat "Build file found at" build-file-name))
+                  (insert-file-contents build-file-name) ; read build file
+                  (write-region nil nil build-file-name-bak) ; write workspace file to backup
+                  (insert build-file-additional-content-1) ; append contents to current buffer
+                  (goto-char (point-max)) ; go-to the end of current buffer
+                  (insert build-file-additional-content-2) ; append contents to current buffer
+                  (write-region nil nil build-file-name))
+              (progn
+                (message "Cannot find build file, continue gracefully without build file")
+                (insert build-file-additional-content-1) ; append contents to current buffer
+                (goto-char (point-max)) ; go-to the end of current buffer
+                (insert build-file-additional-content-2) ; append contents to current buffer
+                (write-region nil nil build-file-name))))
 
           ;; run refresh_compile_commands
-          (message "Running command: \"bazel run -s :refresh_compile_commands\"")
-          (async-shell-command "bazel run -s :refresh_compile_commands; mv WORKSPACE.bak WORKSPACE; mv BUILD.bazel.bak BUILD.bazel")
-          )
-        )
+          (message "Running command (*locally*): \"bazel run -s :refresh_compile_commands &\"")
+          (if (file-exists-p build-file-name)
+              (let ((exec-cmd (concat bazel-run-cmd exit-cmd "&")))
+                (shell-command exec-cmd))
+            (let ((exec-cmd (concat bazel-run-cmd exit-rm-build-cmd "&")))
+              (shell-command exec-cmd)))))
 
-      (message "Finished")
-      )))
+      (message "Finished"))))
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
@@ -195,8 +222,8 @@ refresh_compile_commands(\n\
 ;; ----------------------------------------------------------------------------
 ;; Only complete when I ask!
 ;; https://www.reddit.com/r/DoomEmacs/comments/wdxah3/how_to_stop_word_autocomplete/
-(after! company
-  (setq company-idle-delay nil))
+;; (after! company
+;;   (setq company-idle-delay nil))
 
 
 ;; setup interier shell (built-in with emacs) type
