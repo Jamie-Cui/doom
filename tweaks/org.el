@@ -42,7 +42,7 @@
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
   (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.7))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.65))
   (setq org-format-latex-options (plist-put org-format-latex-options :foreground "White"))
   (setq org-format-latex-options (plist-put org-format-latex-options :background "Transparent"))
   (setq org-startup-with-latex-preview t) ;; startup with latex review
@@ -75,6 +75,7 @@
   ;; setup org-agenda key binding
   (evil-set-initial-state 'org-agenda-mode 'normal)
   (setq org-agenda-span 1)
+  (setq org-deadline-warning-days 365)
   (setq org-agenda-start-day "+0d")
   )
 
