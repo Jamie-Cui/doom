@@ -42,8 +42,9 @@
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
   (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.95))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.65))
   (setq org-startup-with-latex-preview t) ;; startup with latex review
+  (setq org-preview-latex-default-process 'dvisvgm) ; use dvisvgm to preview!
   (setq org-startup-folded 'content)
   (setq org-startup-with-inline-images t)
   (setq org-startup-numerated t) ; startup with org-num-mode
