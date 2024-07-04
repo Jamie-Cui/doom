@@ -15,6 +15,7 @@
 
 (package! evil-tutor-sc) ; learn to use evil (in Chinese!)
 (package! ctable) ; required by tweaks/leetcode.el
+(package! protobuf-mode) ; 
 
 ;; :recipe (:host github :repo "username/repo"))
 
