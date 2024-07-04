@@ -53,3 +53,4 @@
 (load (concat doom-user-dir "tweaks/cppdev.el"))
 (load (concat doom-user-dir "tweaks/latex.el"))
 (load (concat doom-user-dir "tweaks/leetcode.el"))
+(load (concat doom-user-dir "tweaks/define.el"))
