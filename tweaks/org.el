@@ -43,7 +43,7 @@
 (after! org
   (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.65))
-  (setq org-format-latex-options (plist-put org-format-latex-options :foreground "White"))
+  (setq org-format-latex-options (plist-put org-format-latex-options :foreground "Black"))
   (setq org-format-latex-options (plist-put org-format-latex-options :background "Transparent"))
   (setq org-startup-with-latex-preview t) ;; startup with latex review
   (setq org-preview-latex-default-process 'dvisvgm) ; use dvisvgm to preview!
