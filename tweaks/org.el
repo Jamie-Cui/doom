@@ -74,7 +74,8 @@
 (after! org-agenda
   ;; setup org-agenda key binding
   (evil-set-initial-state 'org-agenda-mode 'normal)
-  (setq org-agenda-span 1)
+  (setq org-agenda-span 'week)
+  (setq org-agenda-start-on-weekday 1)
   (setq org-deadline-warning-days 365)
   (setq org-agenda-start-day "+0d")
   )
