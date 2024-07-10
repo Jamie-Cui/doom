@@ -5,18 +5,16 @@
 ;; ---------------------------------------------------------------------------- 
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
-;; always use the remote path for org-roam
-(setq org-roam-directory (concat org-remote-path "roam"))
-(setq org-directory (concat org-remote-path "org"))
-
 (if use-remote-path
     (progn
       (setq deft-directory (concat org-remote-path "deft"))
-      )
+      (setq org-directory (concat org-remote-path "org")))
   (progn
     (setq deft-directory (concat org-local-path "deft"))
-    )
-  )
+    (setq org-directory (concat org-local-path "org"))))
+
+;; always use the remote path for org-roam
+(setq org-roam-directory (concat org-remote-path "roam"))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: note taking
@@ -71,8 +69,10 @@
         org-download-abbreviate-filename-function #'file-relative-name)
   (setq org-download-link-format-function #'org-download-link-format-function-default))
 
+;; ----------------------------------------------------------------------------
+;; Configuration: org agenda and calendar
+;; ----------------------------------------------------------------------------
 (after! org-agenda
-  ;; setup org-agenda key binding
   (evil-set-initial-state 'org-agenda-mode 'normal)
   (setq org-agenda-span 'week)
   (setq org-agenda-start-on-weekday 1)
@@ -80,7 +80,4 @@
   (setq org-agenda-start-day "+0d")
   )
 
-;; ----------------------------------------------------------------------------
-;; Configuration: org agenda and calendar
-;; ----------------------------------------------------------------------------
 (setq calendar-week-start-day 1) ; start with monday
