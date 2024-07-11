@@ -5,16 +5,18 @@
 ;; ---------------------------------------------------------------------------- 
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
-(if use-remote-path
+(after! org
+  (if use-remote-path
+      (progn
+        (setq deft-directory (concat org-remote-path "deft"))
+        (setq org-directory (concat org-remote-path "org")))
     (progn
-      (setq deft-directory (concat org-remote-path "deft"))
-      (setq org-directory (concat org-remote-path "org")))
-  (progn
-    (setq deft-directory (concat org-local-path "deft"))
-    (setq org-directory (concat org-local-path "org"))))
+      (setq deft-directory (concat org-local-path "deft"))
+      (setq org-directory (concat org-local-path "org")))))
 
 ;; always use the remote path for org-roam
-(setq org-roam-directory (concat org-remote-path "roam"))
+(after! org-roam
+  (setq org-roam-directory (concat org-remote-path "roam")))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: note taking

@@ -25,7 +25,7 @@
 ;; setup new const variables, make sure to doom sync after change
 (defconst org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
 (defconst org-local-path "~/org-local/")
-(defconst use-remote-path nil) ; non-nil to use remote path
+(defconst use-remote-path t) ; non-nil to use remote path
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
