@@ -60,7 +60,9 @@
   ;; ----------------------------
   (add-hook 'org-mode-hook #'xenops-mode)
   (setq xenops-math-image-scale-factor 0.65)
-  (setq xenops-math-image-current-scale-factor 0.65))
+  ;; (setq xenops-math-image-current-scale-factor 0.65)
+  (setq xenops-math-image-margin 0)
+  )
 
 ;; configure org-roam-ui
 (after! org-roam
