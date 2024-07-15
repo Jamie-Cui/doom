@@ -15,7 +15,8 @@
 
 (package! evil-tutor-sc) ; learn to use evil (in Chinese!)
 (package! ctable) ; required by tweaks/leetcode.el
-(package! protobuf-mode) ; 
+(package! xenops) ; Xenops is a LaTeX editing environment for mathematical documents in Emacs.
+(package! protobuf-mode)
 
 ;; :recipe (:host github :repo "username/repo"))
 
