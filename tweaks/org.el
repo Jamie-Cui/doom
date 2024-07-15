@@ -1,22 +1,21 @@
 ;;; org.el -*- lexical-binding: t; -*-
 
 (require 'org-download) ;; drag-and-drop for images
+(require 'xenops) ;; better org latex math
 
 ;; ---------------------------------------------------------------------------- 
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
-(after! org
-  (if use-remote-path
-      (progn
-        (setq deft-directory (concat org-remote-path "deft"))
-        (setq org-directory (concat org-remote-path "org")))
+(if use-remote-path
     (progn
-      (setq deft-directory (concat org-local-path "deft"))
-      (setq org-directory (concat org-local-path "org")))))
+      (setq deft-directory (concat org-remote-path "deft"))
+      (setq org-directory (concat org-remote-path "org")))
+  (progn
+    (setq deft-directory (concat org-local-path "deft"))
+    (setq org-directory (concat org-local-path "org"))))
 
 ;; always use the remote path for org-roam
-(after! org-roam
-  (setq org-roam-directory (concat org-remote-path "roam")))
+(setq org-roam-directory (concat org-remote-path "roam"))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: note taking
@@ -42,17 +41,28 @@
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
   (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.65))
-  (setq org-format-latex-options (plist-put org-format-latex-options :foreground "Black"))
-  (setq org-format-latex-options (plist-put org-format-latex-options :background "Transparent"))
-  (setq org-startup-with-latex-preview t) ;; startup with latex review
-  (setq org-preview-latex-default-process 'dvisvgm) ; use dvisvgm to preview!
   (setq org-startup-folded 'content)
   (setq org-startup-with-inline-images t)
   (setq org-startup-numerated t) ; startup with org-num-mode
-  (setq org-num-max-level 2))  ; add numering for all titles
+  (setq org-num-max-level 2)  ; add numering for all titles
 
-;; configure org-roam-uo
+  ;; ----------------------------
+  ;; use the original org-preview
+  ;; ----------------------------
+  ;; (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.65))
+  ;; (setq org-format-latex-options (plist-put org-format-latex-options :foreground "Black"))
+  ;; (setq org-format-latex-options (plist-put org-format-latex-options :background "Transparent"))
+  ;; (setq org-startup-with-latex-preview t) ;; startup with latex review
+  ;; (setq org-preview-latex-default-process 'dvisvgm) ; use dvisvgm to preview!
+
+  ;; ----------------------------
+  ;; use xenops instead
+  ;; ----------------------------
+  (add-hook 'org-mode-hook #'xenops-mode)
+  (setq xenops-math-image-scale-factor 0.65)
+  (setq xenops-math-image-current-scale-factor 0.65))
+
+;; configure org-roam-ui
 (after! org-roam
   (add-to-list 'load-path (concat doom-local-dir "straight/repos/org-roam-ui")) ;; manually load package
   (add-to-list 'load-path (concat doom-local-dir "straight/repos/emacs-web-server")) ;; manually load package
