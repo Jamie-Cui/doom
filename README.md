@@ -96,3 +96,7 @@ defaults write -g KeyRepeat -int 1
 open ~/Library/Preferences/.GlobalPreferences.plist
 ```
 
+**How to remove unused-org-mode-attachment-files?**
+
+see: https://stackoverflow.com/questions/28213360/how-to-delete-unused-org-mode-attachment-files-from-disc
+
