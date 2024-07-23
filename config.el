@@ -45,12 +45,12 @@
 ;;         ("https" . "127.0.0.1:8001")))
 
 ;; ----------------------------------------------------------------------------
-;; Load my own tweaks
+;; Load my own configurations
 ;; ----------------------------------------------------------------------------
-(load (concat doom-user-dir "tweaks/window.el"))
-(load (concat doom-user-dir "tweaks/editor.el"))
-(load (concat doom-user-dir "tweaks/org.el"))
-(load (concat doom-user-dir "tweaks/cppdev.el"))
-(load (concat doom-user-dir "tweaks/latex.el"))
-(load (concat doom-user-dir "tweaks/leetcode.el"))
-(load (concat doom-user-dir "tweaks/define.el"))
+(load (concat doom-user-dir "my-config/window.el"))
+(load (concat doom-user-dir "my-config/editor.el"))
+(load (concat doom-user-dir "my-config/org.el"))
+(load (concat doom-user-dir "my-config/cppdev.el"))
+(load (concat doom-user-dir "my-config/latex.el"))
+(load (concat doom-user-dir "my-config/leetcode.el"))
+(load (concat doom-user-dir "my-config/define.el"))
