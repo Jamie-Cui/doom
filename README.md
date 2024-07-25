@@ -100,3 +100,9 @@ open ~/Library/Preferences/.GlobalPreferences.plist
 
 see: https://stackoverflow.com/questions/28213360/how-to-delete-unused-org-mode-attachment-files-from-disc
 
+**Git Fetch RPC failed?**
+
+see: https://stackoverflow.com/questions/46232906/git-clone-error-rpc-failed-curl-56-openssl-ssl-read-ssl-error-syscall-errno
+
+`git config --global http.postBuffer 524288000`
+
