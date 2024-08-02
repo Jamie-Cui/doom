@@ -34,12 +34,12 @@ brew install git ripgrep coreutils fd libtool fontconfig ripgrep pngpaste
 brew install clang-format bazelisk cmake ninja
 ```
 
-Then, install emacs-mac,
+Then, install emacs-plus,
 
 ```sh
-brew tap railwaycat/emacsmacport
-brew install emacs-mac --with-modules --with-native-comp
-ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
+brew tap d12frosted/emacs-plus
+brew install emacs-plus
+ln -s /usr/local/opt/emacs-plus/Emacs.app /Applications/Emacs.app
 # open emacs
 open -a "emacs" # you can also setup this as quick open script in alfred
 ```
