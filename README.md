@@ -38,7 +38,7 @@ Then, install emacs-plus,
 
 ```sh
 brew tap d12frosted/emacs-plus
-brew install emacs-plus
+brew install emacs-plus --with-native-comp
 ln -s /usr/local/opt/emacs-plus/Emacs.app /Applications/Emacs.app
 # open emacs
 open -a "emacs" # you can also setup this as quick open script in alfred
