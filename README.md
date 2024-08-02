@@ -106,3 +106,6 @@ see: https://stackoverflow.com/questions/46232906/git-clone-error-rpc-failed-cur
 
 `git config --global http.postBuffer 524288000`
 
+**Emacs struggles on svg images on M1?**
+
+see: https://github.com/railwaycat/homebrew-emacsmacport/issues/312
