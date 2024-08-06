@@ -2,20 +2,22 @@
 
 (require 'org-download) ;; drag-and-drop for images
 (require 'xenops) ;; better org latex math
+(require 'org-roam-ui) ;; ui for roam
+(require 'simple-httpd) ;; org-roam-ui dependency
 
 ;; ---------------------------------------------------------------------------- 
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
-(if use-remote-path
+(if jamie-use-remote-path
     (progn
-      (setq deft-directory (concat org-remote-path "deft"))
-      (setq org-directory (concat org-remote-path "org")))
+      (setq deft-directory (concat jamie-org-remote-path "deft"))
+      (setq org-directory (concat jamie-org-remote-path "org")))
   (progn
-    (setq deft-directory (concat org-local-path "deft"))
-    (setq org-directory (concat org-local-path "org"))))
+    (setq deft-directory (concat jamie-org-local-path "deft"))
+    (setq org-directory (concat jamie-org-local-path "org"))))
 
 ;; always use the remote path for org-roam
-(setq org-roam-directory (concat org-remote-path "roam"))
+(setq org-roam-directory (concat jamie-org-remote-path "roam"))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: note taking
@@ -35,8 +37,8 @@
 
 (after! citar
   ;; put paper notes in roam folder
-  (add-to-list 'citar-notes-paths (concat org-remote-path "roam"))
-  (add-to-list 'citar-bibliography (concat org-remote-path "zotero_all.bib")))
+  (add-to-list 'citar-notes-paths (concat jamie-org-remote-path "roam"))
+  (add-to-list 'citar-bibliography (concat jamie-org-remote-path "zotero_all.bib")))
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
@@ -47,25 +49,14 @@
   (setq org-num-max-level 2)  ; add numering for all titles
 
   ;; ----------------------------
-  ;; use the original org-preview
-  ;; ----------------------------
-  ;; (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.65))
-  ;; (setq org-format-latex-options (plist-put org-format-latex-options :foreground "Black"))
-  ;; (setq org-format-latex-options (plist-put org-format-latex-options :background "Transparent"))
-  ;; (setq org-startup-with-latex-preview t) ;; startup with latex review
-  ;; (setq org-preview-latex-default-process 'dvisvgm) ; use dvisvgm to preview!
-
-  ;; ----------------------------
-  ;; use xenops instead
+  ;; use xenops to preview, it's simply better
   ;; ----------------------------
   (add-hook 'org-mode-hook #'xenops-mode)
   (setq xenops-math-image-current-scale-factor 1.2)
   (setq xenops-math-image-margin 0))
 
 ;; configure org-roam-ui
-(after! org-roam
-  (add-to-list 'load-path (concat doom-local-dir "straight/repos/org-roam-ui")) ;; manually load package
-  (add-to-list 'load-path (concat doom-local-dir "straight/repos/emacs-web-server")) ;; manually load package
+(after! org-roam-ui
   (setq org-roam-ui-sync-theme t
         org-roam-ui-follow t
         org-roam-ui-update-on-save t

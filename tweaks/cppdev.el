@@ -4,6 +4,33 @@
 (require 'flycheck-google-cpplint) ; load this package
 
 ;; ----------------------------------------------------------------------------
+;; Configuration: tramp, lsp, projectile, vterm
+;; ----------------------------------------------------------------------------
+;; it's wired that vertico uses this to list all files
+(setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
+
+;; on ubuntu, you need to "ln -s /bin/fdfind /bin/fd"
+(setq projectile-fd-executable "fd")
+
+;; Config Tramp
+(after! tramp
+  ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
+  (setq tramp-default-method "sshx") ; use sshx (since it supportszsh and fish) instead of default scp
+  (setq tramp-default-remote-shell "/bin/zsh") ; do-not-use executable-find
+  (customize-set-variable 'tramp-encoding-shell "/bin/zsh") ; do-not-use executable-find
+  (connection-local-update-profile-variables 'tramp-connection-local-default-shell-profile
+                                             '((shell-file-name . "/bin/zsh")
+                                               (shell-command-switch . "-c"))))
+;; Use zsh over vterm tramp
+(after! (:and vterm tramp)
+  (setq vterm-shell (executable-find "zsh"))
+  (setq vterm-tramp-shells '("sshx" "/bin/zsh")))
+;; setup interier shell (built-in with emacs) type
+;; REVIEW not sure if this variable is used by tramp or not
+(setq explicit-shell-file-name (executable-find "zsh")) ; emacs-c-code variable
+
+
+;; ----------------------------------------------------------------------------
 ;; Configuration: lsp c++ format on save
 ;; ----------------------------------------------------------------------------
 ;; there are many workarounds:
@@ -36,35 +63,10 @@
 ;; disable eglot inlay
 (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
-;; ----------------------------------------------------------------------------
-;; Configuration: tramp, lsp, projectile, vterm
-;; ----------------------------------------------------------------------------
-;; it's wired that vertico uses this to list all files
-(setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
-
-;; on ubuntu, you need to "ln -s /bin/fdfind /bin/fd"
-(setq projectile-fd-executable "fd")
-
-;; Config Tramp
-(after! tramp
-  ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
-  (setq tramp-default-method "sshx") ; use sshx (since it supportszsh and fish) instead of default scp
-  (setq tramp-default-remote-shell "/bin/zsh") ; do-not-use executable-find
-  (customize-set-variable 'tramp-encoding-shell "/bin/zsh") ; do-not-use executable-find
-  (connection-local-update-profile-variables 'tramp-connection-local-default-shell-profile
-                                             '((shell-file-name . "/bin/zsh")
-                                               (shell-command-switch . "-c")))
-  )
-
-;; Use zsh over vterm tramp
-(after! (:and vterm tramp)
-  (setq vterm-shell (executable-find "zsh"))
-  (setq vterm-tramp-shells '("sshx" "/bin/zsh")))
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [bazel]
 ;; ----------------------------------------------------------------------------
-
 (use-package! bazel
   :config
   (add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
@@ -74,8 +76,15 @@
   (setq-hook! 'bazel-mode-hook
     apheleia-inhibit t
     +format-with nil            ; do not format with apheleia
-    +format-with-lsp nil)       ; do not format with lsp
-  )
+    +format-with-lsp nil))
+
+(map! :localleader
+      :map (c++-mode-map c-mode-map bazel-mode-map)
+      :desc "Bazel build"       "b" #'bazel-build
+      :desc "Bazel run"         "r" #'bazel-run
+      :desc "Bazel test"        "t" #'bazel-test
+      :desc "Bazel comile current file"        "m" #'bazel-compile-current-file)
+
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
@@ -94,30 +103,12 @@
   (flycheck-add-next-checker 'eglot-check
                              '(warning . c/c++-googlelint))
   (setq! flycheck-c/c++-googlelint-executable "cpplint"
-         flycheck-cppcheck-standards '("c++17"))
-  )
+         flycheck-cppcheck-standards '("c++17")))
 
-
-(map! :localleader
-      :map (c++-mode-map c-mode-map bazel-mode-map)
-      :desc "Bazel build"       "b" #'bazel-build
-      :desc "Bazel run"         "r" #'bazel-run
-      :desc "Bazel test"        "t" #'bazel-test
-      :desc "Bazel comile current file"        "m" #'bazel-compile-current-file)
 
 ;; ----------------------------------------------------------------------------
-;; Configuration: completion
+;; Magit
 ;; ----------------------------------------------------------------------------
-;; Only complete when I ask!
-;; https://www.reddit.com/r/DoomEmacs/comments/wdxah3/how_to_stop_word_autocomplete/
-;; (after! company
-;;   (setq company-idle-delay nil))
-
-
-;; setup interier shell (built-in with emacs) type
-;; REVIEW not sure if this variable is used by tramp or not
-(setq explicit-shell-file-name (executable-find "zsh")) ; emacs-c-code variable
-
 ;; use vim key bindings in magit-status-mode
 (evil-set-initial-state 'magit-status-mode 'normal)
 (evil-set-initial-state 'magit-diff-mode 'normal)
