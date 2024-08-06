@@ -59,9 +59,8 @@
   ;; use xenops instead
   ;; ----------------------------
   (add-hook 'org-mode-hook #'xenops-mode)
-  (setq xenops-math-image-scale-factor 1)
-  (setq xenops-math-image-margin 0)
-  )
+  (setq xenops-math-image-current-scale-factor 1.2)
+  (setq xenops-math-image-margin 0))
 
 ;; configure org-roam-ui
 (after! org-roam
@@ -90,7 +89,6 @@
   (setq org-agenda-span 'week)
   (setq org-agenda-start-on-weekday 1)
   (setq org-deadline-warning-days 365)
-  (setq org-agenda-start-day "+0d")
-  )
+  (setq org-agenda-start-day "+0d"))
 
 (setq calendar-week-start-day 1) ; start with monday
