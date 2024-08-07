@@ -22,8 +22,6 @@ Recommended MacOS Apps:
 
 Of course, you need to download Emacs and doom first. As in [doom's getting started guide](https://github.com/doomemacs/doomemacs/blob/master/docs/getting_started.org#with-homebrew) says,
 
-> emacs-mac offers good integration with macOS, native emojis and better childframe support.
-
 So, do the following steps. First, install presiquites with [Homebrew](https://brew.sh/).
 
 ```sh
