@@ -89,10 +89,11 @@ sudo ln -s /Library/TeX/texbin/dvipng /usr/local/bin
 see: https://apple.stackexchange.com/a/83923, remember to restart your system in order for the configs to take effect.
 ```
 defaults write -g InitialKeyRepeat -int 10
-defaults write -g KeyRepeat -int 1
+defaults write -g KeyRepeat -int 2 // I think 2 is better, you can set this to 1
 # or, config those values though GUI
 open ~/Library/Preferences/.GlobalPreferences.plist
 ```
+Remember to log-out and re-log-in for those changes to take effect.
 
 **How to remove unused-org-mode-attachment-files?**
 
