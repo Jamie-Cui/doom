@@ -21,9 +21,15 @@
                   vterm-mode-hook
                   shell-mode-hook
                   comint-mode-hook
+                  message-mode-hook
                   treemacs-mode-hook
                   eshell-mode-hook))
     (add-hook mode (lambda() (display-line-numbers-mode 0)))))
+
+;; ----------------------------------------------------------------------------
+;; Completion
+;; ----------------------------------------------------------------------------
+;; Remember that! Corfu use M-n M-p to navigate between corfu candidates!
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: undo
