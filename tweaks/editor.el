@@ -42,3 +42,6 @@
 
 ;; disable vim "u" undo, I prefer use of "C-z"
 (define-key evil-normal-state-map "u" nil)
+
+;; use relative line numbers
+(setq display-line-numbers-type 'relative)
