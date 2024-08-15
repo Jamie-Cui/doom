@@ -39,3 +39,6 @@
 
 ;; do-not truncate lines by default
 (set-default 'truncate-lines nil)
+
+;; disable vim "u" undo, I prefer use of "C-z"
+(define-key evil-normal-state-map "u" nil)
