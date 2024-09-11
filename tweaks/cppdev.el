@@ -39,30 +39,24 @@
 ;; but we want a workaround that works both on local projects and tramp projects
 ;; so the best way is to force c++/c mode to use eglot-format-buffer other than apheleia
 
-;; use local mode on most cases
-(setq apheleia-remote-algorithm 'remote)
+(after! apheleia-formatters
+  ;; use local mode on most cases
+  (setq apheleia-remote-algorithm 'local))
 
-;; setup local varaiables on c++-mode-hook
-(setq-hook! 'c++-mode-hook
-  apheleia-inhibit t
-  +format-with nil) ;; do not format with apheleia
+;; when we have eglot managed         
+;; (after! eglot
+;;   ;; setup local varaiables on c++-mode-hook
+;;   (setq-hook! 'c++-mode-hook
+;;     apheleia-inhibit t
+;;     +format-with nil) ;; do not format with apheleia
 
-;; setup local varaiables on c-mode-hook
-(setq-hook! 'c-mode-hook
-  apheleia-inhibit t
-  +format-with nil) ;; do not format with apheleia
+;;   ;; format with eglot on save
+;;   (add-hook 'c++-mode-hook
+;;             (lambda()
+;;               (add-hook 'before-save-hook #'eglot-format-buffer)))
 
-(add-hook 'c++-mode-hook
-          (lambda()
-            (add-hook 'before-save-hook #'eglot-format-buffer)))
-
-(add-hook 'c-mode-hook
-          (lambda()
-            (add-hook 'before-save-hook #'eglot-format-buffer)))
-
-;; disable eglot inlay
-(setq eglot-ignored-server-capabilities '(:inlayHintProvider))
-
+;;   ;; disable eglot inlay
+;;   (setq eglot-ignored-server-capabilities '(:inlayHintProvider)))
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [bazel]
@@ -70,13 +64,14 @@
 (use-package! bazel
   :config
   (add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
-  (add-hook 'bazel-mode-hook
-            (lambda()
-              (add-hook 'before-save-hook #'bazel-buildifier nil t)))
-  (setq-hook! 'bazel-mode-hook
-    apheleia-inhibit t
-    +format-with nil            ; do not format with apheleia
-    +format-with-lsp nil))
+  ;; (add-hook 'bazel-mode-hook
+  ;;           (lambda()
+  ;;             (add-hook 'before-save-hook #'bazel-buildifier nil t)))
+  ;; (setq-hook! 'bazel-mode-hook
+  ;;   apheleia-inhibit t
+  ;;   +format-with nil            ; do not format with apheleia
+  ;;   +format-with-lsp nil)
+  )
 
 (map! :localleader
       :map (c++-mode-map c-mode-map bazel-mode-map)
