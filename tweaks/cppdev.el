@@ -105,6 +105,6 @@
 ;; Magit
 ;; ----------------------------------------------------------------------------
 ;; use vim key bindings in magit-status-mode
-(evil-set-initial-state 'magit-status-mode 'normal)
-(evil-set-initial-state 'magit-diff-mode 'normal)
-(evil-set-initial-state 'magit-revision-mode 'normal)
+;; (evil-set-initial-state 'magit-status-mode 'normal)
+;; (evil-set-initial-state 'magit-diff-mode 'normal)
+;; (evil-set-initial-state 'magit-revision-mode 'normal)
