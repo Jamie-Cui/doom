@@ -74,7 +74,7 @@
   )
 
 (map! :localleader
-      :map (c++-mode-map c-mode-map bazel-mode-map)
+      :map (c++-mode-map c-mode-map bazel-mode-map python-mode-map)
       :desc "Bazel build"       "b" #'bazel-build
       :desc "Bazel run"         "r" #'bazel-run
       :desc "Bazel test"        "t" #'bazel-test
@@ -108,3 +108,7 @@
 ;; (evil-set-initial-state 'magit-status-mode 'normal)
 ;; (evil-set-initial-state 'magit-diff-mode 'normal)
 ;; (evil-set-initial-state 'magit-revision-mode 'normal)
+
+;; see: https://github.com/pythonic-emacs/anaconda-mode#faq
+(setq anaconda-mode-localhost-address "localhost")
+
