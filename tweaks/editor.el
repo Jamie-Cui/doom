@@ -14,18 +14,6 @@
 (with-eval-after-load 'evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
-;; do not set line numer mode for those modes
-;; (after! treemacs
-;;   (dolist (mode '(org-mode-hook
-;;                   term-mode-hook
-;;                   vterm-mode-hook
-;;                   shell-mode-hook
-;;                   comint-mode-hook
-;;                   message-mode-hook
-;;                   treemacs-mode-hook
-;;                   eshell-mode-hook))
-;;     (add-hook mode (lambda() (display-line-numbers-mode 0)))))
-
 ;; ----------------------------------------------------------------------------
 ;; Completion
 ;; ----------------------------------------------------------------------------

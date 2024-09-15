@@ -67,9 +67,9 @@
 ;; ----------------------------------------------------------------------------
 ;; Load my own configurations
 ;; ----------------------------------------------------------------------------
-(load (concat doom-user-dir "tweaks/editor.el"))
-(load (concat doom-user-dir "tweaks/org.el"))
-(load (concat doom-user-dir "tweaks/cppdev.el"))
-(load (concat doom-user-dir "tweaks/latex.el"))
-(load (concat doom-user-dir "tweaks/leetcode.el"))
-(load (concat doom-user-dir "tweaks/define.el"))
+(load (concat doom-user-dir "tweaks/" "editor.el"))
+(load (concat doom-user-dir "tweaks/" "org.el"))
+(load (concat doom-user-dir "tweaks/" "dev.el"))
+(load (concat doom-user-dir "tweaks/" "latex.el"))
+(load (concat doom-user-dir "tweaks/" "leetcode.el"))
+(load (concat doom-user-dir "tweaks/" "define.el"))
