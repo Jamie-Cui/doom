@@ -17,8 +17,8 @@
 
 (defvar jtools-bin-dowload-alist
   '(
-    ("buildifier" . "https://github.com/bazelbuild/buildtools/releases/download/v6.4.0/buildifier-darwin-amd64")
-    ("clangd" . "https://github.com/clangd/clangd/releases/download/17.0.3/clangd-mac-17.0.3.zip")
+    ("buildifier" . "https://github.com/bazelbuild/buildtools/releases/download/v7.3.1/buildifier-darwin-amd64")
+    ("clangd.zip" . "https://github.com/clangd/clangd/releases/download/18.1.3/clangd-mac-18.1.3.zip")
     )
   "Alist of (KEY . FUNCTION) pairs"
   )
@@ -31,8 +31,9 @@
     (print! (start (concat "Detected bin-dir at: " jtools-bin-dir)))
     (print-group!
       (dolist (p jtools-bin-dowload-alist)
-        (print! (start (concat "Downloading " (car p) " from "  (cdr p) " ... ")))
-        (url-copy-file (cdr p) (concat jtools-bin-dir (car p)) t)
+        (print! (start (concat "Downloading " (car p) " from "  (cdr p) " ... (async) ")))
+        ;; (url-copy-file (cdr p) (concat jtools-bin-dir (car p)) t)
+        (async-shell-command (concat "wget -c " (cdr p) " -O " jtools-bin-dir (car p)))
         ))))
 
 ;; (url-copy-file "https://github.com/bazelbuild/buildtools/releases/download/v6.4.0/buildifier-darwin-amd64" (concat private-doom-bin-dir "buildifier") t)
