@@ -57,19 +57,9 @@
   (setq apheleia-remote-algorithm 'local))
 
 ;; when we have eglot managed         
-;; (after! eglot
-;;   ;; setup local varaiables on c++-mode-hook
-;;   (setq-hook! 'c++-mode-hook
-;;     apheleia-inhibit t
-;;     +format-with nil) ;; do not format with apheleia
-
-;;   ;; format with eglot on save
-;;   (add-hook 'c++-mode-hook
-;;             (lambda()
-;;               (add-hook 'before-save-hook #'eglot-format-buffer)))
-
-;;   ;; disable eglot inlay
-;;   (setq eglot-ignored-server-capabilities '(:inlayHintProvider)))
+(after! eglot
+  ;; disable eglot inlay
+  (setq eglot-ignored-server-capabilities '(:inlayHintProvider)))
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [bazel]
