@@ -77,21 +77,16 @@
 (use-package! bazel
   :config
   (add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
-  ;; (add-hook 'bazel-mode-hook
-  ;;           (lambda()
-  ;;             (add-hook 'before-save-hook #'bazel-buildifier nil t)))
-  ;; (setq-hook! 'bazel-mode-hook
-  ;;   apheleia-inhibit t
-  ;;   +format-with nil            ; do not format with apheleia
-  ;;   +format-with-lsp nil)
+  (setq! bazel-buildifier-command (concat doom-private-dir "bin/buildifier"))
+  (setq! bazel-buildifier-before-save 't)
+  (map! :localleader
+        :map (c++-mode-map c-mode-map bazel-mode-map python-mode-map)
+        :desc "Bazel build"       "b" #'bazel-build
+        :desc "Bazel run"         "r" #'bazel-run
+        :desc "Bazel test"        "t" #'bazel-test
+        :desc "Bazel comile current file"        "m" #'bazel-compile-current-file)
   )
 
-(map! :localleader
-      :map (c++-mode-map c-mode-map bazel-mode-map python-mode-map)
-      :desc "Bazel build"       "b" #'bazel-build
-      :desc "Bazel run"         "r" #'bazel-run
-      :desc "Bazel test"        "t" #'bazel-test
-      :desc "Bazel comile current file"        "m" #'bazel-compile-current-file)
 
 
 ;; ----------------------------------------------------------------------------
@@ -237,4 +232,3 @@ refresh_compile_commands(\n\
             (shell-command exec-cmd)))))
 
     (message "Finished")))
-
