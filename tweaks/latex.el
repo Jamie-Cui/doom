@@ -16,6 +16,11 @@
 ;; enable evil on pdf-view-mode
 (evil-set-initial-state 'pdf-view-mode 'normal)
 
+;; set default viewers
+;; NOTE +latex-viewers are used by modules/lang/latex/+views.el immediately after
+;; latex module inited.
+(setq-default +latex-viewers '(pdf-tools))
+
 (after! tex
   ;; use remote bib
   ;; (setq reftex-default-bibliography (concat org-remote-path "zotero_all.bib"))
@@ -47,8 +52,6 @@
   ;; set default tex-engine to xetex
   ;; (setq TeX-engine 'xetex)
 
-  ;; set default viewers
-  (setq-default +latex-viewers '(pdf-tools))
 
   ;; use cdlatex's snippets
   (map! :after cdlatex
