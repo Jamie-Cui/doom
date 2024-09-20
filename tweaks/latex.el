@@ -38,6 +38,8 @@
   ;;    ConTeXt-engine))
 
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+  (add-hook 'LaTeX-mode-hook  (lambda ()
+                                (setq-local +format-with 'latexindent)))
 
   ;; disable offset
   (setq +latex-indent-item-continuation-offset 'nil)
