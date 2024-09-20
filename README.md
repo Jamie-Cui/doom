@@ -103,6 +103,8 @@ see: https://stackoverflow.com/questions/28213360/how-to-delete-unused-org-mode-
 
 see: https://stackoverflow.com/questions/46232906/git-clone-error-rpc-failed-curl-56-openssl-ssl-read-ssl-error-syscall-errno
 
+also: https://stackoverflow.com/questions/59282476/error-rpc-failed-curl-92-http-2-stream-0-was-not-closed-cleanly-protocol-erro#comment112866014_59474908
+
 `git config --global http.postBuffer 524288000`
 
 **Emacs struggles on svg images on M1?**
