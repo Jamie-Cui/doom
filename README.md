@@ -110,3 +110,8 @@ also: https://stackoverflow.com/questions/59282476/error-rpc-failed-curl-92-http
 **Emacs struggles on svg images on M1?**
 
 see: https://github.com/railwaycat/homebrew-emacsmacport/issues/312
+
+**One hotkey: Launch Editor?**
+
+One hotkey: Launch Editor, Bring Editor to front window, Open file/folder in Editor. Easily change TextEditor/IDE. Support Vim and Emacs!
+see: https://github.com/willbchang/alfred-open-in-editor
