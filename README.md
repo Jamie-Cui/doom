@@ -115,3 +115,7 @@ see: https://github.com/railwaycat/homebrew-emacsmacport/issues/312
 
 One hotkey: Launch Editor, Bring Editor to front window, Open file/folder in Editor. Easily change TextEditor/IDE. Support Vim and Emacs!
 see: https://github.com/willbchang/alfred-open-in-editor
+
+**Rapidly search and cite Zotero entries from Alfred**
+
+see: https://github.com/giovannicoppola/zothero
