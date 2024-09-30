@@ -119,3 +119,10 @@ see: https://github.com/willbchang/alfred-open-in-editor
 **Rapidly search and cite Zotero entries from Alfred**
 
 see: https://github.com/giovannicoppola/zothero
+
+**doom sync is insanly slow?**
+
+try the following, see: https://emacs-china.org/t/doom-emacs/16069
+```
+git config --global url.https://github.com.cnpmjs.org/.insteadof https://github.com/
+```
