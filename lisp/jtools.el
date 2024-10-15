@@ -23,16 +23,15 @@
   "Alist of (KEY . FUNCTION) pairs"
   )
 
-(defun jtools-setup-bin ()
-  "Setup the bin directory in ~/.config/doom"
+(defun jtools-download-bin-async ()
+  "Download all dependencies into the bin directory, a.k.a. $HOME/.config/doom"
   (interactive)
   (let
-      ((jtools-bin-dir (expand-file-name (concat (file-name-directory (symbol-name 'jtools-setup-bin)) "../bin/"))))
+      ((jtools-bin-dir (expand-file-name (concat (file-name-directory (symbol-name 'jtools-download-bin-async)) "../bin/"))))
     (print! (start (concat "Detected bin-dir at: " jtools-bin-dir)))
     (print-group!
       (dolist (p jtools-bin-dowload-alist)
         (print! (start (concat "Downloading " (car p) " from "  (cdr p) " ... (async) ")))
-        ;; (url-copy-file (cdr p) (concat jtools-bin-dir (car p)) t)
         (async-shell-command (concat "wget -c " (cdr p) " -O " jtools-bin-dir (car p)))
         ))))
 
@@ -49,3 +48,4 @@
 ;;   (goto-char (point-max)) ; go-to the end of current buffer
 ;;   (insert (concat "export PATH=$PATH:" private-doom-bin-dir)) ; append contents to current buffer
 ;;   (write-region nil nil "~/.zshrc")))
+

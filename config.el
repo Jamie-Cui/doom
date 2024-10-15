@@ -1,10 +1,5 @@
 ;;; config.el -*- lexical-binding: t; -*-
 
-;; You may want to install the following open-source apps:
-;; * terminal:          https://alacritty.org/                  $HOME/.alacritty.toml, see configs in https://alacritty.org/config-alacritty.html
-;; * pdf:               https://skim-app.sourceforge.io/
-;; * bib:               https://www.zotero.org/
-
 ;; ----------------------------------------------------------------------------
 ;; Generic Setup
 ;; ----------------------------------------------------------------------------
@@ -17,7 +12,8 @@
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; setup theme
-(setq doom-theme 'nil)
+;; (setq doom-theme 'nil)
+(setq doom-theme 'modus-vivendi)
 
 ;; setup default font
 ;; (setq doom-font (font-spec :family "Monaco" :size 14 :weight 'medium))
@@ -37,6 +33,15 @@
 ;; (setq +vc-gutter-in-remote-files t)
 
 ;; ----------------------------------------------------------------------------
+;; Config thirdparty dependencies
+;; ----------------------------------------------------------------------------
+(add-to-list 'load-path (concat doom-user-dir "thirdparty/holo-layer/"))
+
+;; use and start holo-layer
+(require 'holo-layer)
+(holo-layer-enable)
+
+;; ----------------------------------------------------------------------------
 ;; Configuration: windows
 ;; ----------------------------------------------------------------------------
 (setq scroll-step            1
@@ -52,9 +57,10 @@
 ;; (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
 ;; (add-to-list 'default-frame-alist '(horizontal-scroll-bars . nil))
 
-(map! :leader
-      :desc "Switch to next frame" ;; Switch between different emacs frames
-      "F" #'+evil/next-frame)
+;; Switch between different emacs frames
+;; (map! :leader
+;;       :desc "Switch to next frame"
+;;       "F" #'+evil/next-frame)
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: proxy
@@ -65,10 +71,40 @@
         ("https" . "127.0.0.1:8001")))
 
 ;; ----------------------------------------------------------------------------
-;; Load my own configurations
+;; Editor Setup
 ;; ----------------------------------------------------------------------------
-(load (concat doom-user-dir "tweaks/" "editor.el"))
-(load (concat doom-user-dir "tweaks/" "org.el"))
-(load (concat doom-user-dir "tweaks/" "dev.el"))
-(load (concat doom-user-dir "tweaks/" "latex.el"))
+
+;; Paste and kill selected origin: https://emacs.stackexchange.com/a/15054
+(fset 'evil-visual-update-x-selection 'ignore)
+
+;; Fix chinese wrap
+(setq word-wrap-by-category t)
+
+;; Make Evil behaves more like vim
+(with-eval-after-load 'evil
+  (defalias #'forward-evil-word #'forward-evil-symbol))
+
+;; ----------------------------------------------------------------------------
+;; Configuration: undo
+;; ----------------------------------------------------------------------------
+(after! undo-tree
+  (setq undo-tree-auto-save-history nil))
+
+;; do-not truncate lines by default
+(set-default 'truncate-lines nil)
+
+;; disable vim "u" undo, I prefer use of "C-z"
+(define-key evil-normal-state-map "u" nil)
+
+;; use relative line numbers
+(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-grow-only 't)
+(setq display-line-numbers-width-start 't)
+
+;; ----------------------------------------------------------------------------
+;; Load all my tweaks (instantly)
+;; ----------------------------------------------------------------------------
+(load (concat doom-user-dir "lisp/" "org.el"))
+(load (concat doom-user-dir "lisp/" "dev.el"))
+(load (concat doom-user-dir "lisp/" "latex.el"))
 (load (concat doom-user-dir "lisp/" "jtools.el"))
