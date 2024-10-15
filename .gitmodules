@@ -1,0 +1,3 @@
+[submodule "thirdparty/holo-layer"]
+	path = thirdparty/holo-layer
+	url = git@github.com:manateelazycat/holo-layer.git
