@@ -15,43 +15,45 @@
 
 ;; enable evil on pdf-view-mode
 (evil-set-initial-state 'pdf-view-mode 'normal)
-(setq +latex-viewers '(skim))
+
+;; set default viewers
+;; NOTE +latex-viewers are used by modules/lang/latex/+views.el immediately after
+;; latex module inited.
+(setq-default +latex-viewers '(pdf-tools))
 
 (after! tex
   ;; use remote bib
   ;; (setq reftex-default-bibliography (concat org-remote-path "zotero_all.bib"))
 
-  ;; do not format with apheleia
-  (setq-hook! 'LaTeX-mode-hook
-    apheleia-inhibit t
-    +format-with nil) ;; do not format with apheleia
-
-  (map! :after latex
-        :localleader
+  ;; add key bindings
+  (map! :localleader
         :map LaTeX-mode-map
-        :desc "Run Tex-Clean"             "c" #'TeX-clean
-        :desc "Run TeX-master-file-ask"   "m" #'TeX-master-file-ask
-        :desc "Set tex engine"            "e" #'TeX-engine-set)
+        :desc ""                          "a" #'nil
+        :desc "Run all"                   "r" #'TeX-command-run-all
+        :desc "Run Tex-Clean"             "d" #'TeX-clean
+        :desc "Run TeX-master-file-ask"   "M" #'TeX-master-file-ask
+        :desc "Set tex engine"            "R" #'TeX-engine-set)
 
-  ;; Set to `auto' for continuation lines to be offset by `LaTeX-indent-line':
-  ;;   \\item lines aligned
-  ;;     like this, assuming `LaTeX-indent-line' == 2
-  (setq +latex-indent-item-continuation-offset 'auto)
+  ;; add custom engine
+  ;; (add-to-list
+  ;;  'TeX-engine-alist
+  ;;  '(default-with-synctex "Default with shell escape"
+  ;;    "pdftex --synctex=1"
+  ;;    "pdflatex --synctex=1"
+  ;;    ConTeXt-engine))
+
+  (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+  (add-hook 'LaTeX-mode-hook  (lambda ()
+                                (setq-local +format-with 'latexindent)))
+
+  ;; disable offset
+  (setq +latex-indent-item-continuation-offset 'nil)
 
   ;; set default tex-engine to xetex
-  (setq TeX-engine 'xetex)
-  )
-
-;; (after! tex-mode
-;;   (set-company-backend! 'company-yasnippet))
-
-;; enable yasnippet in tex-mode
-(add-hook! 'tex-mode
-  (lambda ()
-    (set (make-local-variable 'company-backends)
-         '((company-dabbrev-code company-yasnippet)))))
-
-;; enable evil on pdf-view-mode
-(evil-set-initial-state 'pdf-view-mode 'normal)
+  ;; (setq TeX-engine 'xetex)
 
 
+  ;; use cdlatex's snippets
+  (map! :after cdlatex
+        :map cdlatex-mode-map
+        :i "TAB" #'cdlatex-tab))

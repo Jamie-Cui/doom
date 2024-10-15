@@ -103,8 +103,26 @@ see: https://stackoverflow.com/questions/28213360/how-to-delete-unused-org-mode-
 
 see: https://stackoverflow.com/questions/46232906/git-clone-error-rpc-failed-curl-56-openssl-ssl-read-ssl-error-syscall-errno
 
+also: https://stackoverflow.com/questions/59282476/error-rpc-failed-curl-92-http-2-stream-0-was-not-closed-cleanly-protocol-erro#comment112866014_59474908
+
 `git config --global http.postBuffer 524288000`
 
 **Emacs struggles on svg images on M1?**
 
 see: https://github.com/railwaycat/homebrew-emacsmacport/issues/312
+
+**One hotkey: Launch Editor?**
+
+One hotkey: Launch Editor, Bring Editor to front window, Open file/folder in Editor. Easily change TextEditor/IDE. Support Vim and Emacs!
+see: https://github.com/willbchang/alfred-open-in-editor
+
+**Rapidly search and cite Zotero entries from Alfred**
+
+see: https://github.com/giovannicoppola/zothero
+
+**doom sync is insanly slow?**
+
+try the following, see: https://emacs-china.org/t/doom-emacs/16069
+```
+git config --global url.https://github.com.cnpmjs.org/.insteadof https://github.com/
+```
