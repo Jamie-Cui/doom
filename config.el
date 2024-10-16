@@ -27,7 +27,7 @@
 (setq confirm-kill-emacs nil)
 
 ;; HACK: Query vc status for remote files
-;; (setq ibuffer-vc-skip-if-remote nil)
+(setq ibuffer-vc-skip-if-remote nil)
 
 ;; HACK: Enable the vc gutter in remote files (e.g. open through TRAMP)
 ;; (setq +vc-gutter-in-remote-files t)
@@ -40,7 +40,10 @@
 ;; use and start holo-layer
 (require 'holo-layer)
 (holo-layer-enable)
-(setq holo-layer-enable-cursor-animation 't)
+(setq!
+ holo-layer-enable-cursor-animation 't
+ holo-layer-cursor-animation-interval 10
+ holo-layer-cursor-alpha 100)
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: windows
