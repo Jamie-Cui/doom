@@ -19,7 +19,7 @@
 ;; set default viewers
 ;; NOTE +latex-viewers are used by modules/lang/latex/+views.el immediately after
 ;; latex module inited.
-(setq-default +latex-viewers '(pdf-tools))
+;; (setq-default +latex-viewers '(pdf-tools))
 
 (after! tex
   ;; use remote bib
@@ -45,6 +45,9 @@
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
   (add-hook 'LaTeX-mode-hook  (lambda ()
                                 (setq-local +format-with 'latexindent)))
+  (after! LaTex-mode
+    (set-formatter! 'latexindent '("latexindent") :modes '(LaTex-mode))
+    )
 
   ;; disable offset
   (setq +latex-indent-item-continuation-offset 'nil)
