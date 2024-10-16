@@ -40,6 +40,7 @@
 ;; use and start holo-layer
 (require 'holo-layer)
 (holo-layer-enable)
+(setq holo-layer-enable-cursor-animation 't)
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: windows
