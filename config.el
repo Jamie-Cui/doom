@@ -101,7 +101,7 @@
 (define-key evil-normal-state-map "u" nil)
 
 ;; use relative line numbers
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type 't)
 (setq display-line-numbers-grow-only 't)
 (setq display-line-numbers-width-start 't)
 
