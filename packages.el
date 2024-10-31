@@ -17,6 +17,7 @@
 (package! ctable) ; required by tweaks/leetcode.el
 (package! xenops) ; Xenops is a LaTeX editing environment for mathematical documents in Emacs.
 (package! protobuf-mode)
+(package! plantuml-mode) ; for drawing diagrams!!!
 
 ;; :recipe (:host github :repo "username/repo"))
 
