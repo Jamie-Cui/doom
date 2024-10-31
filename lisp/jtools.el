@@ -17,8 +17,9 @@
 
 (defvar jtools-bin-dowload-alist
   '(
-    ("buildifier" . "https://github.com/bazelbuild/buildtools/releases/download/v7.3.1/buildifier-darwin-amd64")
+    ("buildifier" . "https://github.com/bazelbuild/buildtools/releases/download/v6.3.2/buildifier-darwin-arm64")
     ("clangd.zip" . "https://github.com/clangd/clangd/releases/download/18.1.3/clangd-mac-18.1.3.zip")
+    ("plantuml.jar" . "https://github.com/plantuml/plantuml/releases/download/v1.2024.7/plantuml-1.2024.7.jar")
     )
   "Alist of (KEY . FUNCTION) pairs"
   )
