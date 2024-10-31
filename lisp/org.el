@@ -53,6 +53,7 @@
   (add-to-list 'citar-notes-paths (concat jamie-org-remote-path "roam"))
   (add-to-list 'citar-bibliography (concat jamie-org-remote-path "zotero_all.bib")))
 
+
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
   (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
@@ -67,6 +68,19 @@
   (add-hook 'org-mode-hook #'xenops-mode)
   (setq xenops-math-image-current-scale-factor 1.2)
   (setq xenops-math-image-margin 0))
+
+;; ----------------------------
+;; Add Plantuml
+;; ----------------------------
+(after! (:and plantuml-mode org)
+  (setq! plantuml-default-exec-mode 'executable)
+  (setq! org-plantuml-jar-path (concat doom-user-dir "bin/plantuml.jar"))
+  (setq! plantuml-jar-path (concat doom-user-dir "bin/plantuml.jar"))
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((plantuml . t))) ; this line activates plantuml
+  )
 
 ;; configure org-roam-ui
 (after! org-roam-ui
@@ -96,3 +110,4 @@
   (setq org-agenda-start-day "+0d"))
 
 (setq calendar-week-start-day 1) ; start with monday
+
