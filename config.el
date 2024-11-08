@@ -21,7 +21,7 @@
 ;; setup new const variables, make sure to doom sync after change
 (defconst jamie-org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
 (defconst jamie-org-local-path "~/org-local/")
-(defconst jamie-use-remote-path 't) ; non-nil to use remote path
+(defconst jamie-use-remote-path 'nil) ; non-nil to use remote path
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
@@ -35,15 +35,45 @@
 ;; ----------------------------------------------------------------------------
 ;; Config thirdparty dependencies
 ;; ----------------------------------------------------------------------------
-(add-to-list 'load-path (concat doom-user-dir "thirdparty/holo-layer/"))
 
-;; use and start holo-layer
-(require 'holo-layer)
-(holo-layer-enable)
-(setq!
- holo-layer-enable-cursor-animation 't
- holo-layer-cursor-animation-interval 10
- holo-layer-cursor-alpha 100)
+(use-package! holo-layer
+  :load-path (lambda()(concat doom-user-dir "thirdparty/holo-layer/"))
+  :config
+  (require 'holo-layer)
+  (holo-layer-enable)
+  (setq!
+   holo-layer-enable-cursor-animation 't
+   holo-layer-cursor-animation-interval 10
+   holo-layer-cursor-alpha 100))
+
+;; (add-to-list 'load-path (concat doom-user-dir "thirdparty/holo-layer/"))
+
+;; (add-to-list 'load-path (concat doom-user-dir "thirdparty/emacs-application-framework"))
+;; (add-to-list 'load-path (concat doom-user-dir "thirdparty/emacs-application-framework/app/browser/"))
+;; (add-to-list 'load-path (concat doom-user-dir "thirdparty/emacs-application-framework/extension/"))
+
+;; (require 'eaf)
+;; (require 'eaf-browser)
+;; (require 'eaf-evil)
+
+;; (when (display-graphic-p)
+;;   (require 'eaf-all-the-icons))
+
+;; (setq! eaf-browser-continue-where-left-off t
+;;        eaf-browser-enable-adblocker t
+;;        browse-url-browser-function 'eaf-open-browser)
+
+;; (define-key key-translation-map (kbd "SPC")
+;;             (lambda (prompt)
+;;               (if (derived-mode-p 'eaf-mode)
+;;                   (pcase eaf--buffer-app-name
+;;                     ("browser" (if  (string= (eaf-call-sync "call_function" eaf--buffer-id "is_focus") "True")
+;;                                    (kbd "SPC")
+;;                                  (kbd eaf-evil-leader-key)))
+;;                     ("pdf-viewer" (kbd eaf-evil-leader-key))
+;;                     ("image-viewer" (kbd eaf-evil-leader-key))
+;;                     (_  (kbd "SPC")))
+;;                 (kbd "SPC"))))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: windows
