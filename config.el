@@ -36,15 +36,15 @@
 ;; Config thirdparty dependencies
 ;; ----------------------------------------------------------------------------
 
-(use-package! holo-layer
-  :load-path (lambda()(concat doom-user-dir "thirdparty/holo-layer/"))
-  :config
-  (require 'holo-layer)
-  (holo-layer-enable)
-  (setq!
-   holo-layer-enable-cursor-animation 't
-   holo-layer-cursor-animation-interval 10
-   holo-layer-cursor-alpha 100))
+;; (use-package! holo-layer
+;;   :load-path (lambda()(concat doom-user-dir "thirdparty/holo-layer/"))
+;;   :config
+;;   (require 'holo-layer)
+;;   (holo-layer-enable)
+;;   (setq!
+;;    holo-layer-enable-cursor-animation 't
+;;    holo-layer-cursor-animation-interval 10
+;;    holo-layer-cursor-alpha 100))
 
 ;; (add-to-list 'load-path (concat doom-user-dir "thirdparty/holo-layer/"))
 
