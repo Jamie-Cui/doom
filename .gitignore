@@ -1,6 +1,4 @@
 bin/*
-!/bin/jd
-!/bin/jt
 
 # devtools
 .idea/

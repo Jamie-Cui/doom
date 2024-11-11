@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# code from https://github.com/hmarr/dotfiles/blob/main/bin/update-alacritty-icon.sh
+# code from
+# https://github.com/hmarr/dotfiles/blob/main/bin/update-alacritty-icon.sh
 
 set -eo pipefail
 

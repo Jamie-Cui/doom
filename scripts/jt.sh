@@ -19,9 +19,9 @@ echo -e "$RELATIVE_PATH"
 
 # Define functions
 PRINT_HELP() {
-    echo "-------------------------------------------"
+    echo "==========================================="
     echo "A tool for remote-benchmarking bazel target"
-    echo "-------------------------------------------"
+    echo "==========================================="
     echo "Usage:"
     echo "  jt [target]"
 }

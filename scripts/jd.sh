@@ -1,15 +1,14 @@
 #!/bin/bash
 
-# $2 : cpu cores
-
-YOUR_NAME=sz
-YOUR_DOCKER_PATH=$HOME/Desktop/docker
-DOCKER_IMAGE=secretflow/ubuntu-base-ci:latest
+DOCKER_USER_NAME=sz
+DOCKER_PATH=$PWD
+DOCKER_CORES=8
+DOCKER_IMAGE=ubuntu
 
 PRINT_HELP() {
-        echo "-------------------------------------------------------"
-        echo "A tool for managing jamie's benchmark docker containers"
-        echo "-------------------------------------------------------"
+        echo "======================================================="
+        echo "A tool for managing jamie's dev docker containers"
+        echo "======================================================="
         echo "Usage:"
         echo "  jd [Commands]"
         echo "Commands:"
@@ -19,29 +18,24 @@ PRINT_HELP() {
 }
 
 if [ "$1" = "build" ]; then
-        if [ $# -eq 1 ]; then
-                echo "Docker cpu cores: 16 (default)"
-                echo "Docker name: $YOUR_NAME-benchmark-16"
-                echo "Docker path: $YOUR_DOCKER_PATH"
-                docker run -d -it --name $YOUR_NAME-benchmark-16 --mount type=bind,source="$YOUR_DOCKER_PATH",target=/home/admin/dev/ -w /home/admin/dev --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --cap-add=NET_ADMIN --privileged=true --cpus=16 $DOCKER_IMAGE
-        else
-                echo "Docker cpu cores: $2"
-                echo "Docker name: $YOUR_NAME-benchmark-$2"
-                echo "Docker path: $YOUR_DOCKER_PATH"
-                docker run -d -it --name sz-benchmark-$2 --mount type=bind,source="$YOUR_DOCKER_PATH",target=/home/admin/dev/ -w /home/admin/dev --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --cap-add=NET_ADMIN --privileged=true --cpus=$2 $DOCKER_IMAGE
-        fi
+        echo "Docker cpu cores: $DOCKER_CORES"
+        echo "Docker name: $DOCKER_USER_NAME-dev-$DOCKER_CORES"
+        echo "Docker path: $DOCKER_PATH"
+        docker run -d -it\
+                --name $DOCKER_USER_NAME-dev-$DOCKER_CORES\
+                --mount type=bind,source="$DOCKER_PATH",target=/home/admin/dev/\
+                -w /home/admin/dev\
+                --cap-add=SYS_PTRACE\
+                --security-opt seccomp=unconfined\
+                --cap-add=NET_ADMIN\
+                --privileged=true\
+                --cpus=$DOCKER_CORES\
+                $DOCKER_IMAGE
         exit 0
 elif [ "$1" = "in" ]; then
-        if [ $# -eq 1 ]; then
-                echo "Docker cpu cores: 16 (default)"
-                echo "Docker name: $YOUR_NAME-benchmark-16"
-                docker exec -it $YOUR_NAME-benchmark-16 /bin/bash
-        else
-                echo "Docker cpu cores: $2"
-                echo "Docker name: $YOUR_NAME-benchmark-$2"
-                docker exec -it $YOUR_NAME-benchmark-$2 /bin/bash
-        fi
-
+        echo "Docker cpu cores: $DOCKER_CORES"
+        echo "Docker name: $DOCKER_USER_NAME-dev-$DOCKER_CORES"
+        docker exec -it $DOCKER_USER_NAME-dev-$DOCKER_CORES /bin/bash
         exit 0
 elif [ "$1" = "pull" ]; then
         docker pull ${DOCKER_IMAGE}
