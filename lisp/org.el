@@ -21,16 +21,25 @@
 ;; ---------------------------------------------------------------------------- 
 ;; Configuration: org mode and citations
 ;; ----------------------------------------------------------------------------
-(if jamie-use-remote-path
-    (progn
-      (setq deft-directory (concat jamie-org-remote-path "deft"))
-      (setq org-directory (concat jamie-org-remote-path "org")))
-  (progn
-    (setq deft-directory (concat jamie-org-local-path "deft"))
-    (setq org-directory (concat jamie-org-local-path "org"))))
 
-;; always use the remote path for org-roam
-(setq org-roam-directory (concat jamie-org-remote-path "roam"))
+(defun +org/get-org-directory ()
+  "Get the org-directory"
+  (if jamie-use-remote-path (concat jamie-org-remote-path "org")
+    (concat jamie-org-local-path "org")))
+
+(defun +org/get-deft-directory ()
+  "Get the deft-directory"
+  (if jamie-use-remote-path (concat jamie-org-remote-path "deft")
+    (concat jamie-org-local-path "deft")))
+
+(defun +org/get-roam-directory ()
+  "Get the org-roam-directory"
+  (if jamie-use-remote-path (concat jamie-org-remote-path "roam")
+    (concat jamie-org-local-path "roam")))
+
+(setq deft-directory (+org/get-deft-directory))
+(setq org-directory (+org/get-org-directory))
+(setq org-roam-directory (+org/get-roam-directory))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: note taking
@@ -45,8 +54,7 @@
   ;; start with evil normal mode
   (set-evil-initial-state! 'deft-mode 'normal)
   (setq! deft-strip-summary-regexp ".*$")
-  (setq! deft-current-sort-method 'title)
-  )
+  (setq! deft-current-sort-method 'title))
 
 (after! citar
   ;; put paper notes in roam folder
@@ -72,6 +80,8 @@
 ;; ----------------------------
 ;; Add Plantuml
 ;; ----------------------------
+;;
+;; require additional bin/plantuml.jar file
 (after! (:and plantuml-mode org)
   (setq! plantuml-default-exec-mode 'executable)
   (setq! org-plantuml-jar-path (concat doom-user-dir "bin/plantuml.jar"))

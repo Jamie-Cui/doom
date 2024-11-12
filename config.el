@@ -141,4 +141,3 @@
 (load (concat doom-user-dir "lisp/" "org.el"))
 (load (concat doom-user-dir "lisp/" "dev.el"))
 (load (concat doom-user-dir "lisp/" "latex.el"))
-(load (concat doom-user-dir "lisp/" "jtools.el"))
