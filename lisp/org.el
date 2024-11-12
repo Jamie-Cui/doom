@@ -45,11 +45,15 @@
 (setq deft-directory (+org/get-deft-directory))
 (setq org-directory (+org/get-org-directory))
 (setq org-roam-directory (+org/get-roam-directory))
-(setq org-agenda-files (+org/get-org-directory))
+(setq org-agenda-files (cons (+org/get-org-directory) '()))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: note taking
 ;; ----------------------------------------------------------------------------
+
+(after! org-journal
+  (setq org-journal-file-type 'monthly)
+  (setq org-journal-enable-agenda-integration 't))
 
 ;; for macos only: add texbin to the system path
 (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin/"))
