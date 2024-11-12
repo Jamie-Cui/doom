@@ -1,3 +1,6 @@
 [submodule "thirdparty/holo-layer"]
 	path = thirdparty/holo-layer
 	url = git@github.com:manateelazycat/holo-layer.git
+[submodule "thirdparty/emacs-application-framework"]
+	path = thirdparty/emacs-application-framework
+	url = git@github.com:emacs-eaf/emacs-application-framework.git
