@@ -37,9 +37,15 @@
   (if jamie-use-remote-path (concat jamie-org-remote-path "roam")
     (concat jamie-org-local-path "roam")))
 
+(defun +org/get-zotero-path ()
+  "Get the org-roam-directory"
+  (if jamie-use-remote-path (concat jamie-org-remote-path "zotero_all.bib")
+    (concat jamie-org-local-path "zotero_all.bib")))
+
 (setq deft-directory (+org/get-deft-directory))
 (setq org-directory (+org/get-org-directory))
 (setq org-roam-directory (+org/get-roam-directory))
+(setq org-agenda-files (+org/get-org-directory))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: note taking
@@ -58,8 +64,8 @@
 
 (after! citar
   ;; put paper notes in roam folder
-  (add-to-list 'citar-notes-paths (concat jamie-org-remote-path "roam"))
-  (add-to-list 'citar-bibliography (concat jamie-org-remote-path "zotero_all.bib")))
+  (add-to-list 'citar-notes-paths org-roam-directory)
+  (add-to-list 'citar-bibliography (+org/get-zotero-path)))
 
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
@@ -120,4 +126,3 @@
   (setq org-agenda-start-day "+0d"))
 
 (setq calendar-week-start-day 1) ; start with monday
-
