@@ -45,7 +45,7 @@
 (setq deft-directory (+org/get-deft-directory))
 (setq org-directory (+org/get-org-directory))
 (setq org-roam-directory (+org/get-roam-directory))
-(setq org-agenda-files (cons (+org/get-org-directory) '()))
+(setq org-agenda-files (directory-files-recursively (+org/get-org-directory) "\\.org$"))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: note taking
