@@ -124,7 +124,7 @@ load(\"@bazel_tools//tools/build_defs/repo:git.bzl\", \"git_repository\")\n\
 \n\
 git_repository(\n\
         name = \"hedron_compile_commands\",\n\
-        commit = \"388cc00156cbf53570c416d39875b15f03c0b47f\",\n\
+        commit = \"4f28899228fb3ad0126897876f147ca15026151e\",\n\
         remote = \"https://github.com/hedronvision/bazel-compile-commands-extractor.git\",\n\
 )\n\
 \n\
