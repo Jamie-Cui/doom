@@ -12,3 +12,4 @@ ln -s -f jt.sh $BASE_BIN_DIR/jt
 ./setup-bin-clangd.sh
 ./setup-bin-plantuml.sh
 ./setup-bin-buildifier.sh
+./setup-bin-latexindent.sh

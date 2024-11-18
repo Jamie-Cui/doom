@@ -42,12 +42,15 @@
   ;;    "pdflatex --synctex=1"
   ;;    ConTeXt-engine))
 
-  (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
-  (add-hook 'LaTeX-mode-hook  (lambda ()
-                                (setq-local +format-with 'latexindent)))
-  (after! LaTex-mode
-    (set-formatter! 'latexindent '("latexindent") :modes '(LaTex-mode))
-    )
+  ;; tex-mode           ; latexindent is broken
+  ;; latex-mode
+  ;; LaTeX-mode
+  
+  ;; (add-hook 'LaTeX-mode-hook 'TeX-source-correlare-mode)
+  ;; (add-hook 'LaTeX-mode-hook  (lambda ()
+  ;;                               (setq-local +format-with 'latexindent)))
+  ;; (after! LaTeX-mode
+  ;;   (set-formatter! 'latexindent '("latexindent -l") :modes '(LaTex-mode)))
 
   ;; disable offset
   (setq +latex-indent-item-continuation-offset 'nil)
@@ -55,8 +58,48 @@
   ;; set default tex-engine to xetex
   ;; (setq TeX-engine 'xetex)
 
+  (after! adaptive-wrap
+    (remove-hook 'LaTeX-mode-hook 'adaptive-wrap-prefix-mode))
+
 
   ;; use cdlatex's snippets
   (map! :after cdlatex
         :map cdlatex-mode-map
         :i "TAB" #'cdlatex-tab))
+
+
+(defun +latex/format-buffer ()
+  (interactive)
+  (let ((this-buffer (current-buffer))
+        (my-command "latexindent")
+        (temp-buffer (generate-new-buffer " *latexindent-message*")))
+    (apply
+     #'call-process-region
+     nil ; start
+     nil ; end
+     my-command ; program
+     nil ; delete
+     nil ; destination
+     nil ; display
+     `
+     ("-wd -s -l"
+      "$HOME/.config/doom/templates/latexindent.yaml"
+      ,(buffer-file-name (this-buffer))) ; arguments
+     )))
+
+
+(defun  +latex/save-format-buffer-hook-for-this-buffer ()
+  (add-hook 'before-save-hook
+            (lambda ()
+              (progn
+                (+latex/format-buffer)
+                ;; Continue to save.
+                nil))
+            nil
+            ;; Buffer local hook.
+            t))
+
+
+;; Example for elisp, could be any mode though.
+(add-hook 'LaTeX-mode-hook
+          (lambda () (+latex/save-format-buffer-hook-for-this-buffer)))
