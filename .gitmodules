@@ -4,3 +4,6 @@
 [submodule "thirdparty/emacs-application-framework"]
 	path = thirdparty/emacs-application-framework
 	url = git@github.com:emacs-eaf/emacs-application-framework.git
+[submodule "thirdparty/disable-mouse"]
+	path = thirdparty/disable-mouse
+	url = git@github.com:purcell/disable-mouse.git

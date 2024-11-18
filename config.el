@@ -36,21 +36,27 @@
 ;; Config thirdparty dependencies
 ;; ----------------------------------------------------------------------------
 
-;; (use-package! holo-layer
-;;   :load-path (lambda()(concat doom-user-dir "thirdparty/holo-layer/"))
-;;   :config
-;;   (require 'holo-layer)
-;;   (holo-layer-enable)
-;;   (setq!
-;;    holo-layer-enable-cursor-animation 't
-;;    holo-layer-cursor-animation-interval 10
-;;    holo-layer-cursor-alpha 100))
+(use-package! holo-layer
+  :load-path (lambda()(concat doom-user-dir "thirdparty/holo-layer/"))
+  :config
+  (require 'holo-layer)
+  (holo-layer-enable)
+  (setq!
+   holo-layer-enable-cursor-animation 't
+   holo-layer-cursor-animation-interval 10
+   holo-layer-cursor-alpha 100
+   holo-layer-python-command "~/miniconda3/bin/python"))
 
-;; (add-to-list 'load-path (concat doom-user-dir "thirdparty/holo-layer/"))
-
-;; (add-to-list 'load-path (concat doom-user-dir "thirdparty/emacs-application-framework"))
-;; (add-to-list 'load-path (concat doom-user-dir "thirdparty/emacs-application-framework/app/browser/"))
-;; (add-to-list 'load-path (concat doom-user-dir "thirdparty/emacs-application-framework/extension/"))
+(use-package! disable-mouse
+  :load-path (lambda()(concat doom-user-dir "thirdparty/disable-mouse/"))
+  :config
+  (require 'disable-mouse)
+  (global-disable-mouse-mode)
+  (mapc #'disable-mouse-in-keymap
+        (list evil-motion-state-map
+              evil-normal-state-map
+              evil-visual-state-map
+              evil-insert-state-map)))
 
 ;; (require 'eaf)
 ;; (require 'eaf-browser)

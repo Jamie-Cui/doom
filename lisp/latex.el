@@ -70,22 +70,12 @@
 
 (defun +latex/format-buffer ()
   (interactive)
-  (let ((this-buffer (current-buffer))
-        (my-command "latexindent")
-        (temp-buffer (generate-new-buffer " *latexindent-message*")))
-    (apply
-     #'call-process-region
-     nil ; start
-     nil ; end
-     my-command ; program
-     nil ; delete
-     nil ; destination
-     nil ; display
-     `
-     ("-wd -s -l"
-      "$HOME/.config/doom/templates/latexindent.yaml"
-      ,(buffer-file-name (this-buffer))) ; arguments
-     )))
+  (apply
+   #'call-process-region
+   nil ; start
+   nil ; end
+   "latexindent -wd -s -l $HOME/.config/doom/templates/latexindent.yaml " ; program
+   ))
 
 
 (defun  +latex/save-format-buffer-hook-for-this-buffer ()
