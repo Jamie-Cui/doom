@@ -7,17 +7,25 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 (package! flycheck-google-cpplint)
+(package! flycheck-clang-tidy)
 (package! bazel)
 (package! org-download) ;; moving images from point A to point B.
 
 (package! simple-httpd) ;; deps for org-roam-ui, in emacs-web-server
 (package! org-roam-ui) ;; use org-roam-ui
 
-(package! evil-tutor-sc) ; learn to use evil (in Chinese!)
-(package! ctable) ; required by tweaks/leetcode.el
-(package! xenops) ; Xenops is a LaTeX editing environment for mathematical documents in Emacs.
 (package! protobuf-mode)
+(package! meson-mode)
 (package! plantuml-mode) ; for drawing diagrams!!!
+
+(package! rime
+  :recipe (:host github
+           :repo "DogLooksGood/emacs-rime"
+           :files ("*.el" "Makefile" "lib.c"))) ; pinyin
+
+(package! xenops) ; Xenops is a LaTeX editing environment for mathematical
+
+(package! keyfreq) ; analysing your key frequency!
 
 ;; :recipe (:host github :repo "username/repo"))
 
