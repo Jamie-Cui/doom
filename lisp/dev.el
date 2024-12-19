@@ -70,7 +70,7 @@
   (setq! bazel-buildifier-command (concat doom-private-dir "bin/buildifier"))
   (setq! bazel-buildifier-before-save 't)
   (map! :localleader
-        :map (c++-mode-map c-mode-map bazel-mode-map python-mode-map)
+        :map bazel-mode-map
         :desc "Bazel build"       "b" #'bazel-build
         :desc "Bazel run"         "r" #'bazel-run
         :desc "Bazel test"        "t" #'bazel-test
