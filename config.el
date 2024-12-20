@@ -16,7 +16,14 @@
 (setq doom-theme 'modus-vivendi)
 
 ;; setup default font
-;; (setq doom-font (font-spec :family "Monaco" :size 14 :weight 'medium))
+;; setup default font
+;; (setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 18 :weight 'medium))
+
+;; (defun init-cjk-fonts()
+;;   (dolist (charset '(kana han cjk-misc bopomofo))
+;;     (set-fontset-font (frame-parameter nil 'font)
+;;                       charset (font-spec :family "AR PL KaitiM GB" :size 18))))
+;; (add-hook 'doom-init-ui-hook 'init-cjk-fonts)
 
 ;; setup new const variables, make sure to doom sync after change
 (defconst jamie-org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
