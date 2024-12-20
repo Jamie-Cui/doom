@@ -43,61 +43,55 @@
 ;; Config thirdparty dependencies
 ;; ----------------------------------------------------------------------------
 
-(use-package! holo-layer
-  :load-path (lambda()(concat doom-user-dir "thirdparty/holo-layer/"))
+;; (use-package! holo-layer
+;;   :load-path (lambda()(concat doom-user-dir "thirdparty/holo-layer/"))
+;;   :config
+;;   (require 'holo-layer)
+;;   (holo-layer-enable)
+;;   (setq!
+;;    holo-layer-enable-cursor-animation 't
+;;    holo-layer-cursor-animation-interval 10
+;;    holo-layer-cursor-alpha 100
+;;    holo-layer-python-command "~/miniconda3/bin/python"))
+
+;; (use-package! disable-mouse
+;;   :load-path (lambda()(concat doom-user-dir "thirdparty/disable-mouse/"))
+;;   :config
+;;   (require 'disable-mouse)
+;;   (global-disable-mouse-mode)
+;;   (mapc #'disable-mouse-in-keymap
+;;         (list evil-motion-state-map
+;;               evil-normal-state-map
+;;               evil-visual-state-map
+;;               evil-insert-state-map)))
+
+(setq fcitx-remote-command "fcitx5-remote")
+(setq pyim-pinyin-fuzzy-alist nil) ; no fuzzing in chinese input
+
+(after! ace-pinyin
+  (setq ace-pinyin-simplified-chinese-only-p t))
+
+(use-package! rime
   :config
-  (require 'holo-layer)
-  (holo-layer-enable)
-  (setq!
-   holo-layer-enable-cursor-animation 't
-   holo-layer-cursor-animation-interval 10
-   holo-layer-cursor-alpha 100
-   holo-layer-python-command "~/miniconda3/bin/python"))
+  (setq default-input-method "rime")
+  (setq rime-show-candidate 'posframe))
 
-(use-package! disable-mouse
-  :load-path (lambda()(concat doom-user-dir "thirdparty/disable-mouse/"))
+(use-package! keyfreq
   :config
-  (require 'disable-mouse)
-  (global-disable-mouse-mode)
-  (mapc #'disable-mouse-in-keymap
-        (list evil-motion-state-map
-              evil-normal-state-map
-              evil-visual-state-map
-              evil-insert-state-map)))
-
-;; (require 'eaf)
-;; (require 'eaf-browser)
-;; (require 'eaf-evil)
-
-;; (when (display-graphic-p)
-;;   (require 'eaf-all-the-icons))
-
-;; (setq! eaf-browser-continue-where-left-off t
-;;        eaf-browser-enable-adblocker t
-;;        browse-url-browser-function 'eaf-open-browser)
-
-;; (define-key key-translation-map (kbd "SPC")
-;;             (lambda (prompt)
-;;               (if (derived-mode-p 'eaf-mode)
-;;                   (pcase eaf--buffer-app-name
-;;                     ("browser" (if  (string= (eaf-call-sync "call_function" eaf--buffer-id "is_focus") "True")
-;;                                    (kbd "SPC")
-;;                                  (kbd eaf-evil-leader-key)))
-;;                     ("pdf-viewer" (kbd eaf-evil-leader-key))
-;;                     ("image-viewer" (kbd eaf-evil-leader-key))
-;;                     (_  (kbd "SPC")))
-;;                 (kbd "SPC"))))
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: windows
 ;; ----------------------------------------------------------------------------
-(setq scroll-step            1
-      scroll-conservatively  10000
-      next-screen-context-lines 5
-      ;; move by logical lines rather than visual lines (better for macros)
-      line-move-visual nil)
+;; (setq scroll-step            1
+;;      scroll-conservatively  10000
+;;      next-screen-context-lines 5
+;;      ;; move by logical lines rather than visual lines (better for macros)
+;;      line-move-visual nil)
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
+
 ;; (add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 ;; (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
 ;; (add-to-list 'default-frame-alist '(menu-bar-lines . 0))
@@ -141,7 +135,7 @@
 (set-default 'truncate-lines nil)
 
 ;; disable vim "u" undo, I prefer use of "C-z"
-(define-key evil-normal-state-map "u" nil)
+;; (define-key evil-normal-state-map "u" nil)
 
 ;; use relative line numbers
 (setq display-line-numbers-type 't)
