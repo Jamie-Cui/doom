@@ -17,7 +17,7 @@
 
 ;; setup default font
 ;; setup default font
-;; (setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 18 :weight 'medium))
+(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 18 :weight 'medium))
 
 ;; (defun init-cjk-fonts()
 ;;   (dolist (charset '(kana han cjk-misc bopomofo))
@@ -39,47 +39,6 @@
 ;; HACK: Enable the vc gutter in remote files (e.g. open through TRAMP)
 ;; (setq +vc-gutter-in-remote-files t)
 
-;; ----------------------------------------------------------------------------
-;; Config thirdparty dependencies
-;; ----------------------------------------------------------------------------
-
-;; (use-package! holo-layer
-;;   :load-path (lambda()(concat doom-user-dir "thirdparty/holo-layer/"))
-;;   :config
-;;   (require 'holo-layer)
-;;   (holo-layer-enable)
-;;   (setq!
-;;    holo-layer-enable-cursor-animation 't
-;;    holo-layer-cursor-animation-interval 10
-;;    holo-layer-cursor-alpha 100
-;;    holo-layer-python-command "~/miniconda3/bin/python"))
-
-;; (use-package! disable-mouse
-;;   :load-path (lambda()(concat doom-user-dir "thirdparty/disable-mouse/"))
-;;   :config
-;;   (require 'disable-mouse)
-;;   (global-disable-mouse-mode)
-;;   (mapc #'disable-mouse-in-keymap
-;;         (list evil-motion-state-map
-;;               evil-normal-state-map
-;;               evil-visual-state-map
-;;               evil-insert-state-map)))
-
-(setq fcitx-remote-command "fcitx5-remote")
-(setq pyim-pinyin-fuzzy-alist nil) ; no fuzzing in chinese input
-
-(after! ace-pinyin
-  (setq ace-pinyin-simplified-chinese-only-p t))
-
-(use-package! rime
-  :config
-  (setq default-input-method "rime")
-  (setq rime-show-candidate 'posframe))
-
-(use-package! keyfreq
-  :config
-  (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: windows
@@ -148,3 +107,34 @@
 (load (concat doom-user-dir "lisp/" "org.el"))
 (load (concat doom-user-dir "lisp/" "dev.el"))
 (load (concat doom-user-dir "lisp/" "latex.el"))
+
+;; ----------------------------------------------------------------------------
+;; Config thirdparty dependencies
+;; ----------------------------------------------------------------------------
+
+;; (use-package! holo-layer
+;;   :load-path (lambda()(concat doom-user-dir "thirdparty/holo-layer/"))
+;;   :config
+;;   (require 'holo-layer)
+;;   (holo-layer-enable)
+;;   (setq!
+;;    holo-layer-enable-cursor-animation 't
+;;    holo-layer-cursor-animation-interval 10
+;;    holo-layer-cursor-alpha 100
+;;    holo-layer-python-command "~/miniconda3/bin/python"))
+
+;; (use-package! disable-mouse
+;;   :load-path (lambda()(concat doom-user-dir "thirdparty/disable-mouse/"))
+;;   :config
+;;   (require 'disable-mouse)
+;;   (global-disable-mouse-mode)
+;;   (mapc #'disable-mouse-in-keymap
+;;         (list evil-motion-state-map
+;;               evil-normal-state-map
+;;               evil-visual-state-map
+;;               evil-insert-state-map)))
+
+(use-package! keyfreq
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))

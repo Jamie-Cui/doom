@@ -52,7 +52,6 @@
 (global-set-key (kbd "M-/") #'comment-line)
 (global-set-key (kbd "M-=") #'doom/increase-font-size)
 (global-set-key (kbd "M--") #'doom/decrease-font-size)
-(global-set-key (kbd "M-p") #'toggle-input-method)
 
 ;; ----------------------------------------------------------------------------
 ;; HACK from: https://gist.github.com/minorugh/1770a6aa93df5fe55f70b4d72091ff76
@@ -67,3 +66,18 @@
             browse-url-generic-args     cmd-args
             browse-url-browser-function 'browse-url-generic
             search-web-default-browser 'browse-url-generic))))
+
+;; ----------------------------------------------------------------------------
+;; Only use rime on windows!
+;; ----------------------------------------------------------------------------
+(setq fcitx-remote-command "fcitx5-remote")
+(setq pyim-pinyin-fuzzy-alist nil) ; no fuzzing in chinese input
+
+(after! ace-pinyin
+  (setq ace-pinyin-simplified-chinese-only-p t))
+
+(use-package! rime
+  :config
+  (setq default-input-method "rime")
+  (setq rime-show-candidate 'posframe)
+  (global-set-key (kbd "M-p") #'toggle-input-method))
