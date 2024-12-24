@@ -138,3 +138,8 @@
   :config
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
+
+;; in treemacs-evil.el
+;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
+(after! treemacs
+  (define-key evil-treemacs-state-map (kbd "w")   #'nil))
