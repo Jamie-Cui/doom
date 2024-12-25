@@ -71,9 +71,7 @@
         :desc "Bazel build"       "b" #'bazel-build
         :desc "Bazel run"         "r" #'bazel-run
         :desc "Bazel test"        "t" #'bazel-test
-        :desc "Bazel comile current file"        "m" #'bazel-compile-current-file)
-  )
-
+        :desc "Bazel comile current file"        "m" #'bazel-compile-current-file))
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
@@ -99,7 +97,6 @@
            flycheck-cppcheck-standards '("c++17")
            flycheck-googlelint-linelength "120"))
   )
-
 
 ;; ----------------------------------------------------------------------------
 ;; Magit
