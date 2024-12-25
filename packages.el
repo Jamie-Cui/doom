@@ -7,7 +7,7 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 (package! flycheck-google-cpplint)
-(package! flycheck-clang-tidy)
+;; (package! flycheck-clang-tidy)
 (package! bazel)
 (package! org-download) ;; moving images from point A to point B.
 
