@@ -14,7 +14,6 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (require 'bazel) ; load bazel package
-(require 'flycheck-google-cpplint) ; load this package
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: tramp, lsp, projectile, vterm
@@ -78,25 +77,30 @@
   )
 
 
-
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
 ;; ----------------------------------------------------------------------------
 
-;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
-(after! flycheck-eglot
-  ;; We need to tweak a little bit to make cpplint and eglot to work together.
-  ;; see: https://melpa.org/#/flycheck-eglot
-  ;;
-  ;; By default, the Flycheck-Eglot considers the Eglot to be theonly provider
-  ;; of syntax checks.  Other Flycheck checkers are ignored.
-  ;; There is a variable `flycheck-eglot-exclusive' that controls this.
-  ;; You can override it system wide or for some major modes.
-  (setq! flycheck-eglot-exclusive nil)
-  (flycheck-add-next-checker 'eglot-check
-                             '(warning . c/c++-googlelint))
-  (setq! flycheck-c/c++-googlelint-executable "cpplint"
-         flycheck-cppcheck-standards '("c++17")))
+(use-package! flycheck-google-cpplint
+  :config
+  ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
+  (after! flycheck-eglot
+    ;; We need to tweak a little bit to make cpplint and eglot to work together.
+    ;; see: https://melpa.org/#/flycheck-eglot
+    ;;
+    ;; By default, the Flycheck-Eglot considers the Eglot to be theonly provider
+    ;; of syntax checks.  Other Flycheck checkers are ignored.
+    ;; There is a variable `flycheck-eglot-exclusive' that controls this.
+    ;; You can override it system wide or for some major modes.
+
+    (setq! flycheck-eglot-exclusive nil)
+    (flycheck-add-next-checker 'eglot-check
+                               '(warning . c/c++-googlelint))
+    
+    (setq! flycheck-c/c++-googlelint-executable "cpplint"
+           flycheck-cppcheck-standards '("c++17")
+           flycheck-googlelint-linelength "120"))
+  )
 
 
 ;; ----------------------------------------------------------------------------
