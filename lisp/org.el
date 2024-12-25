@@ -13,10 +13,10 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(require 'org-download) ;; drag-and-drop for images
-(require 'xenops) ;; better org latex math
-(require 'org-roam-ui) ;; ui for roam
-(require 'simple-httpd) ;; org-roam-ui dependency
+(use-package! xenops)
+(use-package! org-download)
+(use-package! simple-httpd)
+(use-package! org-roam-ui)
 
 ;; ---------------------------------------------------------------------------- 
 ;; Configuration: org mode and citations

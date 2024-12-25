@@ -143,3 +143,6 @@
 ;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
 (after! treemacs
   (define-key evil-treemacs-state-map (kbd "w")   #'nil))
+
+;; enable evil on pdf-view-mode
+(evil-set-initial-state 'pdf-view-mode 'normal)

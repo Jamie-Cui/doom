@@ -13,9 +13,6 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-;; enable evil on pdf-view-mode
-(evil-set-initial-state 'pdf-view-mode 'normal)
-
 ;; set default viewers
 ;; NOTE +latex-viewers are used by modules/lang/latex/+views.el immediately after
 ;; latex module inited.
