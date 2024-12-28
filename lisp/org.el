@@ -151,6 +151,7 @@
   (setq org-agenda-start-on-weekday 1)
   (setq org-deadline-warning-days 365)
   (setq org-agenda-start-day "+0d")
+  (setq org-agenda-skip-additional-timestamps-same-entry 't)
   (setq org-agenda-custom-commands
         '(("n" "Agenda and all TODOs"
            ((agenda "")
@@ -185,8 +186,7 @@
   (map! :leader
         :desc "*Org Gtd Capture*"               "n n" #'org-gtd-capture
         :desc "*Org Gtd Clarity*"               "n c" #'org-gtd-process-inbox
-        :desc "*Org Gtd Engage*"                "n a" #'org-gtd-engage
-        :desc "Org Gtd Show all next"           "n t" #'org-gtd-show-all-next
+        :desc "*Org Gtd Engage*"                "n t" #'org-gtd-engage
         ;; :desc "Org Gtd Review stuck projects" "n 5" #'org-gtd-review-stuck-projects
         :desc ""                                "n C" #'nil
         :desc ""                                "n F" #'nil
