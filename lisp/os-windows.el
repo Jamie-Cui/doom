@@ -42,7 +42,7 @@
 ;; Emacs always treats C-A as C-a, C-B as C-b, and so forth. The reason for this is historical.
 (global-set-key (kbd "C-f") #'+default/search-buffer) ; set
 (after! help-mode
-  (evil-define-key 'normal help-mode-map (kbd "C-f") '+default/search-buffer))
+  (evil-define-key 'normal help-mode-map (kbd "C-f") #'+default/search-buffer))
 
 (global-set-key (kbd "C-s") #'save-buffer)
 (global-set-key (kbd "C-z") #'nil) ;; use evil to undo and redo!
@@ -78,6 +78,18 @@
 
 (use-package! rime
   :config
-  (setq default-input-method "rime")
-  (setq rime-show-candidate 'posframe)
-  (global-set-key (kbd "M-p") #'toggle-input-method))
+  (setq! default-input-method "rime"
+         rime-show-candidate 'posframe)
+
+  (defun rime-commit1-and-toggle-input-method ()
+    "Commit the 1st item if exists, then toggle input method."
+    (interactive)
+    (ignore-errors (rime-commit1))
+    (toggle-input-method))
+
+  (global-set-key (kbd "C-\\") #'rime-commit1-and-toggle-input-method))
+
+;; in treemacs-evil.el
+;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
+(after! treemacs
+  (define-key evil-treemacs-state-map (kbd "w")   #'nil))
