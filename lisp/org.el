@@ -42,6 +42,12 @@
   (if jamie-use-remote-path (concat jamie-org-remote-path "zotero_all.bib")
     (concat jamie-org-local-path "zotero_all.bib")))
 
+;; NOTE same as org directory
+(defun +org/get-gtd-directory ()
+  "Get the org-gtd-directory"
+  (if jamie-use-remote-path (concat jamie-org-remote-path "org")
+    (concat jamie-org-local-path "org")))
+
 (setq deft-directory (+org/get-deft-directory))
 (setq org-directory (+org/get-org-directory))
 (setq org-roam-directory (+org/get-roam-directory))
@@ -139,13 +145,9 @@
   (setq org-num-max-level 2)  ; add numering for all titles
   (setq org-log-done 't))
 
-(after! org-journal
-  (setq org-journal-file-type 'monthly)
-  (setq org-journal-enable-agenda-integration 't))
-
 (after! org-agenda
   (evil-set-initial-state 'org-agenda-mode 'normal)
-  (setq org-agenda-span 'week)
+  (setq org-agenda-span 'month)
   (setq org-agenda-start-on-weekday 1)
   (setq org-deadline-warning-days 365)
   (setq org-agenda-start-day "+0d")
@@ -164,3 +166,35 @@
   (setq calendar-week-start-day 1))
 
 
+;; ----------------------------------------------------------------------------
+;; Configuration: org gtd (thirdparty package)
+;; ----------------------------------------------------------------------------
+
+(setq org-gtd-update-ack "3.0.0")
+
+(use-package! org-gtd
+  :after org
+  :custom
+  (org-gtd-directory (+org/get-gtd-directory))
+  (org-edna-use-inheritance t)
+  (org-gtd-organize-hooks '(org-gtd-set-area-of-focus org-set-tags-command))
+  (org-gtd-areas-of-focus '("Career" "Research" "Cryptography"))
+  :config
+  (org-edna-mode)
+  ;; NOTE the following would override some of doom's default keybindings
+  (map! :leader
+        :desc "*Org Gtd Capture*"               "n n" #'org-gtd-capture
+        :desc "*Org Gtd Clarity*"               "n c" #'org-gtd-process-inbox
+        :desc "*Org Gtd Engage*"                "n a" #'org-gtd-engage
+        :desc "Org Gtd Show all next"           "n t" #'org-gtd-show-all-next
+        ;; :desc "Org Gtd Review stuck projects" "n 5" #'org-gtd-review-stuck-projects
+        :desc ""                                "n C" #'nil
+        :desc ""                                "n F" #'nil
+        :desc ""                                "n m" #'nil
+        :desc ""                                "n N" #'nil
+        :desc ""                                "n o" #'nil
+        :desc ""                                "n v" #'nil
+        )
+  (map! :map org-gtd-clarify-map
+        :desc "Organize this item" "C-c C-p" #'org-gtd-organize)
+  )
