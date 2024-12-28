@@ -73,6 +73,7 @@
         :desc "Bazel test"        "t" #'bazel-test
         :desc "Bazel comile current file"        "m" #'bazel-compile-current-file))
 
+
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
 ;; ----------------------------------------------------------------------------
@@ -92,7 +93,6 @@
     (setq! flycheck-eglot-exclusive nil)
     (flycheck-add-next-checker 'eglot-check
                                '(warning . c/c++-googlelint))
-    
     (setq! flycheck-c/c++-googlelint-executable "cpplint"
            flycheck-cppcheck-standards '("c++17")
            flycheck-googlelint-linelength "120"))
