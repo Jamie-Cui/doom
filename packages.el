@@ -7,12 +7,13 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 (package! flycheck-google-cpplint)
-;; (package! flycheck-clang-tidy)
 (package! bazel)
 (package! org-download) ;; moving images from point A to point B.
 
 (package! simple-httpd) ;; deps for org-roam-ui, in emacs-web-server
 (package! org-roam-ui) ;; use org-roam-ui
+
+(package! org-modern)
 
 (package! protobuf-mode)
 (package! meson-mode)
