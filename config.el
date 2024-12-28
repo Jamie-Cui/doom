@@ -17,7 +17,7 @@
 
 ;; setup default font
 ;; setup default font
-(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
+(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 18 :weight 'medium))
 
 (defun init-cjk-fonts()
   (dolist (charset '(kana han cjk-misc bopomofo))
@@ -51,7 +51,7 @@
 
 (add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
-(add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
+;; (add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 ;; (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
 ;; (add-to-list 'default-frame-alist '(menu-bar-lines . 0))
 ;; (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
