@@ -52,9 +52,6 @@
 ;; Configuration: note taking
 ;; ----------------------------------------------------------------------------
 
-(after! org-journal
-  (setq org-journal-file-type 'monthly)
-  (setq org-journal-enable-agenda-integration 't))
 
 ;; for macos only: add texbin to the system path
 (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin/"))
@@ -72,14 +69,9 @@
   (add-to-list 'citar-notes-paths org-roam-directory)
   (add-to-list 'citar-bibliography (+org/get-zotero-path)))
 
-
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
   (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
-  (setq org-startup-folded 'content)
-  (setq org-startup-with-inline-images t)
-  (setq org-startup-numerated t) ; startup with org-num-mode
-  (setq org-num-max-level 2)  ; add numering for all titles
 
   ;; ----------------------------
   ;; use xenops to preview, it's simply better
@@ -91,8 +83,6 @@
 ;; ----------------------------
 ;; Add Plantuml
 ;; ----------------------------
-;;
-;; require additional bin/plantuml.jar file
 (after! (:and plantuml-mode org)
   (setq! plantuml-default-exec-mode 'executable)
   (setq! org-plantuml-jar-path (concat doom-user-dir "bin/plantuml.jar"))
@@ -100,8 +90,8 @@
   (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((plantuml . t))) ; this line activates plantuml
-  )
+   ;; this line activates plantuml
+   '((plantuml . t))))
 
 ;; configure org-roam-ui
 (after! org-roam-ui
@@ -120,25 +110,10 @@
         org-download-abbreviate-filename-function #'file-relative-name)
   (setq org-download-link-format-function #'org-download-link-format-function-default))
 
-;; ----------------------------------------------------------------------------
-;; Configuration: org agenda and calendar
-;; ----------------------------------------------------------------------------
-(after! org-agenda
-  (evil-set-initial-state 'org-agenda-mode 'normal)
-  (setq org-agenda-span 'week)
-  (setq org-agenda-start-on-weekday 1)
-  (setq org-deadline-warning-days 365)
-  (setq org-agenda-start-day "+0d"))
-
-(setq calendar-week-start-day 1) ; start with monday
-
-
 ;; HACK error from xenops with org>9.7
-;;
 ;; https://github.com/syl20bnr/spacemacs/issues/16577
 ;; https://github.com/dandavison/xenops/pull/74/files
 ;; https://github.com/dandavison/xenops/issues/73
-;;
 (after! xenops
   (defun fn/xenops-src-parse-at-point ()
     (-if-let* ((element (xenops-parse-element-at-point 'src))
@@ -152,3 +127,40 @@
          :org-babel-info org-babel-info)))
 
   (advice-add 'xenops-src-parse-at-point :override 'fn/xenops-src-parse-at-point))
+
+;; ----------------------------------------------------------------------------
+;; Configuration: org agenda, journal
+;; ----------------------------------------------------------------------------
+
+(after! org
+  (setq org-startup-folded 'content)
+  (setq org-startup-with-inline-images t)
+  (setq org-startup-numerated t) ; startup with org-num-mode
+  (setq org-num-max-level 2)  ; add numering for all titles
+  (setq org-log-done 't))
+
+(after! org-journal
+  (setq org-journal-file-type 'monthly)
+  (setq org-journal-enable-agenda-integration 't))
+
+(after! org-agenda
+  (evil-set-initial-state 'org-agenda-mode 'normal)
+  (setq org-agenda-span 'week)
+  (setq org-agenda-start-on-weekday 1)
+  (setq org-deadline-warning-days 365)
+  (setq org-agenda-start-day "+0d")
+  (setq org-agenda-custom-commands
+        '(("n" "Agenda and all TODOs"
+           ((agenda "")
+            (alltodo "")))
+          ("w" "Weekly Review"
+           ((agenda "" ((org-agenda-span 7)))
+            (tags "TODO=\"DONE\"&CLOSED>=\"<-1w>\"")
+            ))
+          )))
+
+(after! calendar
+  ;; start with monday
+  (setq calendar-week-start-day 1))
+
+
