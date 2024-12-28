@@ -9,12 +9,8 @@
 (package! flycheck-google-cpplint)
 (package! bazel)
 (package! org-download) ;; moving images from point A to point B.
-
 (package! simple-httpd) ;; deps for org-roam-ui, in emacs-web-server
 (package! org-roam-ui) ;; use org-roam-ui
-
-(package! org-modern)
-
 (package! protobuf-mode)
 (package! meson-mode)
 (package! plantuml-mode) ; for drawing diagrams!!!
@@ -25,8 +21,9 @@
            :files ("*.el" "Makefile" "lib.c"))) ; pinyin
 
 (package! xenops) ; Xenops is a LaTeX editing environment for mathematical
-
 (package! keyfreq) ; analysing your key frequency!
+
+(package! org-gtd)
 
 ;; :recipe (:host github :repo "username/repo"))
 
