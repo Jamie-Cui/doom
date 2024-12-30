@@ -156,15 +156,25 @@
         '(("n" "Agenda and all TODOs"
            ((agenda "")
             (alltodo "")))
-          ("w" "Weekly Review"
-           ((agenda "" ((org-agenda-span 7)))
-            (tags "TODO=\"DONE\"&CLOSED>=\"<-1w>\""
-                  ((org-agenda-overriding-header "All actions ready to be executed.")))
-            ))
           ("d" "Yesteday Review"
-           ((agenda "" ((org-agenda-span 7)))
+           ((agenda "" ((org-agenda-span 'day)))
             (tags "TODO=\"DONE\"&CLOSED>=\"<-1d>\""
-                  ((org-agenda-overriding-header "All actions ready to be executed.")))
+                  ((org-agenda-overriding-header "Review Finished Task: Yesteday and Today")))
+            ))
+          ("w" "Weekly Review"
+           ((agenda "" ((org-agenda-span 'week)))
+            (tags "TODO=\"DONE\"&CLOSED>=\"<-1w>\""
+                  ((org-agenda-overriding-header "Review Finished Task: This Week")))
+            ))
+          ("m" "Monthly Review"
+           ((agenda "" ((org-agenda-span 'month)))
+            (tags "TODO=\"DONE\"&CLOSED>=\"<-1m>\""
+                  ((org-agenda-overriding-header "Review Finished Task: This Month")))
+            ))
+          ("y" "Year Review"
+           ((agenda "" ((org-agenda-span 'week)))
+            (tags "TODO=\"DONE\""
+                  ((org-agenda-overriding-header "Review Finished Task: This Year")))
             ))
           ))
   (evil-define-key 'normal org-agenda-mode-map (kbd "q") #'org-agenda-quit)
