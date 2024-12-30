@@ -158,9 +158,18 @@
             (alltodo "")))
           ("w" "Weekly Review"
            ((agenda "" ((org-agenda-span 7)))
-            (tags "TODO=\"DONE\"&CLOSED>=\"<-1w>\"")
+            (tags "TODO=\"DONE\"&CLOSED>=\"<-1w>\""
+                  ((org-agenda-overriding-header "All actions ready to be executed.")))
             ))
-          )))
+          ("d" "Yesteday Review"
+           ((agenda "" ((org-agenda-span 7)))
+            (tags "TODO=\"DONE\"&CLOSED>=\"<-1d>\""
+                  ((org-agenda-overriding-header "All actions ready to be executed.")))
+            ))
+          ))
+  (evil-define-key 'normal org-agenda-mode-map (kbd "q") #'org-agenda-quit)
+  (evil-define-key 'normal org-agenda-mode-map (kbd "Q") #'org-agenda-Quit)
+  )
 
 (after! calendar
   ;; start with monday
@@ -173,28 +182,29 @@
 
 (setq org-gtd-update-ack "3.0.0")
 
-(use-package! org-gtd
-  :after org
-  :custom
-  (org-gtd-directory (+org/get-gtd-directory))
-  (org-edna-use-inheritance t)
-  (org-gtd-organize-hooks '(org-gtd-set-area-of-focus org-set-tags-command))
-  (org-gtd-areas-of-focus '("Career" "Research" "Cryptography"))
-  :config
-  (org-edna-mode)
-  ;; NOTE the following would override some of doom's default keybindings
-  (map! :leader
-        :desc "*Org Gtd Capture*"               "n n" #'org-gtd-capture
-        :desc "*Org Gtd Clarity*"               "n c" #'org-gtd-process-inbox
-        :desc "*Org Gtd Engage*"                "n t" #'org-gtd-engage
-        ;; :desc "Org Gtd Review stuck projects" "n 5" #'org-gtd-review-stuck-projects
-        :desc ""                                "n C" #'nil
-        :desc ""                                "n F" #'nil
-        :desc ""                                "n m" #'nil
-        :desc ""                                "n N" #'nil
-        :desc ""                                "n o" #'nil
-        :desc ""                                "n v" #'nil
-        )
-  (map! :map org-gtd-clarify-map
-        :desc "Organize this item" "C-c C-p" #'org-gtd-organize)
+(after! org
+  (use-package! org-gtd
+    :custom
+    (org-gtd-directory (+org/get-gtd-directory))
+    (org-edna-use-inheritance t)
+    (org-gtd-organize-hooks '(org-gtd-set-area-of-focus org-set-tags-command))
+    (org-gtd-areas-of-focus '("Career" "Research" "Cryptography"))
+    :config
+    (org-edna-mode)
+    ;; NOTE the following would override some of doom's default keybindings
+    (map! :leader
+          :desc "*Org Gtd Capture*"               "n n" #'org-gtd-capture
+          :desc "*Org Gtd Clarity*"               "n c" #'org-gtd-process-inbox
+          :desc "*Org Gtd Engage*"                "n t" #'org-gtd-engage
+          ;; :desc "Org Gtd Review stuck projects" "n 5" #'org-gtd-review-stuck-projects
+          :desc ""                                "n C" #'nil
+          :desc ""                                "n F" #'nil
+          :desc ""                                "n m" #'nil
+          :desc ""                                "n N" #'nil
+          :desc ""                                "n o" #'nil
+          :desc ""                                "n v" #'nil
+          )
+    (map! :map org-gtd-clarify-map
+          :desc "Organize this item" "C-c C-p" #'org-gtd-organize)
+    )
   )
