@@ -149,3 +149,9 @@
 
 ;; enable evil on pdf-view-mode
 (evil-set-initial-state 'pdf-view-mode 'normal)
+
+(after! corfu
+  (evil-define-key 'insert corfu-mode-map (kbd "C-SPC") #'nil)
+  (evil-define-key 'normal corfu-mode-map (kbd "C-SPC") #'nil)
+  (evil-define-key 'visual corfu-mode-map (kbd "C-SPC") #'nil))
+
