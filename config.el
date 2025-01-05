@@ -12,23 +12,23 @@
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; setup theme
-;; (setq doom-theme 'nil)
-(setq doom-theme 'modus-operandi)
+(setq doom-theme 'nil)
+;; (setq doom-theme 'modus-operandi)
 
 ;; setup default font
 ;; setup default font
-(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 18 :weight 'medium))
+(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
 
-(defun init-cjk-fonts()
-  (dolist (charset '(kana han cjk-misc bopomofo))
-    (set-fontset-font (frame-parameter nil 'font)
-                      charset (font-spec :family "AR PL KaitiM GB" :size 18))))
-(add-hook 'doom-init-ui-hook 'init-cjk-fonts)
+;; (defun init-cjk-fonts()
+;;   (dolist (charset '(kana han cjk-misc bopomofo))
+;;     (set-fontset-font (frame-parameter nil 'font)
+;;                       charset (font-spec :family "AR PL KaitiM GB" :size 18))))
+;; (add-hook 'doom-init-ui-hook 'init-cjk-fonts)
 
 ;; setup new const variables, make sure to doom sync after change
 (defconst jamie-org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
 (defconst jamie-org-local-path "~/org-local/")
-(defconst jamie-use-remote-path 'nil) ; non-nil to use remote path
+(defconst jamie-use-remote-path 't) ; non-nil to use remote path
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
@@ -49,7 +49,6 @@
 ;;      ;; move by logical lines rather than visual lines (better for macros)
 ;;      line-move-visual nil)
 
-(add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
 ;; (add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 ;; (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
