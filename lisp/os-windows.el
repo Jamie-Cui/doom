@@ -31,6 +31,19 @@
 ;; 1. C-f: search in every mode
 ;; 2. C-s: save buffer
 
+(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
+
+;; (defun init-cjk-fonts()
+;;   (dolist (charset '(kana han cjk-misc bopomofo))
+;;     (set-fontset-font (frame-parameter nil 'font)
+;;                       charset (font-spec :family "AR PL KaitiM GB" :size 18))))
+;; (add-hook 'doom-init-ui-hook 'init-cjk-fonts)
+
+;; setup new const variables, make sure to doom sync after change
+(defconst jamie-org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
+(defconst jamie-org-local-path "~/org-local/")
+(defconst jamie-use-remote-path 'nil) ; non-nil to use remote path
+
 ;; Handle evil conflict with my own keybindings
 ;; (define-key evil-normal-state-map "u" nil)
 (define-key evil-motion-state-map (kbd "C-f") 'nil)

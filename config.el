@@ -15,20 +15,9 @@
 (setq doom-theme 'nil)
 ;; (setq doom-theme 'modus-operandi)
 
-;; setup default font
-;; setup default font
-(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
-
-;; (defun init-cjk-fonts()
-;;   (dolist (charset '(kana han cjk-misc bopomofo))
-;;     (set-fontset-font (frame-parameter nil 'font)
-;;                       charset (font-spec :family "AR PL KaitiM GB" :size 18))))
-;; (add-hook 'doom-init-ui-hook 'init-cjk-fonts)
-
-;; setup new const variables, make sure to doom sync after change
-(defconst jamie-org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
-(defconst jamie-org-local-path "~/org-local/")
-(defconst jamie-use-remote-path 't) ; non-nil to use remote path
+(if :system 'macos (load (concat doom-user-dir "lisp/" "os-macos.el")))
+(if :system 'linux (load (concat doom-user-dir "lisp/" "os-windiws.el")))
+(if :system 'windows (load (concat doom-user-dir "lisp/" "os-windiws.el")))
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
@@ -36,30 +25,8 @@
 ;; HACK: Query vc status for remote files
 (setq ibuffer-vc-skip-if-remote nil)
 
-;; HACK: Enable the vc gutter in remote files (e.g. open through TRAMP)
-;; (setq +vc-gutter-in-remote-files t)
-
-
-;; ----------------------------------------------------------------------------
-;; Configuration: windows
-;; ----------------------------------------------------------------------------
-;; (setq scroll-step            1
-;;      scroll-conservatively  10000
-;;      next-screen-context-lines 5
-;;      ;; move by logical lines rather than visual lines (better for macros)
-;;      line-move-visual nil)
-
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
 ;; (add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
-;; (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-;; (add-to-list 'default-frame-alist '(menu-bar-lines . 0))
-;; (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
-;; (add-to-list 'default-frame-alist '(horizontal-scroll-bars . nil))
-
-;; Switch between different emacs frames
-;; (map! :leader
-;;       :desc "Switch to next frame"
-;;       "F" #'+evil/next-frame)
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: proxy
@@ -153,4 +120,3 @@
   (evil-define-key 'insert corfu-mode-map (kbd "C-SPC") #'nil)
   (evil-define-key 'normal corfu-mode-map (kbd "C-SPC") #'nil)
   (evil-define-key 'visual corfu-mode-map (kbd "C-SPC") #'nil))
-
