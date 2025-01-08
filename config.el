@@ -120,3 +120,5 @@
   (evil-define-key 'insert corfu-mode-map (kbd "C-SPC") #'nil)
   (evil-define-key 'normal corfu-mode-map (kbd "C-SPC") #'nil)
   (evil-define-key 'visual corfu-mode-map (kbd "C-SPC") #'nil))
+
+(add-hook 'cmake-mode-hook #'(lambda () (modify-syntax-entry ?\/ "-")))
