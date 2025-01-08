@@ -131,3 +131,7 @@ try the following, see: https://emacs-china.org/t/doom-emacs/16069
 #+begin_src sh
 git config --global url.https://github.com.cnpmjs.org/.insteadof https://github.com/
 #+end_src
+
+*** WSL laggy? check this
+
+https://github.com/microsoft/wslg/issues/972
