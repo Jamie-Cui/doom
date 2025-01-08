@@ -14,7 +14,7 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;; setup default font
 
-(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
+;; (setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
 
 ;; (defun init-cjk-fonts()
 ;;   (dolist (charset '(kana han cjk-misc bopomofo))

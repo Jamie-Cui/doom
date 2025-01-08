@@ -15,9 +15,9 @@
 (setq doom-theme 'nil)
 ;; (setq doom-theme 'modus-operandi)
 
-(if :system 'macos (load (concat doom-user-dir "lisp/" "os-macos.el")))
-(if :system 'linux (load (concat doom-user-dir "lisp/" "os-windiws.el")))
-(if :system 'windows (load (concat doom-user-dir "lisp/" "os-windiws.el")))
+(if (featurep :system 'macos) (load (concat doom-user-dir "lisp/" "os-mac.el")))
+(if (featurep :system 'linux) (load (concat doom-user-dir "lisp/" "os-windiws.el")))
+(if (featurep :system 'windows) (load (concat doom-user-dir "lisp/" "os-windiws.el")))
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
