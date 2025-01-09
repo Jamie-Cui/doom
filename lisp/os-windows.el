@@ -104,5 +104,10 @@
 
 ;; in treemacs-evil.el
 ;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
+
+(after! org-download
+  (setq org-download-screenshot-method "powershell.exe -Command \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\"")
+  )
+
 (after! treemacs
   (define-key evil-treemacs-state-map (kbd "w")   #'nil))
