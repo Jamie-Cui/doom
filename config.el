@@ -15,6 +15,23 @@
 (setq doom-theme 'nil)
 ;; (setq doom-theme 'modus-operandi)
 
+
+;; setup default font
+(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 18 :weight 'medium))
+
+(if (display-graphic-p)
+    ;; NOTE set fonts in graphic mode
+    (progn
+      (defun init-cjk-fonts()
+        (dolist (charset '(kana han cjk-misc bopomofo))
+          (set-fontset-font (frame-parameter nil 'font)
+                            charset (font-spec :family "AR PL KaitiM GB" :size 18))))
+      (add-hook 'doom-init-ui-hook 'init-cjk-fonts)
+      )
+  ;; NOTE hide modeline in terminal mode
+  (global-hide-mode-line-mode)
+  )
+
 (if (featurep :system 'macos) (load (concat doom-user-dir "lisp/" "os-mac.el")))
 (if (featurep :system 'linux) (load (concat doom-user-dir "lisp/" "os-windiws.el")))
 (if (featurep :system 'windows) (load (concat doom-user-dir "lisp/" "os-windiws.el")))
