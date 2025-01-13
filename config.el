@@ -25,7 +25,7 @@
       (defun init-cjk-fonts()
         (dolist (charset '(kana han cjk-misc bopomofo))
           (set-fontset-font (frame-parameter nil 'font)
-                            charset (font-spec :family "AR PL KaitiM GB" :size 18))))
+                            charset (font-spec :family "AR PL KaitiM GB"))))
       (add-hook 'doom-init-ui-hook 'init-cjk-fonts)
       )
   ;; NOTE hide modeline in terminal mode
