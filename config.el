@@ -15,9 +15,8 @@
 (setq doom-theme 'nil)
 ;; (setq doom-theme 'modus-operandi)
 
-
 ;; setup default font
-(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 18 :weight 'medium))
+(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :weight 'medium))
 
 (if (display-graphic-p)
     ;; NOTE set fonts in graphic mode
@@ -32,9 +31,12 @@
   (global-hide-mode-line-mode)
   )
 
-(if (featurep :system 'macos) (load (concat doom-user-dir "lisp/" "os-mac.el")))
-(if (featurep :system 'linux) (load (concat doom-user-dir "lisp/" "os-windiws.el")))
-(if (featurep :system 'windows) (load (concat doom-user-dir "lisp/" "os-windiws.el")))
+(when (featurep :system 'macos)
+  (load (concat doom-user-dir "lisp/" "os-mac.el")))
+(when (featurep :system 'linux)
+  (load (concat doom-user-dir "lisp/" "os-windiws.el")))
+(when (featurep :system 'windows)
+  (load (concat doom-user-dir "lisp/" "os-windiws.el")))
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)

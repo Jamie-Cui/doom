@@ -31,7 +31,7 @@
 ;; 1. C-f: search in every mode
 ;; 2. C-s: save buffer
 
-(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
+;; (setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
 
 ;; (defun init-cjk-fonts()
 ;;   (dolist (charset '(kana han cjk-misc bopomofo))
