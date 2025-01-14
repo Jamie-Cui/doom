@@ -34,9 +34,9 @@
 (when (featurep :system 'macos)
   (load (concat doom-user-dir "lisp/" "os-mac.el")))
 (when (featurep :system 'linux)
-  (load (concat doom-user-dir "lisp/" "os-windiws.el")))
+  (load (concat doom-user-dir "lisp/" "os-windows.el")))
 (when (featurep :system 'windows)
-  (load (concat doom-user-dir "lisp/" "os-windiws.el")))
+  (load (concat doom-user-dir "lisp/" "os-windows.el")))
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
