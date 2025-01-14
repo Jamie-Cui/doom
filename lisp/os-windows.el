@@ -100,7 +100,7 @@
     (ignore-errors (rime-commit1))
     (toggle-input-method))
 
-  (global-set-key (kbd "C-\\") #'rime-commit1-and-toggle-input-method))
+  (global-set-key (kbd "C-SPC") #'rime-commit1-and-toggle-input-method))
 
 ;; in treemacs-evil.el
 ;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
