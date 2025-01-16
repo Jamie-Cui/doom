@@ -16,7 +16,7 @@
 ;; (setq doom-theme 'modus-operandi)
 
 ;; setup default font
-(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :weight 'medium))
+(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
 
 (if (display-graphic-p)
     ;; NOTE set fonts in graphic mode
@@ -34,9 +34,9 @@
 (when (featurep :system 'macos)
   (load (concat doom-user-dir "lisp/" "os-mac.el")))
 (when (featurep :system 'linux)
-  (load (concat doom-user-dir "lisp/" "os-windows.el")))
+  (load (concat doom-user-dir "lisp/" "os-windiws.el")))
 (when (featurep :system 'windows)
-  (load (concat doom-user-dir "lisp/" "os-windows.el")))
+  (load (concat doom-user-dir "lisp/" "os-windiws.el")))
 
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
@@ -141,3 +141,6 @@
   (evil-define-key 'visual corfu-mode-map (kbd "C-SPC") #'nil))
 
 ;; (add-hook 'cmake-mode-hook #'(lambda () (modify-syntax-entry ?\/ "-")))
+
+(after! dirvish
+  (setq! dirvish-hide-details 't))

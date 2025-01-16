@@ -38,14 +38,14 @@
        ;;hydra
        ;; indent-guides     ; highlighted indent columns
        ;;ligatures         ; ligatures and symbols to make your code pretty again
-       minimap           ; show a map of the code on the side
+       ;; minimap           ; show a map of the code on the side
        (modeline +light)          ; snazzy, Atom-inspired modeline, plus API
        ;; nav-flash         ; blink cursor line after big motions
        ;; neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
        ;; tabs              ; a tab bar for Emacs
-       treemacs          ; a project drawer, like neotree but cooler
+       ;; treemacs          ; a project drawer, like neotree but cooler
        unicode           ; extended unicode support for various languages
        (vc-gutter +diff-hl +pretty) ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
@@ -68,7 +68,7 @@
        ;; word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       (dired +icons)             ; making dired pretty [functional]
+       (dired +dirvish +icons)             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
        (ibuffer +icons)         ; interactive buffer management
        (undo +tree)              ; persistent, smarter undo for your inevitable mistakes
@@ -96,7 +96,7 @@
        (eval +overlay)     ; run code, run (also, repls)s
        ;;gist              ; interacting with github gists
        lookup              ; navigate your code and its documentation
-       (lsp +eglot)               ; M-x vscode
+       (lsp +eglot +peek)               ; M-x vscode
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
