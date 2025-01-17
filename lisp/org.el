@@ -140,10 +140,7 @@
 
 (setq! org-agenda-files (list
                          (expand-file-name
-                          (concat (+org/get-org-directory) "/todo.org"))
-                         (expand-file-name
-                          (concat (+org/get-org-directory) "/todo.org_archive"))))
-
+                          (concat (+org/get-org-directory) "/todo.org"))))
 
 (after! org
   (setq org-startup-folded 'content)
@@ -153,6 +150,9 @@
   (setq org-log-done 't))
 
 (after! org-agenda
+  ;; Archive in the current file, under the top-level headline
+  ;; \"* Archived Tasks\".
+  (setq! org-archive-location "::* Archived Tasks")
   (evil-set-initial-state 'org-agenda-mode 'normal)
   (setq org-agenda-span 'month)
   (setq org-agenda-start-on-weekday 1)
