@@ -140,7 +140,7 @@
 
 (setq! org-agenda-files (list
                          (expand-file-name
-                          (concat (+org/get-org-directory) "/inbox.org"))))
+                          (concat (+org/get-org-directory) "/todo.org"))))
 
 (after! org
   (setq org-startup-folded 'content)
