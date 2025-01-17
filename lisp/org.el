@@ -185,8 +185,11 @@
             ))
           ))
   (setq! org-capture-templates
-         '(("t" "Personal todo" entry
-            (file+headline +org-capture-todo-file "Inbox")
+         '(("t" "Todo" entry
+            (file+headline +org-capture-todo-file "Todo")
+            "* [ ] %?\n%i\n%a" :prepend t)
+           ("p" "Project" entry
+            (file+olp +org-capture-todo-file "Project" "Unsorted")
             "* [ ] %?\n%i\n%a" :prepend t)
            ;; ("n" "Personal notes" entry
            ;;  (file+headline +org-capture-notes-file "Inbox")
