@@ -42,6 +42,12 @@
   (if jamie-use-remote-path (concat jamie-org-remote-path "zotero_all.bib")
     (concat jamie-org-local-path "zotero_all.bib")))
 
+;; NOTE same as org directory
+;; (defun +org/get-gtd-directory ()
+;;   "Get the org-gtd-directory"
+;;   (if jamie-use-remote-path (concat jamie-org-remote-path "org")
+;;     (concat jamie-org-local-path "org")))
+
 (setq deft-directory (+org/get-deft-directory))
 (setq org-directory (+org/get-org-directory))
 (setq org-roam-directory (+org/get-roam-directory))
@@ -62,7 +68,7 @@
   ;; start with evil normal mode
   (set-evil-initial-state! 'deft-mode 'normal)
   (setq! deft-strip-summary-regexp ".*$")
-  (setq! deft-current-sort-method 'title))
+  (setq! deft-current-sort-method 'mtime))
 
 (after! citar
   ;; put paper notes in roam folder
@@ -132,6 +138,10 @@
 ;; Configuration: org agenda, journal
 ;; ----------------------------------------------------------------------------
 
+(setq! org-agenda-files (list
+                         (expand-file-name
+                          (concat (+org/get-org-directory) "/inbox.org"))))
+
 (after! org
   (setq org-startup-folded 'content)
   (setq org-startup-with-inline-images t)
@@ -179,6 +189,7 @@
   ;; start with monday
   (setq calendar-week-start-day 1))
 
+
 ;; ----------------------------------------------------------------------------
 ;; Configuration: org journal
 ;; ----------------------------------------------------------------------------
@@ -186,4 +197,3 @@
 (after! org-journal
   (setq! org-journal-follow-mode 't)
   (setq! org-journal-file-type 'monthly))
-
