@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: plantuml
+# key: plantuml
+# --
+
+#+begin_src plantuml :results verbatim
+  $0
+#+end_src
