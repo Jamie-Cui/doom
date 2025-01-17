@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: latex_itemize
+# name: itemize
 # key: ite
 # --
 \begin{itemize}
