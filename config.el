@@ -12,8 +12,8 @@
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; setup theme
-(setq doom-theme 'nil)
-;; (setq doom-theme 'modus-operandi)
+;; (setq doom-theme 'nil)
+(setq doom-theme 'modus-operandi)
 
 ;; setup default font
 (setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
