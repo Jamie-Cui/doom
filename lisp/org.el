@@ -42,12 +42,6 @@
   (if jamie-use-remote-path (concat jamie-org-remote-path "zotero_all.bib")
     (concat jamie-org-local-path "zotero_all.bib")))
 
-;; NOTE same as org directory
-(defun +org/get-gtd-directory ()
-  "Get the org-gtd-directory"
-  (if jamie-use-remote-path (concat jamie-org-remote-path "org")
-    (concat jamie-org-local-path "org")))
-
 (setq deft-directory (+org/get-deft-directory))
 (setq org-directory (+org/get-org-directory))
 (setq org-roam-directory (+org/get-roam-directory))
@@ -185,36 +179,11 @@
   ;; start with monday
   (setq calendar-week-start-day 1))
 
-
 ;; ----------------------------------------------------------------------------
-;; Configuration: org gtd (thirdparty package)
+;; Configuration: org journal
 ;; ----------------------------------------------------------------------------
 
-(setq org-gtd-update-ack "3.0.0")
+(after! org-journal
+  (setq! org-journal-follow-mode 't)
+  (setq! org-journal-file-type 'monthly))
 
-(after! org
-  (use-package! org-gtd
-    :custom
-    (org-gtd-directory (+org/get-gtd-directory))
-    (org-edna-use-inheritance t)
-    (org-gtd-organize-hooks '(org-gtd-set-area-of-focus org-set-tags-command))
-    (org-gtd-areas-of-focus '("Career" "Research" "Cryptography"))
-    :config
-    (org-edna-mode)
-    ;; NOTE the following would override some of doom's default keybindings
-    (map! :leader
-          :desc "*Org Gtd Capture*"               "n n" #'org-gtd-capture
-          :desc "*Org Gtd Clarity*"               "n c" #'org-gtd-process-inbox
-          :desc "*Org Gtd Engage*"                "n t" #'org-gtd-engage
-          ;; :desc "Org Gtd Review stuck projects" "n 5" #'org-gtd-review-stuck-projects
-          :desc ""                                "n C" #'nil
-          :desc ""                                "n F" #'nil
-          :desc ""                                "n m" #'nil
-          :desc ""                                "n N" #'nil
-          :desc ""                                "n o" #'nil
-          :desc ""                                "n v" #'nil
-          )
-    (map! :map org-gtd-clarify-map
-          :desc "Organize this item" "C-c C-p" #'org-gtd-organize)
-    )
-  )
