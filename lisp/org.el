@@ -229,4 +229,4 @@
 (after! org-journal
   (setq! org-journal-follow-mode 't)
   (setq! org-journal-file-type 'monthly)
-  (setq! org-journal-carryover-items "TODO=\"IDEA\"))
+  (setq! org-journal-carryover-items "TODO=\"IDEA\""))
