@@ -13,7 +13,7 @@
 
 ;; setup theme
 ;; (setq doom-theme 'nil)
-(setq doom-theme 'modus-operandi)
+(setq doom-theme 'leuven)
 
 ;; setup default font
 (setq doom-font (font-spec :family "0xProto Nerd Font Mono" :weight 'medium))
