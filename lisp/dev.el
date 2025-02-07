@@ -95,7 +95,9 @@
                                '(warning . c/c++-googlelint))
     (setq! flycheck-c/c++-googlelint-executable "cpplint"
            flycheck-cppcheck-standards '("c++17")
-           flycheck-googlelint-linelength "120"))
+           flycheck-googlelint-linelength "120"
+           ;; flycheck-googlelint-filter "--filter=-whitespace,-whitespace/braces"
+           ))
   )
 
 ;; ----------------------------------------------------------------------------
