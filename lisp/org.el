@@ -230,3 +230,11 @@
   (setq! org-journal-follow-mode 't)
   (setq! org-journal-file-type 'monthly)
   (setq! org-journal-carryover-items "TODO=\"IDEA\""))
+
+(after! org
+  (map! :leader
+        :desc "Org Yank Stored Link"       "n y" #'org-store-link
+        :desc "Org Export to Clipboard"    "n e" #'+org/export-to-clipboard
+        :desc "Org Export to Clipboard"    "n E" #'+org/export-to-clipboard-as-rich-text
+        :desc "Org Paste Stored Link"      "n p" #'org-insert-link)
+  )
