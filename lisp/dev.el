@@ -93,11 +93,12 @@
     (setq! flycheck-eglot-exclusive nil)
     (flycheck-add-next-checker 'eglot-check
                                '(warning . c/c++-googlelint))
-    (setq! flycheck-c/c++-googlelint-executable "cpplint"
-           flycheck-cppcheck-standards '("c++17")
-           flycheck-googlelint-linelength "120"
-           ;; flycheck-googlelint-filter "--filter=-whitespace,-whitespace/braces"
-           ))
+    (customize-variable
+     '(flycheck-c/c++-googlelint-executable "cpplint")
+     '(flycheck-cppcheck-standards "c++17")
+     '(flycheck-googlelint-linelength  80)
+     '(flycheck-googlelint-filter  "-whitespace,-whitespace/braces")
+     ))
   )
 
 ;; ----------------------------------------------------------------------------
