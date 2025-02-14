@@ -22,6 +22,7 @@
 
 (package! xenops) ; Xenops is a LaTeX editing environment for mathematical
 (package! keyfreq) ; analysing your key frequency!
+(package! gptel)
 
 ;; :recipe (:host github :repo "username/repo"))
 
