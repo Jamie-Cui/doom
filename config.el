@@ -144,3 +144,15 @@
 
 (after! dirvish
   (setq! dirvish-hide-details 't))
+
+(use-package! gptel
+  :config
+  (setq gptel-model   'deepseek-chat
+        gptel-backend
+        (gptel-make-openai "DeepSeek"     ;Any name you want
+          :host "api.deepseek.com"
+          :endpoint "/chat/completions"
+          :stream t
+          :key "your-key"             ;can be a function that returns the key
+          :models '(deepseek-chat deepseek-coder)))
+  )
