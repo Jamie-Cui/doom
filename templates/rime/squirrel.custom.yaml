@@ -1,0 +1,4 @@
+# make sure rime does not use chinese on emacs
+patch:
+  app_options/homebrew.mxcl.emacs-plus@29:
+    ascii_mode: true
