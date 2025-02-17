@@ -155,12 +155,9 @@
           :host "dashscope.aliyuncs.com/compatible-mode/v1"
           :endpoint "/chat/completions"
           :stream t
-          :key "sk-*******"
+          :key "sk-**********"
           :models '(deepseek-r1)))
 
   (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
   (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
-  )
-
-          :models '(deepseek-r1)))
   )

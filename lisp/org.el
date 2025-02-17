@@ -143,10 +143,10 @@
                           (concat (+org/get-org-directory) "/todo.org"))))
 
 (after! org
-  (setq org-startup-folded 'content)
-  (setq org-startup-with-inline-images t)
-  (setq org-startup-numerated t) ; startup with org-num-mode
-  (setq org-num-max-level 2)  ; add numering for all titles
+  ;; (setq org-startup-folded 'content)
+  ;; (setq org-startup-with-inline-images t)
+  ;; (setq org-startup-numerated t) ; startup with org-num-mode
+  ;; (setq org-num-max-level 2)  ; add numering for all titles
   (setq org-log-done 't))
 
 (after! org-agenda
