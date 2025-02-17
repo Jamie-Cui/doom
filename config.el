@@ -147,12 +147,12 @@
 
 (use-package! gptel
   :config
-  (setq gptel-model   'deepseek-chat
+  (setq gptel-model   'deepseek-r1
         gptel-backend
         (gptel-make-openai "DeepSeek"     ;Any name you want
-          :host "api.deepseek.com"
+          :host "dashscope.aliyuncs.com/compatible-mode/v1"
           :endpoint "/chat/completions"
           :stream t
-          :key "your-key"             ;can be a function that returns the key
-          :models '(deepseek-chat deepseek-coder)))
+          :key "sk-*****"
+          :models '(deepseek-r1)))
   )
