@@ -94,13 +94,7 @@
   (setq! default-input-method "rime"
          rime-show-candidate 'posframe)
 
-  (defun rime-commit1-and-toggle-input-method ()
-    "Commit the 1st item if exists, then toggle input method."
-    (interactive)
-    (ignore-errors (rime-commit1))
-    (toggle-input-method))
-
-  (global-set-key (kbd "C-SPC") #'rime-commit1-and-toggle-input-method))
+  (global-set-key (kbd "C-SPC") #'toggle-input-method))
 
 ;; in treemacs-evil.el
 ;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
