@@ -1,0 +1,26 @@
+# Rime Configuration File
+
+* Rime
+** Install
+
+安装相应的输入法
+https://github.com/rime/plum?tab=readme-ov-file#usage
+
+** Setup Rime Config Files
+
+#+begin_src bash
+pwd;
+
+# this should be path for rime configuration
+RIME_INSTALL_PATH=$HOME/Library/Rime
+
+# softlink files to Rime path
+ln -s $PWD/default.custom.yaml $RIME_INSTALL_PATH
+ln -s $PWD/squirrel.custom.yaml $RIME_INSTALL_PATH/build
+
+#+end_src
+
+#+RESULTS:
+: /Users/jamie/.config/doom/templates/rime
+
+Make sure you deploy rime after changing the configuration files

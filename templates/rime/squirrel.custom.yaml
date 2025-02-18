@@ -1,4 +1,10 @@
 # make sure rime does not use chinese on emacs
 patch:
-  app_options/homebrew.mxcl.emacs-plus@29:
+  # check this at Emacs.app/Info.plist
+  # example: /opt/homebrew/Cellar/emacs-plus@29/29.4/Emacs.app/Contents/Info.plist
+  #
+  # see: https://github.com/rime/home/wiki/CustomizationGuide#%E5%9C%A8%E7%89%B9%E5%AE%9A%E7%A8%8B%E5%BA%8F%E8%A3%8F%E9%97%9C%E9%96%89%E4%B8%AD%E6%96%87%E8%BC%B8%E5%85%A5
+  app_options/org.gnu.Emacs:
+    ascii_mode: true
+  app_options/com.alfredapp.Alfred:
     ascii_mode: true

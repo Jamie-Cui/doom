@@ -3,3 +3,5 @@ patch:
     page_size: 5
   schema_list:
     - schema: luna_pinyin_simp
+  ascii_composer/switch_key:
+    Shift_L: noop

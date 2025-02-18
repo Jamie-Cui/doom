@@ -1,0 +1,31 @@
+# Rime Configuration File
+
+* Alacritty
+** Install
+** Setup Rime Config Files
+Alacritty doesn't create the config file for you, but it looks for one in the following locations on UNIX systems:
+
+$XDG_CONFIG_HOME/alacritty/alacritty.toml
+
+$XDG_CONFIG_HOME/alacritty.toml
+
+$HOME/.config/alacritty/alacritty.toml
+
+$HOME/.alacritty.toml
+
+On Windows, the config file will be looked for in:
+
+%APPDATA%\alacritty\alacritty.toml
+
+see: https://alacritty.org/config-alacritty.html
+
+#+begin_src bash
+pwd;
+
+# softlink files to user home
+ln -s $PWD/alacritty.toml $HOME/.alacritty.toml
+
+#+end_src
+
+#+RESULTS:
+: /Users/jamie/.config/doom/templates/alacritty
