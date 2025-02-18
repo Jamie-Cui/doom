@@ -16,7 +16,7 @@ RIME_INSTALL_PATH=$HOME/Library/Rime
 
 # softlink files to Rime path
 ln -s $PWD/default.custom.yaml $RIME_INSTALL_PATH
-ln -s $PWD/squirrel.custom.yaml $RIME_INSTALL_PATH/build
+ln -s $PWD/squirrel.custom.yaml $RIME_INSTALL_PATH
 
 #+end_src
 

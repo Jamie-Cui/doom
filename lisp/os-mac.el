@@ -33,8 +33,9 @@
 (use-package! rime
   :config
   (setq! default-input-method "rime"
-         rime-show-candidate 'posframe
+         rime-show-candidate 'postframe
          rime-librime-root "~/.config/emacs/librime/dist"
          rime-emacs-module-header-root "/opt/homebrew/Cellar/emacs-plus@29/29.4/include/")
   (global-set-key (kbd "C-SPC") #'toggle-input-method))
+
 

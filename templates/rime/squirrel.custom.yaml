@@ -4,7 +4,16 @@ patch:
   # example: /opt/homebrew/Cellar/emacs-plus@29/29.4/Emacs.app/Contents/Info.plist
   #
   # see: https://github.com/rime/home/wiki/CustomizationGuide#%E5%9C%A8%E7%89%B9%E5%AE%9A%E7%A8%8B%E5%BA%8F%E8%A3%8F%E9%97%9C%E9%96%89%E4%B8%AD%E6%96%87%E8%BC%B8%E5%85%A5
+  #
+  # we use the built-in rime input method in emacs, rather than system-level rime
   app_options/org.gnu.Emacs:
+    ascii_mode: true # default to english
+    vim_mode: true   # default to english
+  app_options/com.runningwithcrayons.Alfred:
     ascii_mode: true
-  app_options/com.alfredapp.Alfred:
+  app_options/org.alacritty:
     ascii_mode: true
+  app_options/com.microsoft.VSCode:
+    ascii_mode: true
+  style/text_orientation: horizontal
+  style/candidate_list_layout: linear

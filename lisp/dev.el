@@ -78,10 +78,10 @@
 ;; My Package [flycheck-google-cpplint]
 ;; ----------------------------------------------------------------------------
 
-(use-package! flycheck-google-cpplint
-  :config
-  ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
-  (after! flycheck-eglot
+(after! flycheck-eglot
+  (use-package! flycheck-google-cpplint
+    :config
+    ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
     ;; We need to tweak a little bit to make cpplint and eglot to work together.
     ;; see: https://melpa.org/#/flycheck-eglot
     ;;

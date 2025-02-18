@@ -92,7 +92,7 @@
 (use-package! rime
   :config
   (setq! default-input-method "rime"
-         rime-show-candidate 'posframe)
+         rime-show-candidate 'postframe)
 
   (global-set-key (kbd "C-SPC") #'toggle-input-method))
 
