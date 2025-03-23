@@ -13,7 +13,7 @@
 
 ;; setup theme
 ;; (setq doom-theme 'nil)
-(setq doom-theme 'leuven)
+(setq doom-theme 'modus-operandi)
 
 ;; setup default font
 (setq doom-font (font-spec :family "0xProto Nerd Font Mono" :weight 'medium))
@@ -143,7 +143,9 @@
 ;; (add-hook 'cmake-mode-hook #'(lambda () (modify-syntax-entry ?\/ "-")))
 
 (after! dirvish
-  (setq! dirvish-hide-details 't))
+  (setq! dirvish-hide-details 't)
+  (setq! dirvish-use-mode-line 'global)
+  (setq! dirvish-use-header-line 'global))
 
 (use-package! gptel
   :config
