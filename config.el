@@ -13,7 +13,7 @@
 
 ;; setup theme
 ;; (setq doom-theme 'nil)
-(setq doom-theme 'modus-operandi)
+(setq doom-theme 'modus-vivendi)
 
 ;; setup default font
 (setq doom-font (font-spec :family "0xProto Nerd Font Mono" :weight 'medium))
@@ -99,38 +99,13 @@
 ;; ----------------------------------------------------------------------------
 ;; Config thirdparty dependencies
 ;; ----------------------------------------------------------------------------
-
-;; (use-package! holo-layer
-;;   :load-path (lambda()(concat doom-user-dir "thirdparty/holo-layer/"))
-;;   :config
-;;   (require 'holo-layer)
-;;   (holo-layer-enable)
-;;   (setq!
-;;    holo-layer-enable-cursor-animation 't
-;;    holo-layer-cursor-animation-interval 10
-;;    holo-layer-cursor-alpha 100
-;;    holo-layer-python-command "~/miniconda3/bin/python"))
-
-;; (use-package! disable-mouse
-;;   :load-path (lambda()(concat doom-user-dir "thirdparty/disable-mouse/"))
-;;   :config
-;;   (require 'disable-mouse)
-;;   (global-disable-mouse-mode)
-;;   (mapc #'disable-mouse-in-keymap
-;;         (list evil-motion-state-map
-;;               evil-normal-state-map
-;;               evil-visual-state-map
-;;               evil-insert-state-map)))
+;; (load (concat doom-user-dir "lisp/" "eaf.el"))
+(load (concat doom-user-dir "lisp/" "gptel.el"))
 
 (use-package! keyfreq
   :config
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
-
-;; in treemacs-evil.el
-;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
-(after! treemacs
-  (define-key evil-treemacs-state-map (kbd "w")   #'nil))
 
 ;; enable evil on pdf-view-mode
 (evil-set-initial-state 'pdf-view-mode 'normal)
@@ -140,36 +115,8 @@
   (evil-define-key 'normal corfu-mode-map (kbd "C-SPC") #'nil)
   (evil-define-key 'visual corfu-mode-map (kbd "C-SPC") #'nil))
 
-;; (add-hook 'cmake-mode-hook #'(lambda () (modify-syntax-entry ?\/ "-")))
-
 (after! dirvish
   (setq! dirvish-hide-details 't)
   (setq! dirvish-use-mode-line 'global)
   (setq! dirvish-use-header-line 'global))
-
-(use-package! gptel
-  :config
-  (setq gptel-model   'deepseek-r1
-        gptel-default-mode 'org-mode
-        gptel-org-branching-context 't
-        gptel-backend
-        (gptel-make-openai "DeepSeek"
-          :host "dashscope.aliyuncs.com/compatible-mode/v1"
-          :endpoint "/chat/completions"
-          :stream t
-          :key "sk-**********"
-          :models '(deepseek-r1)))
-
-  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@jamie\n")
-  (setf (alist-get 'org-mode gptel-response-prefix-alist) "@remote-ai\n")
-
-  (setq gptel-display-buffer-action
-        '((display-buffer-in-side-window)
-          (side . bottom)
-          (window-height . 0.3)))
-
-  (map!
-   :leader
-   :desc "Bring up (gptel)" "RET" #'gptel)
-  )
 
