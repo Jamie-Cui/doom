@@ -7,8 +7,8 @@ patch:
   #
   # we use the built-in rime input method in emacs, rather than system-level rime
   app_options/org.gnu.Emacs:
-    ascii_mode: true # default to english
-    vim_mode: true   # default to english
+    ascii_mode: false
+    vim_mode: true
   app_options/com.runningwithcrayons.Alfred:
     ascii_mode: true
   app_options/org.alacritty:

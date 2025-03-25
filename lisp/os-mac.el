@@ -30,12 +30,9 @@
 ;; presuites:
 ;; 1. brew install --cask squirrel
 ;; 2. see: https://github.com/DogLooksGood/emacs-rime/blob/master/INSTALLATION.org#macos-1
-(use-package! rime
-  :config
-  (setq! default-input-method "rime"
-         rime-show-candidate 'postframe
-         rime-librime-root "~/.config/emacs/librime/dist"
-         rime-emacs-module-header-root "/opt/homebrew/Cellar/emacs-plus@29/29.4/include/")
-  (global-set-key (kbd "C-SPC") #'toggle-input-method))
-
-
+;; (use-package! rime
+;;   :config
+;;   (setq! default-input-method "rime"
+;;          rime-show-candidate 'popup
+;;          rime-librime-root "~/.config/emacs/librime/dist"
+;;          rime-emacs-module-header-root "/opt/homebrew/Cellar/emacs-plus@29/29.4/include/"))

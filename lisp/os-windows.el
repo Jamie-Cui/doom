@@ -89,12 +89,12 @@
 (after! ace-pinyin
   (setq ace-pinyin-simplified-chinese-only-p t))
 
-(use-package! rime
-  :config
-  (setq! default-input-method "rime"
-         rime-show-candidate 'postframe)
+;; (use-package! rime
+;;   :config
+;;   (setq! default-input-method "rime"
+;;          rime-show-candidate 'postframe)
 
-  (global-set-key (kbd "C-SPC") #'toggle-input-method))
+;;   (global-set-key (kbd "C-SPC") #'toggle-input-method))
 
 ;; in treemacs-evil.el
 ;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
