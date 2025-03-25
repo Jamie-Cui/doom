@@ -160,6 +160,16 @@
           :key "sk-**********"
           :models '(deepseek-r1)))
 
-  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
-  (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
+  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@jamie\n")
+  (setf (alist-get 'org-mode gptel-response-prefix-alist) "@remote-ai\n")
+
+  (setq gptel-display-buffer-action
+        '((display-buffer-in-side-window)
+          (side . bottom)
+          (window-height . 0.3)))
+
+  (map!
+   :leader
+   :desc "Bring up (gptel)" "RET" #'gptel)
   )
+
