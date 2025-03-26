@@ -1,4 +1,4 @@
-;;; os-windows.el -*- lexical-binding: t; -*-
+;;; windows.el -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2024 Jamie Cui
 ;;
@@ -40,9 +40,7 @@
 ;; (add-hook 'doom-init-ui-hook 'init-cjk-fonts)
 
 ;; setup new const variables, make sure to doom sync after change
-(defconst jamie-org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
-(defconst jamie-org-local-path "~/org-local/")
-(defconst jamie-use-remote-path 'nil) ; non-nil to use remote path
+(setq! jamie-use-remote-path 't) ; non-nil to use remote path
 
 ;; Handle evil conflict with my own keybindings
 ;; (define-key evil-normal-state-map "u" nil)

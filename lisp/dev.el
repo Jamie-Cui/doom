@@ -1,3 +1,5 @@
+;;; dev.el -*- lexical-binding: t; -*-
+;;
 ;; Copyright (C) 2024 Jamie Cui
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -17,27 +19,34 @@
 ;; Configuration: tramp, lsp, projectile, vterm
 ;; ----------------------------------------------------------------------------
 ;; it's wired that vertico uses this to list all files
-(setq projectile-git-fd-args "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
+(setq projectile-git-fd-args
+      "--color=never -H -0 -E .git -tf --strip-cwd-prefix")
 
 ;; on ubuntu, you need to "ln -s /bin/fdfind /bin/fd"
 (setq projectile-fd-executable "fd")
 
 ;; Config Tramp
 (after! tramp
-  ;; Setup default tramp setting, from https://www.emacswiki.org/emacs/TrampMode
-  (setq tramp-default-method "sshx") ; use sshx (since it supportszsh and fish) instead of default scp
-  (setq tramp-default-remote-shell "/bin/zsh") ; do-not-use executable-find
-  (customize-set-variable 'tramp-encoding-shell "/bin/zsh") ; do-not-use executable-find
-  (connection-local-update-profile-variables 'tramp-connection-local-default-shell-profile
-                                             '((shell-file-name . "/bin/zsh")
-                                               (shell-command-switch . "-c"))))
+  ;; Setup default tramp setting.
+  ;; See: https://www.emacswiki.org/emacs/TrampMode
+  ;; use sshx (since it supportszsh and fish) instead of default scp
+  (setq tramp-default-method "sshx")
+
+  (setq tramp-default-remote-shell "/bin/zsh")
+  (customize-set-variable 'tramp-encoding-shell "/bin/zsh")
+  (connection-local-update-profile-variables
+   'tramp-connection-local-default-shell-profile
+   '((shell-file-name . "/bin/zsh")
+     (shell-command-switch . "-c"))))
+
 ;; Use zsh over vterm tramp
 (after! (:and vterm tramp)
   (setq vterm-shell (executable-find "zsh"))
   (setq vterm-tramp-shells '("sshx" "/bin/zsh")))
-;; setup interier shell (built-in with emacs) type
+
+;; Setup interier shell (built-in with emacs) type
 ;; REVIEW not sure if this variable is used by tramp or not
-(setq explicit-shell-file-name (executable-find "zsh")) ; emacs-c-code variable
+(setq explicit-shell-file-name (executable-find "zsh"))
 
 
 ;; ----------------------------------------------------------------------------
@@ -46,33 +55,34 @@
 ;; there are many workarounds:
 ;; 1. https://github.com/radian-software/apheleia/discussions/120
 ;; 2. https://github.com/doomemacs/doomemacs/issues/7490
-;; but we want a workaround that works both on local projects and tramp projects
-;; so the best way is to force c++/c mode to use eglot-format-buffer other than apheleia
+;;
+;; But we want a workaround that works both on local projects and tramp projects
+;; so the best way is to force c++/c mode to use eglot-format-buffer other than
+;; apheleia
 
 (after! apheleia-formatters
-  ;; use local mode on most cases
+  ;; Use local mode on most cases
   (setq apheleia-remote-algorithm 'local))
 
-;; when we have eglot managed         
+;; When we have eglot managed
 (after! eglot
-  ;; disable eglot inlay
+  ;; Disable eglot inlay
   (setq eglot-ignored-server-capabilities '(:inlayHintProvider)))
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [bazel]
 ;; ----------------------------------------------------------------------------
+
 (use-package! bazel
   :config
   (add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
-  (setq! bazel-buildifier-command (concat doom-private-dir "bin/buildifier"))
+  (setq! bazel-buildifier-command (concat doom-user-dir "bin/buildifier"))
   (setq! bazel-buildifier-before-save 't)
-  (map! :localleader
-        :map bazel-mode-map
-        :desc "Bazel build"       "b" #'bazel-build
-        :desc "Bazel run"         "r" #'bazel-run
-        :desc "Bazel test"        "t" #'bazel-test
-        :desc "Bazel comile current file"        "m" #'bazel-compile-current-file))
-
+  (map! :leader
+        :mode bazel-mode
+        :desc "Compile in project (bazel-build)" "p c" #'bazel-build
+        :desc "Run project (bazel-run)"          "p r" #'bazel-run
+        :desc "Test project (bazel-test)"        "p T" #'bazel-test))
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]

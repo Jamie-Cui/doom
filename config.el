@@ -1,4 +1,19 @@
 ;;; config.el -*- lexical-binding: t; -*-
+;;
+;; Copyright (C) 2024 Jamie Cui
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;; ----------------------------------------------------------------------------
 ;; Generic Setup
@@ -11,12 +26,19 @@
 ;; (setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
+(defcustom jamie-use-remote-path 't
+  "Whether to use the remote path. Set this var to non-nil to use remote path")
+(defconst jamie-org-remote-path
+  "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
+(defconst jamie-org-local-path "~/org-local/")
+
 ;; setup theme
 ;; (setq doom-theme 'nil)
 (setq doom-theme 'modus-vivendi)
 
 ;; setup default font
-(setq doom-font (font-spec :family "0xProto Nerd Font Mono" :weight 'medium))
+(setq doom-font
+      (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
 
 (if (display-graphic-p)
     ;; NOTE set fonts in graphic mode
@@ -31,20 +53,13 @@
   (global-hide-mode-line-mode)
   )
 
-(when (featurep :system 'macos)
-  (load (concat doom-user-dir "lisp/" "os-mac.el")))
-(when (featurep :system 'linux)
-  (load (concat doom-user-dir "lisp/" "os-windows.el")))
-(when (featurep :system 'windows)
-  (load (concat doom-user-dir "lisp/" "os-windows.el")))
-
 ;; Don't ask, just quit
 (setq confirm-kill-emacs nil)
 
 ;; HACK: Query vc status for remote files
 (setq ibuffer-vc-skip-if-remote nil)
 
-(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized screen on doom start
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;; (add-to-list 'default-frame-alist '(undecorated . t)) ;; no title bar
 
 ;; ----------------------------------------------------------------------------
@@ -86,21 +101,10 @@
 (setq display-line-numbers-grow-only 't)
 (setq display-line-numbers-width-start 't)
 
-;; ----------------------------------------------------------------------------
-;; Load all my tweaks (instantly)
-;; ----------------------------------------------------------------------------
-(load (concat doom-user-dir "lisp/" "org.el"))
-(load (concat doom-user-dir "lisp/" "dev.el"))
-(load (concat doom-user-dir "lisp/" "latex.el"))
-
-;; NOTE :system 'windows does not recognize wsl
-(load (concat doom-user-dir "lisp/" "os-windows.el"))
 
 ;; ----------------------------------------------------------------------------
 ;; Config thirdparty dependencies
 ;; ----------------------------------------------------------------------------
-;; (load (concat doom-user-dir "lisp/" "eaf.el"))
-(load (concat doom-user-dir "lisp/" "gptel.el"))
 
 (use-package! keyfreq
   :config
@@ -116,7 +120,29 @@
   (evil-define-key 'visual corfu-mode-map (kbd "C-SPC") #'nil))
 
 (after! dirvish
+  (setq! dirvish-default-layout '(0 0.26 0.74)) ; same as dirvish-side
   (setq! dirvish-hide-details 't)
   (setq! dirvish-use-mode-line 'global)
-  (setq! dirvish-use-header-line 'global))
+  (setq! dirvish-use-header-line 'global)
+  (add-hook 'dirvish-find-entry-hook
+            (lambda (&rest _) (setq-local truncate-lines t)))
+  )
 
+(setq-default fill-column 80)
+
+;; ----------------------------------------------------------------------------
+;; Load all my tweaks (instantly)
+;; ----------------------------------------------------------------------------
+(load (concat doom-user-dir "lisp/mode/org.el"))
+(load (concat doom-user-dir "lisp/mode/latex.el"))
+(load (concat doom-user-dir "lisp/dev.el"))
+(load (concat doom-user-dir "lisp/package/gptel.el"))
+;; (load (concat doom-user-dir "lisp/" "eaf.el"))
+
+(when (featurep :system 'macos)
+  (load (concat doom-user-dir "lisp/os/mac.el")))
+(when (featurep :system 'linux)
+  (load (concat doom-user-dir "lisp/os/windows.el")))
+;; NOTE :system 'windows does not recognize wsl
+(when (featurep :system 'windows)
+  (load (concat doom-user-dir "lisp/os/windows.el")))

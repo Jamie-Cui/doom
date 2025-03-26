@@ -1,3 +1,5 @@
+;;; gptel.el -*- lexical-binding: t; -*-
+;;
 ;; Copyright (C) 2024 Jamie Cui
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -24,11 +26,11 @@
           :host "dashscope.aliyuncs.com/compatible-mode/v1"
           :endpoint "/chat/completions"
           :stream t
-          :key "sk-********************"
+          :key "sk-**********************************"
           :models '(deepseek-r1)))
 
-  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@jamie\n")
-  (setf (alist-get 'org-mode gptel-response-prefix-alist) "@remote-ai\n")
+  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "** @jamie\n")
+  (setf (alist-get 'org-mode gptel-response-prefix-alist) "** @remote-ai\n")
 
   (setq gptel-display-buffer-action
         '((display-buffer-in-side-window)

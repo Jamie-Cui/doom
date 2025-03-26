@@ -1,3 +1,5 @@
+;;; mac.el -*- lexical-binding: t; -*-
+;;;
 ;; Copyright (C) 2024 Jamie Cui
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -23,9 +25,7 @@
 ;; (add-hook 'doom-init-ui-hook 'init-cjk-fonts)
 
 ;; setup new const variables, make sure to doom sync after change
-(defconst jamie-org-remote-path "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
-(defconst jamie-org-local-path "~/org-local/")
-(defconst jamie-use-remote-path 't) ; non-nil to use remote path
+(setq! jamie-use-remote-path 't)
 
 ;; presuites:
 ;; 1. brew install --cask squirrel
