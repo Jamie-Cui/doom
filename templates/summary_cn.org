@@ -1,0 +1,10 @@
+#+title: xxxxxxxxxxxxxxxxx
+#+author: Jamie
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a4paper]
+#+LATEX_HEADER: \usepackage{xeCJK}
+#+LATEX_COMPILER: xelatex
+#+OPTIONS: toc:nil
+
+* Introduction 简介
+
