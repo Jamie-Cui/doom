@@ -8,3 +8,5 @@
 
 * Introduction 简介
 
+#+ATTR_LATEX: :width 0.2\linewidth
+[[some_img]]
