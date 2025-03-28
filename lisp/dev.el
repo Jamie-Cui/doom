@@ -1,5 +1,3 @@
-;;; dev.el -*- lexical-binding: t; -*-
-;;
 ;; Copyright (C) 2024 Jamie Cui
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -27,11 +25,9 @@
 
 ;; Config Tramp
 (after! tramp
-  ;; Setup default tramp setting.
-  ;; See: https://www.emacswiki.org/emacs/TrampMode
+  ;; Setup default tramp, see: https://www.emacswiki.org/emacs/TrampMode
   ;; use sshx (since it supportszsh and fish) instead of default scp
   (setq tramp-default-method "sshx")
-
   (setq tramp-default-remote-shell "/bin/zsh")
   (customize-set-variable 'tramp-encoding-shell "/bin/zsh")
   (connection-local-update-profile-variables
@@ -43,8 +39,7 @@
 (after! (:and vterm tramp)
   (setq vterm-shell (executable-find "zsh"))
   (setq vterm-tramp-shells '("sshx" "/bin/zsh")))
-
-;; Setup interier shell (built-in with emacs) type
+;; setup interier shell (built-in with emacs) type
 ;; REVIEW not sure if this variable is used by tramp or not
 (setq explicit-shell-file-name (executable-find "zsh"))
 
@@ -55,60 +50,76 @@
 ;; there are many workarounds:
 ;; 1. https://github.com/radian-software/apheleia/discussions/120
 ;; 2. https://github.com/doomemacs/doomemacs/issues/7490
-;;
-;; But we want a workaround that works both on local projects and tramp projects
-;; so the best way is to force c++/c mode to use eglot-format-buffer other than
-;; apheleia
+;; but we want a workaround that works both on local projects and tramp projects
+;; so the best way is to force c++/c mode to use eglot-format-buffer other
+;; than apheleia
 
 (after! apheleia-formatters
-  ;; Use local mode on most cases
+  ;; use local mode on most cases
   (setq apheleia-remote-algorithm 'local))
 
-;; When we have eglot managed
+;; when we have eglot managed         
 (after! eglot
-  ;; Disable eglot inlay
+  ;; disable eglot inlay
   (setq eglot-ignored-server-capabilities '(:inlayHintProvider)))
 
-;; ----------------------------------------------------------------------------
+;;
+;;----------------------------------------------------------------------------
 ;; My Package [bazel]
 ;; ----------------------------------------------------------------------------
-
 (use-package! bazel
   :config
   (add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
   (setq! bazel-buildifier-command (concat doom-user-dir "bin/buildifier"))
-  (setq! bazel-buildifier-before-save 't)
-  (map! :localleader
-        :map bazel-mode-map
-        :desc "Compile in project (bazel-build)" "c" #'bazel-build
-        :desc "Run project (bazel-run)"          "r" #'bazel-run
-        :desc "Test project (bazel-test)"        "T" #'bazel-test))
+  (setq! bazel-buildifier-before-save 't))
+;; (map! :localleader
+;;       :map bazel-mode-map
+;;       :desc "Bazel build"       "b" #'bazel-build
+;;       :desc "Bazel run"         "r" #'bazel-run
+;;       :desc "Bazel test"        "t" #'bazel-test
+;;       :desc "Bazel comile current file"    "m" #'bazel-compile-current-file)
+
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
 ;; ----------------------------------------------------------------------------
 
-(after! flycheck-eglot
-  (use-package! flycheck-google-cpplint
-    :config
-    ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
-    ;; We need to tweak a little bit to make cpplint and eglot to work together.
-    ;; see: https://melpa.org/#/flycheck-eglot
-    ;;
-    ;; By default, the Flycheck-Eglot considers the Eglot to be theonly provider
-    ;; of syntax checks.  Other Flycheck checkers are ignored.
-    ;; There is a variable `flycheck-eglot-exclusive' that controls this.
-    ;; You can override it system wide or for some major modes.
+(after! cc-mode
+  ;; see: https://github.com/clangd/clangd/issues/1727
+  ;; Clangd only supports "pure" (matcher-based) clang-tidy checks, not those
+  ;; based on the clang static analyzer.
+  (set-eglot-client! 'cc-mode '("clangd" "-j=3" "--clang-tidy")))
 
-    (setq! flycheck-eglot-exclusive nil)
-    (flycheck-add-next-checker 'eglot-check
-                               '(warning . c/c++-googlelint))
-    (customize-variable
-     '(flycheck-c/c++-googlelint-executable "cpplint")
-     '(flycheck-cppcheck-standards "c++17")
-     '(flycheck-googlelint-linelength  80)
-     '(flycheck-googlelint-filter  "-whitespace,-whitespace/braces")
-     ))
+(use-package! flycheck-google-cpplint
+  :config
+  (custom-set-variables
+   '(flycheck-c/c++-googlelint-executable "cpplint")
+   '(flycheck-googlelint-verbose "0")
+   '(flycheck-cppcheck-standards "c++17")
+   '(flycheck-googlelint-linelength "120")
+   '(flycheck-googlelint-filter
+     (concat
+      "-whitespace,"
+      "-whitespace/braces,"
+      "-whitespace/indent,"
+      "-build/include_order,"
+      "-build/header_guard,"
+      "-runtime/reference,"
+      ))))
+
+(after! flycheck-eglot
+  ;; see: https://github.com/kkholst/.doom.d/blob/main/config.org
+  ;; We need to tweak a little bit to make cpplint and eglot to work together.
+  ;; see: https://melpa.org/#/flycheck-eglot
+  ;;
+  ;; see: https://github.com/flycheck/flycheck-eglot
+  ;; By default, the Flycheck-Eglot considers the Eglot to be the only
+  ;; provider of syntax checks. Other Flycheck checkers are ignored.
+  ;; There is a variable `flycheck-eglot-exclusive' that controls this.
+  ;; You can override it system wide or for some major modes.
+  (setq! flycheck-eglot-exclusive nil)
+  (flycheck-add-next-checker 'eglot-check
+                             '(warning . c/c++-googlelint))
   )
 
 ;; ----------------------------------------------------------------------------
@@ -131,26 +142,26 @@
         ;; defining the useful variables
         (workspace-file-additional-content
          "\
-\n\
-load(\"@bazel_tools//tools/build_defs/repo:git.bzl\", \"git_repository\")\n\
-\n\
-git_repository(\n\
-        name = \"hedron_compile_commands\",\n\
-        commit = \"4f28899228fb3ad0126897876f147ca15026151e\",\n\
-        remote = \"https://github.com/hedronvision/bazel-compile-commands-extractor.git\",\n\
-)\n\
-\n\
-load(\"@hedron_compile_commands//:workspace_setup.bzl\", \"hedron_compile_commands_setup\")\n\
-\n\
-hedron_compile_commands_setup()\n"
+           \n\
+           load(\"@bazel_tools//tools/build_defs/repo:git.bzl\", \"git_repository\")\n\
+           \n\
+           git_repository(\n\
+                          name = \"hedron_compile_commands\",\n\
+                          commit = \"4f28899228fb3ad0126897876f147ca15026151e\",\n\
+                          remote = \"https://github.com/hedronvision/bazel-compile-commands-extractor.git\",\n\
+                          )\n\
+           \n\
+           load(\"@hedron_compile_commands//:workspace_setup.bzl\", \"hedron_compile_commands_setup\")\n\
+           \n\
+           hedron_compile_commands_setup()\n"
          )
         (build-file-additional-content-1 "load(\"@hedron_compile_commands//:refresh_compile_commands.bzl\", \"refresh_compile_commands\")\n")
         (build-file-additional-content-2 "\n\
-refresh_compile_commands(\n\
-    name = \"refresh_compile_commands\",\n\
-    exclude_external_sources = True,\n\
-    exclude_headers = \"external\",\n\
-)\n")
+           refresh_compile_commands(\n\
+                                    name = \"refresh_compile_commands\",\n\
+                                    exclude_external_sources = True,\n\
+                                    exclude_headers = \"external\",\n\
+                                    )\n")
         (build-file-name (concat (bazel--workspace-root buffer-file-name) "BUILD.bazel"))
         (build-file-name-bak (concat (bazel--workspace-root buffer-file-name) "BUILD.bazel.bak"))
         (workspace-file-name (concat (bazel--workspace-root buffer-file-name) "WORKSPACE"))
@@ -218,15 +229,17 @@ refresh_compile_commands(\n\
                 (goto-char (point-max)) ; go-to the end of current buffer
                 (insert build-file-additional-content-2) ; append contents to current buffer
                 (write-region nil nil build-file-name))
-            (progn
-              (message "Cannot find build file, continue gracefully without build file")
-              (insert build-file-additional-content-1) ; append contents to current buffer
-              (goto-char (point-max)) ; go-to the end of current buffer
-              (insert build-file-additional-content-2) ; append contents to current buffer
-              (write-region nil nil build-file-name))))
+            (prog
+             n
+             (message "Cannot find build file, continue gracefully without build file")
+             (insert build-file-additional-content-1) ; append contents to current buffer
+             (goto-char (point-max)) ; go-to the end of current buffer
+             (insert build-file-additional-content-2) ; append contents to current buffer
+             (write-region nil nil build-file-name))))
 
         ;; run refresh_compile_commands
         (message "Running command (*locally*): \"bazel run -s :refresh_compile_commands &\"")
+
         (if (file-exists-p build-file-name)
             (let ((exec-cmd (concat bazel-run-cmd exit-cmd "&")))
               (shell-command exec-cmd))
