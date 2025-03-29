@@ -49,8 +49,9 @@
 (define-key evil-insert-state-map (kbd "C-z") 'nil)
 (define-key evil-motion-state-map (kbd "C-z") 'nil)
 
-;; NOTE A Control-modified alphabetical character is always considered case-insensitive:
-;; Emacs always treats C-A as C-a, C-B as C-b, and so forth. The reason for this is historical.
+;; NOTE A Control-modified alphabetical character is always considered
+;; case-insensitive: Emacs always treats C-A as C-a, C-B as C-b, and so forth.
+;; The reason for this is historical.
 (global-set-key (kbd "C-f") #'+default/search-buffer) ; set
 (after! help-mode
   (evil-define-key 'normal help-mode-map (kbd "C-f") #'+default/search-buffer))
@@ -58,8 +59,8 @@
 (global-set-key (kbd "C-s") #'save-buffer)
 (global-set-key (kbd "C-z") #'nil) ;; use evil to undo and redo!
 
-;; NOTE I did not change the key bindings for the following in the powertoys, so this
-;; will stick with the meta key short cut
+;; NOTE I did not change the key bindings for the following in the powertoys,
+;; so this will stick with the meta key short cut
 (global-set-key (kbd "M-/") #'comment-line)
 (global-set-key (kbd "M-=") #'doom/increase-font-size)
 (global-set-key (kbd "M--") #'doom/decrease-font-size)
@@ -98,8 +99,9 @@
 ;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
 
 (after! org-download
-  (setq org-download-screenshot-method "powershell.exe -Command \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\"")
-  )
+  (setq org-download-screenshot-method
+        "powershell.exe -Command\
+ \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\""))
 
 (after! treemacs
   (define-key evil-treemacs-state-map (kbd "w")   #'nil))

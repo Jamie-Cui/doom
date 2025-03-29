@@ -53,7 +53,8 @@
 (setq deft-directory (+org/get-deft-directory))
 (setq org-directory (+org/get-org-directory))
 (setq org-roam-directory (+org/get-roam-directory))
-(setq org-agenda-files (directory-files-recursively (+org/get-org-directory) "\\.org$"))
+(setq org-agenda-files
+      (directory-files-recursively (+org/get-org-directory) "\\.org$"))
 (setq org-attach-id-dir (concat (+org/get-org-directory) ".attach"))
 
 ;; ----------------------------------------------------------------------------
@@ -79,7 +80,10 @@
 
 ;; Setup org-latex-preview, load cryptocode, and scale the generated math imgs
 (after! org
-  (add-to-list 'org-latex-packages-alist '("lambda, advantage, operators, sets, adversary, landau, probability, notions, logic, ff, mm, primitives, events, complexity, oracles, asymptotics, keys" "cryptocode" t))
+  (add-to-list 'org-latex-packages-alist
+               '("lambda, advantage, operators, sets, adversary, landau,\
+ probability, notions, logic, ff, mm, primitives, events, complexity, oracles,\
+ asymptotics, keys" "cryptocode" t))
 
   ;; ----------------------------
   ;; use xenops to preview, it's simply better
@@ -110,13 +114,15 @@
 
 ;; Setup org-download directory
 (after! org-download
-  (setq-default org-download-image-dir "img") ; see: https://www.emacswiki.org/emacs/BufferLocalVariable
+  ;; see: https://www.emacswiki.org/emacs/BufferLocalVariable
+  (setq-default org-download-image-dir "img")
   (setq-default org-download-heading-lvl nil) ; no headings
   (setq org-download-method 'directory)
   (setq org-download-image-org-width 500)
   (setq org-download-link-format "[[file:%s]]\n"
         org-download-abbreviate-filename-function #'file-relative-name)
-  (setq org-download-link-format-function #'org-download-link-format-function-default))
+  (setq org-download-link-format-function
+        #'org-download-link-format-function-default))
 
 ;; HACK error from xenops with org>9.7
 ;; https://github.com/syl20bnr/spacemacs/issues/16577
@@ -134,7 +140,8 @@
          :language (nth 0 org-babel-info)
          :org-babel-info org-babel-info)))
 
-  (advice-add 'xenops-src-parse-at-point :override 'fn/xenops-src-parse-at-point))
+  (advice-add 'xenops-src-parse-at-point
+              :override 'fn/xenops-src-parse-at-point))
 
 ;; ----------------------------------------------------------------------------
 ;; Configuration: org agenda, journal
@@ -168,22 +175,26 @@
           ("d" "Yesteday Review"
            ((agenda "" ((org-agenda-span 'day)))
             (tags "TODO=\"DONE\"&CLOSED>=\"<-1d>\""
-                  ((org-agenda-overriding-header "Review Finished Task: Yesteday and Today")))
+                  ((org-agenda-overriding-header
+                    "Review Finished Task: Yesteday and Today")))
             ))
           ("w" "Weekly Review"
            ((agenda "" ((org-agenda-span 'week)))
             (tags "TODO=\"DONE\"&CLOSED>=\"<-1w>\""
-                  ((org-agenda-overriding-header "Review Finished Task: This Week")))
+                  ((org-agenda-overriding-header
+                    "Review Finished Task: This Week")))
             ))
           ("m" "Monthly Review"
            ((agenda "" ((org-agenda-span 'month)))
             (tags "TODO=\"DONE\"&CLOSED>=\"<-1m>\""
-                  ((org-agenda-overriding-header "Review Finished Task: This Month")))
+                  ((org-agenda-overriding-header
+                    "Review Finished Task: This Month")))
             ))
           ("y" "Year Review"
            ((agenda "" ((org-agenda-span 'week)))
             (tags "TODO=\"DONE\""
-                  ((org-agenda-overriding-header "Review Finished Task: This Year")))
+                  ((org-agenda-overriding-header
+                    "Review Finished Task: This Year")))
             ))
           ))
   (setq! org-capture-templates
@@ -193,26 +204,6 @@
            ("p" "Project" entry
             (file+olp +org-capture-todo-file "Project" "Unsorted")
             "* [ ] %?\n%i\n%a" :prepend t)
-           ;; ("n" "Personal notes" entry
-           ;;  (file+headline +org-capture-notes-file "Inbox")
-           ;;  "* %u %?\n%i\n%a" :prepend t)
-           ;; ("j" "Journal" entry
-           ;;  (file+olp+datetree +org-capture-journal-file)
-           ;;  "* %U %?\n%i\n%a" :prepend t)
-           ;; ("p" "Templates for projects")
-           ;; ("pt" "Project-local todo" entry
-           ;;  (file+headline +org-capture-project-todo-file "Inbox")
-           ;;  "* TODO %?\n%i\n%a" :prepend t)
-           ;; ("pn" "Project-local notes" entry
-           ;;  (file+headline +org-capture-project-notes-file "Inbox")
-           ;;  "* %U %?\n%i\n%a" :prepend t)
-           ;; ("pc" "Project-local changelog" entry
-           ;;  (file+headline +org-capture-project-changelog-file "Unreleased")
-           ;;  "* %U %?\n%i\n%a" :prepend t)
-           ;; ("o" "Centralized templates for projects")
-           ;; ("ot" "Project todo" entry #'+org-capture-central-project-todo-file "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
-           ;; ("on" "Project notes" entry #'+org-capture-central-project-notes-file "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
-           ;; ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)
            )
          )
   (evil-define-key 'normal org-agenda-mode-map (kbd "q") #'org-agenda-quit)
@@ -235,8 +226,12 @@
 
 (after! org
   (map! :leader
-        :desc "Org Yank Stored Link"       "n y" #'org-store-link
-        :desc "Org Export to Clipboard"    "n e" #'+org/export-to-clipboard
-        :desc "Org Export to Clipboard"    "n E" #'+org/export-to-clipboard-as-rich-text
-        :desc "Org Paste Stored Link"      "n p" #'org-insert-link)
+        :desc "Org Yank Stored Link"       "n y"
+        #'org-store-link
+        :desc "Org Export to Clipboard"    "n e"
+        #'+org/export-to-clipboard
+        :desc "Org Export to Clipboard"    "n E"
+        #'+org/export-to-clipboard-as-rich-text
+        :desc "Org Paste Stored Link"      "n p"
+        #'org-insert-link)
   )

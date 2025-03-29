@@ -55,10 +55,6 @@
 ;; Use `:pin' to specify a particular commit to install.
 ;; (package! builtin-package :pin "1a2b3c4d5e")
 
-;; HACK see: https://github.com/doomemacs/doomemacs/issues/7606#issuecomment-1880787706
-;; (package! doom-modeline :pin "cfc7bcf1494cb0634a1464dc40a4a1a1e337cb37")
-;; (package! eglot :pin "d14fa2e5c537d48a25ce844")
-
 ;; Doom's packages are pinned to a specific commit and updated from release to
 ;; release. The `unpin!' macro allows you to unpin single packages...
 ;; (unpin! pinned-package)
@@ -68,4 +64,5 @@
 ;; will likely break things)
 ;; (unpin! t)
 
-(unpin! org-roam) ;; org-roam-ui tries to keep up with the latest features of org-roam
+;; org-roam-ui tries to keep up with the latest features of org-roam
+(unpin! org-roam)

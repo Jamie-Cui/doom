@@ -16,23 +16,5 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;; setup default font
 
-;; (setq doom-font (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
-
-;; (defun init-cjk-fonts()
-;;   (dolist (charset '(kana han cjk-misc bopomofo))
-;;     (set-fontset-font (frame-parameter nil 'font)
-;;                       charset (font-spec :family "AR PL KaitiM GB" :size 18))))
-;; (add-hook 'doom-init-ui-hook 'init-cjk-fonts)
-
 ;; setup new const variables, make sure to doom sync after change
 (setq! jamie-use-remote-path 't)
-
-;; presuites:
-;; 1. brew install --cask squirrel
-;; 2. see: https://github.com/DogLooksGood/emacs-rime/blob/master/INSTALLATION.org#macos-1
-;; (use-package! rime
-;;   :config
-;;   (setq! default-input-method "rime"
-;;          rime-show-candidate 'popup
-;;          rime-librime-root "~/.config/emacs/librime/dist"
-;;          rime-emacs-module-header-root "/opt/homebrew/Cellar/emacs-plus@29/29.4/include/"))
