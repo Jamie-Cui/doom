@@ -26,7 +26,7 @@
 ;; (setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
-(defcustom jamie-use-remote-path 't
+(defcustom jamie-use-remote-path 'nil
   "Whether to use the remote path. Set this var to non-nil to use remote path")
 (defconst jamie-org-remote-path
   "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
@@ -142,7 +142,7 @@
 (when (featurep :system 'macos)
   (load (concat doom-user-dir "lisp/os/mac.el")))
 (when (featurep :system 'linux)
-  (load (concat doom-user-dir "lisp/os/windows.el")))
+  (load (concat doom-user-dir "lisp/os/linux.el")))
 ;; NOTE :system 'windows does not recognize wsl
 (when (featurep :system 'windows)
   (load (concat doom-user-dir "lisp/os/windows.el")))
