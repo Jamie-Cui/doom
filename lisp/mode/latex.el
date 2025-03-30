@@ -55,3 +55,12 @@
 (after! citar
   (add-to-list 'org-cite-export-processors
                '(latex-citar (processor . citar-export-latex))))
+
+(add-to-list 'org-latex-classes
+             '("acmart"
+               " \\documentclass[]{acmart}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
