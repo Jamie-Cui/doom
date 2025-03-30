@@ -133,12 +133,6 @@
 ;; ----------------------------------------------------------------------------
 ;; Load all my tweaks (instantly)
 ;; ----------------------------------------------------------------------------
-(load (concat doom-user-dir "lisp/mode/org.el"))
-(load (concat doom-user-dir "lisp/mode/latex.el"))
-(load (concat doom-user-dir "lisp/dev.el"))
-(load (concat doom-user-dir "lisp/package/gptel.el"))
-;; (load (concat doom-user-dir "lisp/" "eaf.el"))
-
 (when (featurep :system 'macos)
   (load (concat doom-user-dir "lisp/os/mac.el")))
 (when (featurep :system 'linux)
@@ -146,3 +140,11 @@
 ;; NOTE :system 'windows does not recognize wsl
 (when (featurep :system 'windows)
   (load (concat doom-user-dir "lisp/os/windows.el")))
+
+(load (concat doom-user-dir "lisp/jamie-define.el"))
+(load (concat doom-user-dir "lisp/mode/org.el"))
+(load (concat doom-user-dir "lisp/mode/latex.el"))
+(load (concat doom-user-dir "lisp/dev.el"))
+(load (concat doom-user-dir "lisp/package/gptel.el"))
+;; (load (concat doom-user-dir "lisp/" "eaf.el"))
+

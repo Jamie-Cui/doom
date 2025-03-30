@@ -19,22 +19,3 @@
   "~/Library/Mobile Documents/com~apple~CloudDocs/org-remote/")
 (defconst jamie-org-local-path "~/org-local/")
 
-(defun +org/get-org-directory ()
-  "Get the org-directory"
-  (if jamie-use-remote-path (concat jamie-org-remote-path "org")
-    (concat jamie-org-local-path "org")))
-
-(defun +org/get-deft-directory ()
-  "Get the deft-directory"
-  (if jamie-use-remote-path (concat jamie-org-remote-path "deft")
-    (concat jamie-org-local-path "deft")))
-
-(defun +org/get-roam-directory ()
-  "Get the org-roam-directory"
-  (if jamie-use-remote-path (concat jamie-org-remote-path "roam")
-    (concat jamie-org-local-path "roam")))
-
-(defun +org/get-zotero-path ()
-  "Get the org-roam-directory"
-  (if jamie-use-remote-path (concat jamie-org-remote-path "zotero_all.bib")
-    (concat jamie-org-local-path "zotero_all.bib")))
