@@ -33,12 +33,12 @@
 (defconst jamie-org-local-path "~/org-local/")
 
 ;; setup theme
-;; (setq doom-theme 'nil)
-(setq doom-theme 'modus-vivendi)
+(setq doom-theme 'nil)
+;; (setq doom-theme 'modus-vivendi)
 
 ;; setup default font
 (setq doom-font
-      (font-spec :family "0xProto Nerd Font Mono" :size 16 :weight 'medium))
+      (font-spec :family "0xProto Nerd Font Mono" :weight 'medium))
 
 (if (display-graphic-p)
     ;; NOTE set fonts in graphic mode
