@@ -44,14 +44,14 @@
 
 ;; Handle evil conflict with my own keybindings
 ;; (define-key evil-normal-state-map "u" nil)
-(define-key evil-motion-state-map (kbd "C-f") 'nil)
-(define-key evil-emacs-state-map (kbd "C-z") 'nil)
-(define-key evil-insert-state-map (kbd "C-z") 'nil)
-(define-key evil-motion-state-map (kbd "C-z") 'nil)
+;; (define-key evil-motion-state-map (kbd "C-f") 'nil)
+;; (define-key evil-emacs-state-map (kbd "C-z") 'nil)
+;; (define-key evil-insert-state-map (kbd "C-z") 'nil)
+;; (define-key evil-motion-state-map (kbd "C-z") 'nil)
 
 ;; NOTE A Control-modified alphabetical character is always considered case-insensitive:
 ;; Emacs always treats C-A as C-a, C-B as C-b, and so forth. The reason for this is historical.
-(global-set-key (kbd "C-f") #'+default/search-buffer) ; set
+(global-set-key (kbd "M-f") #'+default/search-buffer) ; set
 (after! help-mode
   (evil-define-key 'normal help-mode-map (kbd "C-f") #'+default/search-buffer))
 
