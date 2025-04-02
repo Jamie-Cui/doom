@@ -49,24 +49,20 @@
 (define-key evil-insert-state-map (kbd "C-z") 'nil)
 (define-key evil-motion-state-map (kbd "C-z") 'nil)
 
-;; NOTE A Control-modified alphabetical character is always considered
-;; case-insensitive: Emacs always treats C-A as C-a, C-B as C-b, and so forth.
-;; The reason for this is historical.
+;; NOTE A Control-modified alphabetical character is always considered case-insensitive:
+;; Emacs always treats C-A as C-a, C-B as C-b, and so forth. The reason for this is historical.
 (global-set-key (kbd "C-f") #'+default/search-buffer) ; set
 (after! help-mode
   (evil-define-key 'normal help-mode-map (kbd "C-f") #'+default/search-buffer))
 
-(global-set-key (kbd "C-s") #'save-buffer)
-(global-set-key (kbd "C-z") #'nil) ;; use evil to undo and redo!
+(global-set-key (kbd "M-s") #'save-buffer)
+(global-set-key (kbd "M-z") #'nil) ;; use evil to undo and redo!
 
-;; NOTE I did not change the key bindings for the following in the powertoys,
-;; so this will stick with the meta key short cut
-(global-set-key (kbd "M-/") #'comment-line)
-(global-set-key (kbd "M-=") #'doom/increase-font-size)
-(global-set-key (kbd "M--") #'doom/decrease-font-size)
+(global-set-key (kbd "M-c") #'evil-yank)
+(global-set-key (kbd "M-v") #'evil-paste-before)
 
 ;; ----------------------------------------------------------------------------
-;; HACK from: https://gist.github.com/minorugh/1770a6aa93df5fe55f70b4d72091ff76
+;; Hack from: https://gist.github.com/minorugh/1770a6aa93df5fe55f70b4d72091ff76
 ;; Emacs on WSL open links in Windows web browser
 ;; https://adam.kruszewski.name/2017/09/emacs-in-wsl-and-opening-links/
 ;; ----------------------------------------------------------------------------
@@ -88,20 +84,32 @@
 (after! ace-pinyin
   (setq ace-pinyin-simplified-chinese-only-p t))
 
-;; (use-package! rime
-;;   :config
-;;   (setq! default-input-method "rime"
-;;          rime-show-candidate 'postframe)
+(use-package! rime
+  :config
+  (setq! default-input-method "rime"
+         rime-show-candidate 'popup)
 
-;;   (global-set-key (kbd "C-SPC") #'toggle-input-method))
+  (global-set-key (kbd "C-SPC") #'toggle-input-method))
 
 ;; in treemacs-evil.el
 ;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
 
 (after! org-download
   (setq org-download-screenshot-method
-        "powershell.exe -Command\
- \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\""))
+        "powershell.exe -Command \"(Get-Clipboard -Format image).Save('$(wslpath -w %s)')\"")
+  )
 
 (after! treemacs
   (define-key evil-treemacs-state-map (kbd "w")   #'nil))
+
+
+(defun cp-current-file-to-windows()
+  "Copy the current file to windows"
+  (interactive)
+  (let ((dest-path (concat "/mnt/c/Users/c00922880/Desktop/tmp/" (format-time-string "%Y-%m-%d") "/")))
+    (when buffer-file-name
+      (make-directory dest-path 'parents)
+      (message (concat "cp -r " buffer-file-name " " dest-path))
+      (shell-command (concat "cp -r " buffer-file-name " " dest-path))
+      ))
+  )
