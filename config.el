@@ -148,3 +148,4 @@
 (load (concat doom-user-dir "lisp/package/gptel.el"))
 ;; (load (concat doom-user-dir "lisp/" "eaf.el"))
 
+(add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))

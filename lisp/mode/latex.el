@@ -57,12 +57,7 @@
                '(latex-citar (processor . citar-export-latex))))
 
 (after! ox-latex
-  (add-to-list 'org-latex-classes
-               '("acmart"
-                 " \\documentclass[]{acmart}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  )
+  (let ((tmp-file (concat doom-user-dir "lisp/org-export-init.el")))
+    (setq! org-export-async-init-file tmp-file)
+    (setq! org-export-async-debug 't)
+    (load tmp-file)))
