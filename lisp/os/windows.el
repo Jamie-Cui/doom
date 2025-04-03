@@ -57,7 +57,7 @@
 
 (global-set-key (kbd "M-s") #'save-buffer)
 (global-set-key (kbd "M-z") #'nil) ;; use evil to undo and redo!
-
+(global-set-key (kbd "M-/") #'comment-line)
 (global-set-key (kbd "M-c") #'evil-yank)
 (global-set-key (kbd "M-v") #'evil-paste-before)
 
