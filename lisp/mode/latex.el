@@ -72,4 +72,11 @@
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   )
 
+(use-package! engrave-faces)
+(after! ox-latex
+  (setq! org-latex-src-block-backend 'engraved)
+  (setq! org-latex-engraved-theme 't)
+  )
+
+
 (setq-default +latex-viewers '(pdf-tools))
