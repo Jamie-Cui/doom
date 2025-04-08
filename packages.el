@@ -24,6 +24,7 @@
 (package! keyfreq) ; analysing your key frequency!
 (package! gptel)
 (package! engrave-faces)
+(package! edwina)
 
 ;; :recipe (:host github :repo "username/repo"))
 
