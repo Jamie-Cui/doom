@@ -13,19 +13,3 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(use-package ox-latex
-  :config
-  ;; HACK you need to manually set the following for each org file
-  ;; #+latex: \maketitle
-  (setq! org-latex-title-command 'nil)
-
-  (add-to-list 'org-latex-classes
-               '("acmart"
-                 ;; HACK see: https://tex.stackexchange.com/a/587033
-                 " \\documentclass[]{acmart}\\let\\Bbbk\\relax"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  )

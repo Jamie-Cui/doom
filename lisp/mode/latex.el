@@ -18,7 +18,6 @@
 ;; Set default viewers. +latex-viewers are used by modules/lang/latex/+views.el
 ;; immediately after latex module inited.
 ;;
-;; (setq-default +latex-viewers '(pdf-tools))
 
 (after! tex
   ;; Disable offset
@@ -56,8 +55,21 @@
   (add-to-list 'org-cite-export-processors
                '(latex-citar (processor . citar-export-latex))))
 
-(after! ox-latex
-  (let ((tmp-file (concat doom-user-dir "lisp/org-export-init.el")))
-    (setq! org-export-async-init-file tmp-file)
-    (setq! org-export-async-debug 't)
-    (load tmp-file)))
+(after! (:and ox-latex org)
+  ;; HACK you need to manually set the following for each org file
+  ;; #+latex: \maketitle
+  (setq! org-latex-title-command 'nil)
+  (setq! org-export-in-background 'nil)
+
+  (add-to-list 'org-latex-classes
+               '("acmart"
+                 ;; HACK see: https://tex.stackexchange.com/a/587033
+                 " \\documentclass[]{acmart}\\let\\Bbbk\\relax"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  )
+
+(setq-default +latex-viewers '(pdf-tools))

@@ -156,8 +156,7 @@
   ;; (setq org-startup-with-inline-images t)
   ;; (setq org-startup-numerated t) ; startup with org-num-mode
   ;; (setq org-num-max-level 2)  ; add numering for all titles
-  (setq org-log-done 't)
-  (setq! org-export-in-background 't))
+  (setq org-log-done 't))
 
 (after! org-agenda
   ;; Archive in the current file, under the top-level headline
