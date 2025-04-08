@@ -63,6 +63,10 @@
   ;; disable eglot inlay
   (setq eglot-ignored-server-capabilities '(:inlayHintProvider)))
 
+(map!
+ :leader
+ :desc "Hs fold level"       "t h" #'hs-hide-level)
+
 ;;
 ;;----------------------------------------------------------------------------
 ;; My Package [bazel]
@@ -88,6 +92,9 @@
   ;; see: https://github.com/clangd/clangd/issues/1727
   ;; Clangd only supports "pure" (matcher-based) clang-tidy checks, not those
   ;; based on the clang static analyzer.
+  ;;
+  ;; NOTE Not all clang-tidy checks work within clangd.
+  ;;
   (set-eglot-client! 'cc-mode '("clangd" "-j=3" "--clang-tidy")))
 
 (use-package! flycheck-google-cpplint
@@ -117,6 +124,7 @@
   ;; provider of syntax checks. Other Flycheck checkers are ignored.
   ;; There is a variable `flycheck-eglot-exclusive' that controls this.
   ;; You can override it system wide or for some major modes.
+  ;;
   (setq! flycheck-eglot-exclusive nil)
   (flycheck-add-next-checker 'eglot-check
                              '(warning . c/c++-googlelint))
