@@ -75,3 +75,8 @@
            :branch "elpa/ws-butler"
            :local-repo "ws-butler")
   :pin "9ee5a7657a22e836618813c2e2b64a548d27d2ff")
+
+
+(package! gptel-quick
+  :recipe (:host github
+           :repo "karthink/gptel-quick"))

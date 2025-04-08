@@ -39,3 +39,5 @@
   (map!
    :leader
    :desc "Bring up (gptel)" "RET" #'gptel))
+
+(use-package! gptel-quick)
