@@ -23,6 +23,7 @@
 (package! xenops) ; Xenops is a LaTeX editing environment for mathematical
 (package! keyfreq) ; analysing your key frequency!
 (package! gptel)
+(package! engrave-faces)
 
 ;; :recipe (:host github :repo "username/repo"))
 
@@ -66,3 +67,11 @@
 
 ;; org-roam-ui tries to keep up with the latest features of org-roam
 (unpin! org-roam)
+
+;; HACK see: https://github.com/doomemacs/doomemacs/issues/8333#issuecomment-2765427952
+(package! ws-butler
+  :recipe (:host github
+           :repo "emacsmirror/nongnu_elpa"
+           :branch "elpa/ws-butler"
+           :local-repo "ws-butler")
+  :pin "9ee5a7657a22e836618813c2e2b64a548d27d2ff")
