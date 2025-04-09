@@ -76,13 +76,6 @@
   (add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
   (setq! bazel-buildifier-command (concat doom-user-dir "bin/buildifier"))
   (setq! bazel-buildifier-before-save 't))
-;; (map! :localleader
-;;       :map bazel-mode-map
-;;       :desc "Bazel build"       "b" #'bazel-build
-;;       :desc "Bazel run"         "r" #'bazel-run
-;;       :desc "Bazel test"        "t" #'bazel-test
-;;       :desc "Bazel comile current file"    "m" #'bazel-compile-current-file)
-
 
 ;; ----------------------------------------------------------------------------
 ;; My Package [flycheck-google-cpplint]
