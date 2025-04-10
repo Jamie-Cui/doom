@@ -59,7 +59,7 @@
   ;; HACK you need to manually set the following for each org file
   ;; #+latex: \maketitle
   (setq! org-latex-title-command 'nil)
-  (setq! org-export-in-background 't)
+  (setq! org-export-in-background 'nil)
 
   (add-to-list 'org-latex-classes
                '("acmart"
