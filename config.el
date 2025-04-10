@@ -138,8 +138,9 @@
   (edwina-mode 1)
   (map!
    :leader
-   :desc "edwina-zoom"       "w RET" #'edwina-zoom
-   :desc "edwina-arrange"       "w r" #'edwina-arrange)
+   :desc "edwina-zoom"               "w RET" #'edwina-zoom
+   :desc "edwina-arrange"            "w r" #'edwina-arrange
+   :desc "edwina-clone-window"       "w c" #'edwina-clone-window)
   )
 
 ;; ----------------------------------------------------------------------------
@@ -148,8 +149,8 @@
 (when (featurep :system 'macos)
   (load (concat doom-user-dir "lisp/os/mac.el")))
 (when (featurep :system 'linux)
-  (load (concat doom-user-dir "lisp/os/linux.el")))
-;; NOTE :system 'windows does not recognize wsl
+  ;; HACK wsl is recognized as linux
+  (load (concat doom-user-dir "lisp/os/windows.el")))
 (when (featurep :system 'windows)
   (load (concat doom-user-dir "lisp/os/windows.el")))
 
