@@ -127,26 +127,27 @@
 
 (setq-default fill-column 80)
 
-(use-package! edwina
-  :ensure t
-  :config
-  ;; (setq display-buffer-base-action '(display-buffer-below-selected))
-  (edwina-setup-dwm-keys)
-  (edwina-mode 1)
-  (map!
-   :leader
-   :desc "edwina-zoom"               "w RET" #'edwina-zoom
-   :desc "edwina-arrange"            "w r" #'edwina-arrange
-   :desc "edwina-clone-window"       "w c" #'edwina-clone-window)
-  )
+;; (use-package! edwina
+;;   :ensure t
+;;   :config
+;;   ;; (setq display-buffer-base-action '(display-buffer-below-selected))
+;;   (edwina-setup-dwm-keys)
+;;   (edwina-mode 1)
+;;   (map!
+;;    :leader
+;;    :desc "edwina-zoom"               "w RET" #'edwina-zoom
+;;    :desc "edwina-arrange"            "w r" #'edwina-arrange
+;;    :desc "edwina-clone-window"       "w c" #'edwina-clone-window)
+;;   )
 
-(use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+;; (use-package! copilot
+;;   :hook (prog-mode . copilot-mode)
+;;   :bind (:map copilot-completion-map
+;;               ("<tab>" . 'copilot-accept-completion)
+;;               ("TAB" . 'copilot-accept-completion)
+;;               ("C-TAB" . 'copilot-accept-completion-by-word)
+;;               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
 
 ;; ----------------------------------------------------------------------------
 ;; Load all my tweaks (instantly)
