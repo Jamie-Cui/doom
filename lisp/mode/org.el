@@ -84,6 +84,8 @@
                '("lambda, advantage, operators, sets, adversary, landau,\
  probability, notions, logic, ff, mm, primitives, events, complexity, oracles,\
  asymptotics, keys" "cryptocode" t))
+  (add-to-list 'org-latex-packages-alist
+               '("" "booktabs" t))
 
   ;; ----------------------------
   ;; use xenops to preview, it's simply better
@@ -235,4 +237,3 @@
         :desc "Org Paste Stored Link"      "n p"
         #'org-insert-link)
   )
-

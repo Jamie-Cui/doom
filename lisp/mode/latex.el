@@ -58,8 +58,8 @@
 (after! (:and ox-latex org)
   ;; HACK you need to manually set the following for each org file
   ;; #+latex: \maketitle
-  (setq! org-latex-title-command 'nil)
-  (setq! org-export-in-background 'nil)
+  ;; (setq! org-latex-title-command 'nil)
+  ;; (setq! org-export-in-background 'nil)
 
   (add-to-list 'org-latex-classes
                '("acmart"
@@ -78,3 +78,4 @@
   (setq! org-latex-engraved-theme 't))
 
 (setq-default +latex-viewers '(pdf-tools))
+(add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
