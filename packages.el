@@ -24,7 +24,7 @@
 (package! keyfreq) ; analysing your key frequency!
 (package! gptel)
 (package! engrave-faces)
-(package! edwina)
+(package! copilot)
 
 ;; :recipe (:host github :repo "username/repo"))
 
@@ -81,3 +81,7 @@
 (package! gptel-quick
   :recipe (:host github
            :repo "karthink/gptel-quick"))
+
+(package! edwina
+  :recipe (:host github
+           :repo "Jamie-Cui/edwina"))

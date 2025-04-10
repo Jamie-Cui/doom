@@ -42,24 +42,12 @@
 ;; setup new const variables, make sure to doom sync after change
 (setq! jamie-use-remote-path 'nil) ; non-nil to use remote path
 
-;; Handle evil conflict with my own keybindings
-;; (define-key evil-normal-state-map "u" nil)
-;; (define-key evil-motion-state-map (kbd "C-f") 'nil)
-;; (define-key evil-emacs-state-map (kbd "C-z") 'nil)
-;; (define-key evil-insert-state-map (kbd "C-z") 'nil)
-;; (define-key evil-motion-state-map (kbd "C-z") 'nil)
-
-;; NOTE A Control-modified alphabetical character is always considered case-insensitive:
-;; Emacs always treats C-A as C-a, C-B as C-b, and so forth. The reason for this is historical.
 (global-set-key (kbd "M-f") #'+default/search-buffer) ; set
-(after! help-mode
-  (evil-define-key 'normal help-mode-map (kbd "C-f") #'+default/search-buffer))
-
 (global-set-key (kbd "M-s") #'save-buffer)
-(global-set-key (kbd "M-z") #'nil) ;; use evil to undo and redo!
 (global-set-key (kbd "M-/") #'comment-line)
 (global-set-key (kbd "M-c") #'evil-yank)
 (global-set-key (kbd "M-v") #'evil-paste-before)
+(global-set-key (kbd "M-SPC") #'toggle-input-method)
 
 ;; ----------------------------------------------------------------------------
 ;; Hack from: https://gist.github.com/minorugh/1770a6aa93df5fe55f70b4d72091ff76
@@ -87,12 +75,7 @@
 (use-package! rime
   :config
   (setq! default-input-method "rime"
-         rime-show-candidate 'popup)
-
-  (global-set-key (kbd "C-SPC") #'toggle-input-method))
-
-;; in treemacs-evil.el
-;; (define-key evil-treemacs-state-map (kbd "w")   #'treemacs-set-width)
+         rime-show-candidate 'popup))
 
 (after! org-download
   (setq org-download-screenshot-method

@@ -114,10 +114,7 @@
 ;; enable evil on pdf-view-mode
 (evil-set-initial-state 'pdf-view-mode 'normal)
 
-(after! corfu
-  (evil-define-key 'insert corfu-mode-map (kbd "C-SPC") #'nil)
-  (evil-define-key 'normal corfu-mode-map (kbd "C-SPC") #'nil)
-  (evil-define-key 'visual corfu-mode-map (kbd "C-SPC") #'nil))
+(after! corfu)
 
 (after! dirvish
   (setq! dirvish-default-layout '(0 0.26 0.74)) ; same as dirvish-side
@@ -133,7 +130,7 @@
 (use-package! edwina
   :ensure t
   :config
-  (setq display-buffer-base-action '(display-buffer-below-selected))
+  ;; (setq display-buffer-base-action '(display-buffer-below-selected))
   (edwina-setup-dwm-keys)
   (edwina-mode 1)
   (map!
@@ -142,6 +139,14 @@
    :desc "edwina-arrange"            "w r" #'edwina-arrange
    :desc "edwina-clone-window"       "w c" #'edwina-clone-window)
   )
+
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
 ;; ----------------------------------------------------------------------------
 ;; Load all my tweaks (instantly)
