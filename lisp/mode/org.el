@@ -69,7 +69,7 @@
 ;; Re-configure deft-mode keybindings
 (after! deft
   ;; start with evil normal mode
-  (set-evil-initial-state! 'deft-mode 'normal)
+  (add-hook 'deft-mode-hook 'evil-force-normal-state)
   (setq! deft-strip-summary-regexp ".*$")
   (setq! deft-current-sort-method 'mtime))
 
@@ -235,3 +235,4 @@
         :desc "Org Paste Stored Link"      "n p"
         #'org-insert-link)
   )
+

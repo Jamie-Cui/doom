@@ -149,6 +149,17 @@
 ;;               ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
 
+(after! corfu
+  (setq tab-always-indent 't)
+  ;; (map!
+  ;;  :map corfu-mode-map
+  ;;  :i "M-SPC" #'completion-at-point
+  ;;  :n "M-SPC" (cmd! (call-interactively #'evil-insert-state)
+  ;;                   (call-interactively #'completion-at-point))
+  ;;  :v "M-SPC" (cmd! (call-interactively #'evil-change)
+  ;;                   (call-interactively #'completion-at-point)))
+  )
+
 ;; ----------------------------------------------------------------------------
 ;; Load all my tweaks (instantly)
 ;; ----------------------------------------------------------------------------
