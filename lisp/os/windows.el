@@ -89,7 +89,7 @@
 (defun cp-current-file-to-windows()
   "Copy the current file to windows"
   (interactive)
-  (let ((dest-path (concat "/mnt/c/Users/c00922880/Desktop/tmp/" (format-time-string "%Y-%m-%d") "/")))
+  (let ((dest-path (concat "~/Desktop/tmp/" (format-time-string "%Y-%m-%d") "/")))
     (when buffer-file-name
       (make-directory dest-path 'parents)
       (message (concat "cp -r " buffer-file-name " " dest-path))
